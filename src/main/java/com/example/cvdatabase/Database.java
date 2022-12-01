@@ -1,4 +1,5 @@
 package com.example.cvdatabase;
+
 import java.io.File;
 import java.sql.*;
 
@@ -8,7 +9,8 @@ public class Database {
     private Connection conn;
     private PreparedStatement insertSQL;
     private PreparedStatement selectSQL;
-    public Database(){
+
+    public Database() {
         dbfile = "data.db";
         conn = null;
         File file = new File(dbfile);
@@ -16,23 +18,22 @@ public class Database {
 
         try {
             Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:" +dbfile);
+            conn = DriverManager.getConnection("jdbc:sqlite:" + dbfile);
 
-            if(firstRun) {
+            if (firstRun) {
                 Statement stat = conn.createStatement();
-                stat.executeUpdate("CREATE TABLE Person(" +
-                        "id INTEGER PRIMARY KEY," +
-                        "name TEXT);");
+                stat.executeUpdate("CREATE TABLE Person(" + "id INTEGER PRIMARY KEY," + "name TEXT);");
             }
             insertSQL = conn.prepareStatement("INSERT INTO Person(name) values(?)");
             selectSQL = conn.prepareStatement("SELECT * FROM Person");
 
 
-        } catch(ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
         }
 
     }
+
     public void addPerson(String name) {
         try {
             insertSQL.setString(1, name);
@@ -41,10 +42,11 @@ public class Database {
             System.err.print(e);
         }
     }
+
     public void listPersons() {
         try {
             ResultSet rs = selectSQL.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 System.out.println(rs.getString("name"));
             }
         } catch (SQLException e) {
