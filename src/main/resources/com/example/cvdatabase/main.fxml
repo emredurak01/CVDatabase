@@ -5,6 +5,8 @@
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cvdatabase.Controller">
    <children>
-      <Button fx:id="CVAddButton" mnemonicParsing="false" text="Button" />
+      <Button fx:id="CVAddButton" mnemonicParsing="false" text="Add" />
+      <Button fx:id="CVListButton" mnemonicParsing="false" text="List" />
+      <Button fx:id="CVRemoveButton" mnemonicParsing="false" text="Remove" />
    </children>
 </VBox>

@@ -9,6 +9,7 @@ public class Database {
     private Connection conn;
     private PreparedStatement insertSQL;
     private PreparedStatement selectSQL;
+    private PreparedStatement removeSQL;
 
     public Database() {
         dbfile = "data.db";
@@ -26,7 +27,7 @@ public class Database {
             }
             insertSQL = conn.prepareStatement("INSERT INTO Person(name) values(?)");
             selectSQL = conn.prepareStatement("SELECT * FROM Person");
-
+            removeSQL = conn.prepareStatement("DELETE FROM Person WHERE name = 'Emre'");
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
@@ -50,6 +51,15 @@ public class Database {
                 System.out.println(rs.getString("name"));
             }
         } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
+    public void removePersons(){
+        try{
+
+            removeSQL.execute();
+        }
+        catch (SQLException e){
             System.err.println(e);
         }
     }
