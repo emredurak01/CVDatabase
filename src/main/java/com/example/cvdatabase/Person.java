@@ -16,9 +16,30 @@ public class Person {
     ArrayList<String> skills;
     ArrayList<String> tags;
 
-    public Person(String name) {
+    public Person(int id, String name, String surname, String dateOfBirth, String email) {
+        this.id = id;
         this.name = name;
+        this.surname = surname;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.phone = phone;
+        this.education = education;
+        this.experiences = experiences;
+        this.publications = publications;
+        this.interests = interests;
+        this.skills = skills;
+        this.tags = tags;
     }
+
+    public Person(int id, String name, String surname, String dateOfBirth, String email, int phone) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public int getId() {
         return id;
     }
