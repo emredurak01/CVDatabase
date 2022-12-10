@@ -16,19 +16,26 @@ import java.util.ResourceBundle;
 
 public class TableController implements Initializable {
 
-    Person person = new Person(0, "Emre", "Durak", "01.01.2001", "emre@ieu.com", 505);
-    private final ObservableList<Person> personList = FXCollections.observableArrayList(
-            person
-    );
     @FXML
     private MFXTableView<Person> table;
+    ObservableList<Person> personList = FXCollections.observableArrayList();
+    public void createPerson(int id, String name, String surname, String dateOfBirth, String email, int phone) {
+        for(int i = 0; i < 1; i++) {
+            Person person = new Person(id, name, surname, dateOfBirth, email, phone);
+            personList.add(person);
+        }
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        createPerson(0, "Emre", "Durak", "01.01.2001", "emre@ieu.com", 505);
+        createPerson(1, "Can", "Ispartalıoğlu", "01.01.2001", "can@ieu.com", 507);
         createTable();
     }
 
     private void createTable() {
+
         MFXTableColumn<Person> idColumn = new MFXTableColumn<>("ID", true, Comparator.comparing(Person::getId));
         MFXTableColumn<Person> nameColumn = new MFXTableColumn<>("Name", true, Comparator.comparing(Person::getName));
         MFXTableColumn<Person> surnameColumn = new MFXTableColumn<>("Surname", true, Comparator.comparing(Person::getSurname));
