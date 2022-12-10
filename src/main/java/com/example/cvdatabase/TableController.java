@@ -4,6 +4,8 @@ import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.StringFilter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -15,6 +17,10 @@ public class TableController implements Initializable {
 
     @FXML
     private MFXTableView<Person> table;
+
+    private ObservableList<Person> personList = FXCollections.observableArrayList(
+            new Person("Emre")
+    );
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         createTable();
@@ -24,10 +30,12 @@ public class TableController implements Initializable {
 
         nameColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getName));
         table.getTableColumns().addAll(nameColumn);
+
         table.getFilters().addAll(
                 new StringFilter<>("Name", Person::getName)
         );
 
+        table.setItems(personList);
 
     }
 }
