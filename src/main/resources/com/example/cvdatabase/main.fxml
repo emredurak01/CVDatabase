@@ -39,27 +39,27 @@
             </padding>
             <VBox fx:id="navBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="394.0" prefWidth="198.0" spacing="5.0" styleClass="navbar">
             <children>
-               <MFXButton prefHeight="66.0" prefWidth="151.0" text="Add">
+               <MFXButton fx:id="addButton" prefHeight="66.0" prefWidth="151.0" text="Add">
                   <VBox.margin>
                      <Insets left="15.0" top="20.0" />
                   </VBox.margin>
                </MFXButton>
-               <MFXButton prefHeight="66.0" prefWidth="150.0" text="Remove">
+               <MFXButton fx:id="removeButton" prefHeight="66.0" prefWidth="150.0" text="Remove">
                   <VBox.margin>
                      <Insets left="15.0" top="5.0" />
                   </VBox.margin>
                </MFXButton>
-               <MFXButton prefHeight="66.0" prefWidth="150.0" text="Edit">
+               <MFXButton fx:id="editButton" prefHeight="66.0" prefWidth="150.0" text="Edit">
                   <VBox.margin>
                      <Insets left="15.0" top="5.0" />
                   </VBox.margin>
                </MFXButton>
-               <MFXButton prefHeight="66.0" prefWidth="150.0" text="Export">
+               <MFXButton fx:id="exportButton" prefHeight="66.0" prefWidth="150.0" text="Export">
                   <VBox.margin>
                      <Insets left="15.0" top="5.0" />
                   </VBox.margin>
                </MFXButton>
-               <MFXButton prefHeight="66.0" prefWidth="150.0" text="Help">
+               <MFXButton fx:id="helpButton" prefHeight="66.0" prefWidth="150.0" text="Help">
                   <VBox.margin>
                      <Insets left="15.0" top="5.0" />
                   </VBox.margin>

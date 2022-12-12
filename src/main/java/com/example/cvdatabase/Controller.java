@@ -12,12 +12,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.ResourceBundle;
@@ -41,6 +46,14 @@ public class Controller implements Initializable {
 
     @FXML
     MFXButton addButton;
+    @FXML
+    MFXButton removeButton;
+    @FXML
+    MFXButton editButton;
+    @FXML
+    MFXButton exportButton;
+    @FXML
+    MFXButton helpButton;
 
     private double x;
     private double y;
@@ -80,6 +93,7 @@ public class Controller implements Initializable {
             stage.setY(event.getScreenY() + y);
         });
 
+        helpButton.setOnAction(actionEvent -> onHelp());
 
         //Temporary
         createPerson(0, "Emre", "Durak", "01.01.2001", "emre@ieu.com", 505);
@@ -119,17 +133,33 @@ public class Controller implements Initializable {
 
     }
 
-    private void onAddCV() {
+    private void onAdd() {
         database.addPerson("Emre");
     }
 
-    private void onListCV() {
+    private void onList() {
         database.listPersons();
     }
 
-    private void onRemoveCV() {
+    private void onRemove() {
         database.removePersons();
     }
 
+    private void onHelp() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("dialog.fxml"));
+            Scene scene = new Scene(root);
+            Stage primaryStage = new Stage();
+            primaryStage.setTitle("New");
+            primaryStage.setScene(scene);
+            primaryStage.initModality(Modality.NONE);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+    }
 
 }
