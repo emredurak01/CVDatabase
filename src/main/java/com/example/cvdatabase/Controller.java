@@ -1,5 +1,6 @@
 package com.example.cvdatabase;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
@@ -38,6 +39,9 @@ public class Controller implements Initializable {
     @FXML
     private HBox windowHeader;
 
+    //@FXML
+    //MFXButton addButton;
+
     private double x;
     private double y;
 
@@ -75,7 +79,6 @@ public class Controller implements Initializable {
             stage.setX(event.getScreenX() + x);
             stage.setY(event.getScreenY() + y);
         });
-
 
 
         //Temporary
