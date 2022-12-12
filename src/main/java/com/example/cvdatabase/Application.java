@@ -16,7 +16,7 @@ public class Application extends javafx.application.Application {
 
 
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("main.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 250);
+        Scene scene = new Scene(fxmlLoader.load(), 900, 650);
         stage.setTitle("CVDatabase");
         stage.setScene(scene);
         stage.show();
