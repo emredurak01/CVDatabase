@@ -16,8 +16,8 @@
         <padding>
             <Insets right="10.0" />
         </padding>
-        <MFXFontIcon fx:id="alwaysOnTopIcon" description="mfx-circle" size="15.0" styleClass="always-on-top-icon" />
         <MFXFontIcon fx:id="minimizeIcon" description="mfx-circle" size="15.0" styleClass="minimize-icon" />
+        <MFXFontIcon fx:id="alwaysOnTopIcon" description="mfx-circle" size="15.0" styleClass="always-on-top-icon" />
         <MFXFontIcon fx:id="closeIcon" description="mfx-circle" size="15.0" styleClass="close-icon" />
     </HBox>
     <VBox alignment="CENTER" layoutX="1.0" layoutY="-4.0" prefHeight="727.0" prefWidth="180.0" styleClass="sidebar" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="-5.0">

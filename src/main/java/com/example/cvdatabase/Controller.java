@@ -39,8 +39,8 @@ public class Controller implements Initializable {
     @FXML
     private HBox windowHeader;
 
-    //@FXML
-    //MFXButton addButton;
+    @FXML
+    MFXButton addButton;
 
     private double x;
     private double y;
