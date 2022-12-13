@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
@@ -31,6 +32,16 @@ public class Controller implements Initializable {
     private final Stage stage;
     Database database = new Database();
     ObservableList<Person> personList = FXCollections.observableArrayList();
+    @FXML
+    MFXButton addButton;
+    @FXML
+    MFXButton removeButton;
+    @FXML
+    MFXButton editButton;
+    @FXML
+    MFXButton exportButton;
+    @FXML
+    MFXButton helpButton;
     @FXML
     private MFXTableView<Person> table;
     @FXML
@@ -43,21 +54,8 @@ public class Controller implements Initializable {
     private AnchorPane rootPane;
     @FXML
     private HBox windowHeader;
-
-    @FXML
-    MFXButton addButton;
-    @FXML
-    MFXButton removeButton;
-    @FXML
-    MFXButton editButton;
-    @FXML
-    MFXButton exportButton;
-    @FXML
-    MFXButton helpButton;
-
     private double x;
     private double y;
-
 
 
     public Controller(Stage stage) {
@@ -65,9 +63,9 @@ public class Controller implements Initializable {
     }
 
 
-    public void createPerson(int id, String name, String surname, String dateOfBirth, String email, int phone) {
+    public void createPerson(int id, String name, String surname, String dateOfBirth, String email, int phone, ArrayList<String> education) {
         for (int i = 0; i < 1; i++) {
-            Person person = new Person(id, name, surname, dateOfBirth, email, phone);
+            Person person = new Person(id, name, surname, dateOfBirth, email, phone, education);
             personList.add(person);
         }
 
@@ -96,8 +94,8 @@ public class Controller implements Initializable {
         helpButton.setOnAction(actionEvent -> onHelp());
 
         //Temporary
-        createPerson(0, "Emre", "Durak", "01.01.2001", "emre@ieu.com", 505);
-        createPerson(1, "Can", "Ispartalıoğlu", "01.01.2001", "can@ieu.com", 507);
+        createPerson(0, "Emre", "Durak", "01.01.2001", "emre@ieu.com", 505, null);
+        createPerson(1, "Can", "Ispartalıoğlu", "01.01.2001", "can@ieu.com", 507, null);
         createTable();
 
     }
@@ -110,6 +108,7 @@ public class Controller implements Initializable {
         MFXTableColumn<Person> dateOfBirthColumn = new MFXTableColumn<>("Date of birth", true, Comparator.comparing(Person::getDateOfBirth));
         MFXTableColumn<Person> emailColumn = new MFXTableColumn<>("Email", true, Comparator.comparing(Person::getEmail));
         MFXTableColumn<Person> phoneColumn = new MFXTableColumn<>("Phone", true, Comparator.comparing(Person::getPhone));
+        MFXTableColumn<Person> educationColumn = new MFXTableColumn<>("Education", true);
 
         idColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getId));
         nameColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getName));
@@ -117,8 +116,9 @@ public class Controller implements Initializable {
         dateOfBirthColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getDateOfBirth));
         emailColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getEmail));
         phoneColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getPhone));
+        educationColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getEducation));
 
-        table.getTableColumns().addAll(idColumn, nameColumn, surnameColumn, dateOfBirthColumn, emailColumn, phoneColumn);
+        table.getTableColumns().addAll(idColumn, nameColumn, surnameColumn, dateOfBirthColumn, emailColumn, phoneColumn, educationColumn);
 
         table.getFilters().addAll(
                 new IntegerFilter<>("ID", Person::getId),
@@ -153,11 +153,9 @@ public class Controller implements Initializable {
             primaryStage.setTitle("New");
             primaryStage.setScene(scene);
             primaryStage.initModality(Modality.NONE);
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
 
     }

@@ -9,15 +9,10 @@ import java.util.ResourceBundle;
 public class DialogController implements Initializable {
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
-
-
-
-
 
 
 }
