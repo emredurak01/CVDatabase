@@ -33,15 +33,15 @@ public class Controller implements Initializable {
     Database database = new Database();
     ObservableList<Person> personList = FXCollections.observableArrayList();
     @FXML
-    MFXButton addButton;
+    private MFXButton addButton;
     @FXML
-    MFXButton removeButton;
+    private MFXButton removeButton;
     @FXML
-    MFXButton editButton;
+    private MFXButton editButton;
     @FXML
-    MFXButton exportButton;
+    private MFXButton exportButton;
     @FXML
-    MFXButton helpButton;
+    private MFXButton helpButton;
     @FXML
     private MFXTableView<Person> table;
     @FXML
@@ -64,10 +64,9 @@ public class Controller implements Initializable {
 
 
     public void createPerson(int id, String name, String surname, String dateOfBirth, String email, int phone, ArrayList<String> education) {
-        for (int i = 0; i < 1; i++) {
+
             Person person = new Person(id, name, surname, dateOfBirth, email, phone, education);
             personList.add(person);
-        }
 
     }
 
