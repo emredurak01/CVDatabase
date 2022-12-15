@@ -63,10 +63,11 @@ public class Controller implements Initializable {
     }
 
 
-    public void createPerson(int id, String name, String surname, String dateOfBirth, String email, int phone, ArrayList<String> education) {
+    public void createPerson(int id, String name, String surname, String dateOfBirth, String email, int phone, ArrayList<String> education, ArrayList<String> experiences,
+                             ArrayList<String> publications, ArrayList<String> interests, ArrayList<String> skills, ArrayList<String> tags) {
 
-            Person person = new Person(id, name, surname, dateOfBirth, email, phone, education);
-            personList.add(person);
+        Person person = new Person(id, name, surname, dateOfBirth, email, phone, education, experiences, publications, interests, skills, tags);
+        personList.add(person);
 
     }
 
@@ -93,10 +94,11 @@ public class Controller implements Initializable {
         helpButton.setOnAction(actionEvent -> onHelp());
 
         //Temporary
-        createPerson(0, "Emre", "Durak", "01.01.2001", "emre@ieu.com", 505, null);
-        createPerson(1, "Can", "Ispartalıoğlu", "01.01.2001", "can@ieu.com", 507, null);
+        createPerson(0, "Emre", "Durak", "01.01.2001", "emre@ieu.com", 505, null,
+                null, null, null, null, null);
+        createPerson(1, "Can", "Ispartalıoğlu", "01.01.2001", "can@ieu.com", 507, null,
+                null, null, null, null, null);
         createTable();
-
     }
 
     private void createTable() {
@@ -108,6 +110,11 @@ public class Controller implements Initializable {
         MFXTableColumn<Person> emailColumn = new MFXTableColumn<>("Email", true, Comparator.comparing(Person::getEmail));
         MFXTableColumn<Person> phoneColumn = new MFXTableColumn<>("Phone", true, Comparator.comparing(Person::getPhone));
         MFXTableColumn<Person> educationColumn = new MFXTableColumn<>("Education", true);
+        MFXTableColumn<Person> experiencesColumn = new MFXTableColumn<>("Experiences", true);
+        MFXTableColumn<Person> publicationsColumn = new MFXTableColumn<>("Publications", true);
+        MFXTableColumn<Person> interestsColumn = new MFXTableColumn<>("Interests", true);
+        MFXTableColumn<Person> skillsColumn = new MFXTableColumn<>("Skills", true);
+        MFXTableColumn<Person> tagsColumn = new MFXTableColumn<>("Tags", true);
 
         idColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getId));
         nameColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getName));
@@ -116,8 +123,14 @@ public class Controller implements Initializable {
         emailColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getEmail));
         phoneColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getPhone));
         educationColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getEducation));
+        experiencesColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getExperiences));
+        publicationsColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getPublications));
+        interestsColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getInterests));
+        skillsColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getSkills));
+        tagsColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getTags));
 
-        table.getTableColumns().addAll(idColumn, nameColumn, surnameColumn, dateOfBirthColumn, emailColumn, phoneColumn, educationColumn);
+        table.getTableColumns().addAll(idColumn, nameColumn, surnameColumn, dateOfBirthColumn, emailColumn, phoneColumn, educationColumn, experiencesColumn, publicationsColumn,
+                interestsColumn, skillsColumn, tagsColumn);
 
         table.getFilters().addAll(
                 new IntegerFilter<>("ID", Person::getId),

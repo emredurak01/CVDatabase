@@ -54,12 +54,12 @@ public class Database {
             System.err.println(e);
         }
     }
-    public void removePersons(){
-        try{
+
+    public void removePersons() {
+        try {
 
             removeSQL.execute();
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e);
         }
     }
