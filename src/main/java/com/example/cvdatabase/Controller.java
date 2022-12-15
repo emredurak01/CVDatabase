@@ -6,6 +6,7 @@ import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
 import io.github.palexdev.materialfx.filter.StringFilter;
+import io.github.palexdev.materialfx.filter.base.AbstractFilter;
 import io.github.palexdev.materialfx.font.MFXFontIcon;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -19,13 +20,14 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -91,6 +93,8 @@ public class Controller implements Initializable {
             stage.setY(event.getScreenY() + y);
         });
 
+        addButton.setOnAction(actionEvent -> onAdd());
+        editButton.setOnAction(actionEvent -> onEdit());
         helpButton.setOnAction(actionEvent -> onHelp());
 
         //Temporary
@@ -146,25 +150,34 @@ public class Controller implements Initializable {
     }
 
     private void onAdd() {
-        database.addPerson("Emre");
+        Parent root;
+        try {
+            root = FXMLLoader.load(Objects.requireNonNull(Application.class.getResource("addDialog.fxml")));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void onList() {
-        database.listPersons();
-    }
+    private void onEdit() {}
 
-    private void onRemove() {
-        database.removePersons();
-    }
+    private void onList() {}
+
+    private void onRemove() {}
+
+    private void onExport() {}
 
     private void onHelp() {
+        Parent root;
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("dialog.fxml"));
-            Scene scene = new Scene(root);
-            Stage primaryStage = new Stage();
-            primaryStage.setTitle("New");
-            primaryStage.setScene(scene);
-            primaryStage.initModality(Modality.NONE);
+            root = FXMLLoader.load(Objects.requireNonNull(Application.class.getResource("helpDialog.fxml")));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
