@@ -96,6 +96,7 @@ public class Controller implements Initializable {
         addButton.setOnAction(actionEvent -> onAdd());
         editButton.setOnAction(actionEvent -> onEdit());
         helpButton.setOnAction(actionEvent -> onHelp());
+        exportButton.setOnAction(actionEvent -> onExport());
 
         //Temporary
         createPerson(0, "Emre", "Durak", "01.01.2001", "emre@ieu.com", 505, null,
@@ -167,8 +168,9 @@ public class Controller implements Initializable {
     private void onList() {}
 
     private void onRemove() {}
-
-    private void onExport() {}
+    private void onExport() {
+        Export.buildCV();
+    }
 
     private void onHelp() {
         Parent root;

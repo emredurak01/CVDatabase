@@ -9,6 +9,7 @@ public class Person {
     String dateOfBirth;
     String email;
     int phone;
+
     ArrayList<String> education;
     ArrayList<String> experiences;
     ArrayList<String> publications;
@@ -30,6 +31,10 @@ public class Person {
         this.interests = interests;
         this.skills = skills;
         this.tags = tags;
+
+    }
+
+    public Person(){
 
     }
 
