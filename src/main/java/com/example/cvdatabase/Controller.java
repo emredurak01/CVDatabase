@@ -1,34 +1,38 @@
 package com.example.cvdatabase;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTableColumn;
-import io.github.palexdev.materialfx.controls.MFXTableView;
+import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
 import io.github.palexdev.materialfx.filter.StringFilter;
 import io.github.palexdev.materialfx.filter.base.AbstractFilter;
 import io.github.palexdev.materialfx.font.MFXFontIcon;
+import io.github.palexdev.materialfx.skins.MFXTableColumnSkin;
+import io.github.palexdev.materialfx.utils.ColorUtils;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.swing.text.TableView;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.function.Function;
 
 public class Controller implements Initializable {
     private final Stage stage;
@@ -46,6 +50,8 @@ public class Controller implements Initializable {
     private MFXButton helpButton;
     @FXML
     private MFXTableView<Person> table;
+    @FXML
+    private MFXTreeView<String> treeView;
     @FXML
     private MFXFontIcon closeIcon;
     @FXML
@@ -65,10 +71,9 @@ public class Controller implements Initializable {
     }
 
 
-    public void createPerson(int id, String name, String surname, String dateOfBirth, String email, int phone, ArrayList<String> education, ArrayList<String> experiences,
-                             ArrayList<String> publications, ArrayList<String> interests, ArrayList<String> skills, ArrayList<String> tags) {
+    public void createPerson(String name, String surname, String dateOfBirth, String email, int phone, ArrayList<Education> education) {
 
-        Person person = new Person(id, name, surname, dateOfBirth, email, phone, education, experiences, publications, interests, skills, tags);
+        Person person = new Person(name, surname, dateOfBirth, email, phone, education);
         personList.add(person);
 
     }
@@ -97,13 +102,58 @@ public class Controller implements Initializable {
         editButton.setOnAction(actionEvent -> onEdit());
         helpButton.setOnAction(actionEvent -> onHelp());
         exportButton.setOnAction(actionEvent -> onExport());
+        removeButton.setOnAction(actionEvent -> onRemove());
+        editButton.setOnMouseClicked(actionEvent -> handleRowSelection());
+
+
+        Education education1 = new Education("IEU","01.01.2020", "01.01.2024");
+        Education education2 = new Education("UAL", "01.01.2015", "01.01.2019");
+        ArrayList<Education> educationArrayList = new ArrayList<>();
+        educationArrayList.add(education1);
+        educationArrayList.add(education2);
 
         //Temporary
-        createPerson(0, "Emre", "Durak", "01.01.2001", "emre@ieu.com", 505, null,
-                null, null, null, null, null);
-        createPerson(1, "Can", "Ispartalıoğlu", "01.01.2001", "can@ieu.com", 507, null,
-                null, null, null, null, null);
+        createPerson("Emre", "Durak", "01.01.2001", "emre@ieu.com", 505, educationArrayList);
+        createPerson("Can", "Ispartalıoğlu", "01.01.2001", "can@ieu.com", 507, educationArrayList);
         createTable();
+
+    }
+
+
+    private void handleRowSelection() {
+        ObservableMap<Integer, Person> listValues = table.getSelectionModel().getSelection();
+        ObservableList<Person> personList = FXCollections.observableArrayList(listValues.values());
+
+        treeView.setRoot(createTreeView(personList));
+    }
+
+    private MFXTreeItem<String> createTreeView(ObservableList<Person> personList) {
+
+        String name = personList.listIterator().next().getName();
+        String surname = personList.listIterator().next().getSurname();
+
+        MFXTreeItem<String> root = new MFXTreeItem<>(name +" " +surname);
+
+        MFXTreeItem<String> educations = new MFXTreeItem<>("Educations");
+
+        for(int i = 0 ; i < 2; i++) {
+
+            String educationName = personList.listIterator().next().getEducation().get(i).getName();
+            String educationStartDate = personList.listIterator().next().getEducation().get(i).getStartDate();
+            String educationEndDate = personList.listIterator().next().getEducation().get(i).getEndDate();
+
+            MFXTreeItem<String> educationsName = new MFXTreeItem<>(educationName);
+            educationsName.getItems().addAll(List.of(
+                    new MFXTreeItem<>("Start Date: " +educationStartDate),
+                    new MFXTreeItem<>("End Date: " +educationEndDate)
+            ));
+            educations.getItems().addAll(List.of(educationsName));
+        }
+
+        root.getItems().addAll(List.of(educations));
+
+
+        return root;
     }
 
     private void createTable() {
@@ -114,12 +164,6 @@ public class Controller implements Initializable {
         MFXTableColumn<Person> dateOfBirthColumn = new MFXTableColumn<>("Date of birth", true, Comparator.comparing(Person::getDateOfBirth));
         MFXTableColumn<Person> emailColumn = new MFXTableColumn<>("Email", true, Comparator.comparing(Person::getEmail));
         MFXTableColumn<Person> phoneColumn = new MFXTableColumn<>("Phone", true, Comparator.comparing(Person::getPhone));
-        MFXTableColumn<Person> educationColumn = new MFXTableColumn<>("Education", true);
-        MFXTableColumn<Person> experiencesColumn = new MFXTableColumn<>("Experiences", true);
-        MFXTableColumn<Person> publicationsColumn = new MFXTableColumn<>("Publications", true);
-        MFXTableColumn<Person> interestsColumn = new MFXTableColumn<>("Interests", true);
-        MFXTableColumn<Person> skillsColumn = new MFXTableColumn<>("Skills", true);
-        MFXTableColumn<Person> tagsColumn = new MFXTableColumn<>("Tags", true);
 
         idColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getId));
         nameColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getName));
@@ -127,16 +171,8 @@ public class Controller implements Initializable {
         dateOfBirthColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getDateOfBirth));
         emailColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getEmail));
         phoneColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getPhone));
-        educationColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getEducation));
-        experiencesColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getExperiences));
-        publicationsColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getPublications));
-        interestsColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getInterests));
-        skillsColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getSkills));
-        tagsColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getTags));
 
-        table.getTableColumns().addAll(idColumn, nameColumn, surnameColumn, dateOfBirthColumn, emailColumn, phoneColumn, educationColumn, experiencesColumn, publicationsColumn,
-                interestsColumn, skillsColumn, tagsColumn);
-
+        table.getTableColumns().addAll(idColumn, nameColumn, surnameColumn, dateOfBirthColumn, emailColumn, phoneColumn);
         table.getFilters().addAll(
                 new IntegerFilter<>("ID", Person::getId),
                 new StringFilter<>("Name", Person::getName),
@@ -163,11 +199,15 @@ public class Controller implements Initializable {
         }
     }
 
-    private void onEdit() {}
+    private void onEdit() {
+
+    }
 
     private void onList() {}
 
-    private void onRemove() {}
+    private void onRemove() {
+        table.getItems().removeAll(table.getSelectionModel().getSelectedValues());
+    }
     private void onExport() {
         Export.buildCV();
     }

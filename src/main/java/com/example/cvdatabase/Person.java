@@ -10,32 +10,25 @@ public class Person {
     String email;
     int phone;
 
-    ArrayList<String> education;
+    ArrayList<Education> education;
     ArrayList<String> experiences;
     ArrayList<String> publications;
     ArrayList<String> interests;
     ArrayList<String> skills;
     ArrayList<String> tags;
 
-    public Person(int id, String name, String surname, String dateOfBirth, String email, int phone, ArrayList<String> education, ArrayList<String> experiences,
-                  ArrayList<String> publications, ArrayList<String> interests, ArrayList<String> skills, ArrayList<String> tags) {
-        this.id = id;
+
+    public Person(){
+
+    }
+
+    public Person(String name, String surname, String dateOfBirth, String email, int phone, ArrayList<Education> education) {
         this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.phone = phone;
         this.education = education;
-        this.experiences = experiences;
-        this.publications = publications;
-        this.interests = interests;
-        this.skills = skills;
-        this.tags = tags;
-
-    }
-
-    public Person(){
-
     }
 
     public int getId() {
@@ -86,11 +79,11 @@ public class Person {
         this.phone = phone;
     }
 
-    public ArrayList<String> getEducation() {
+    public ArrayList<Education> getEducation() {
         return education;
     }
 
-    public void setEducation(ArrayList<String> education) {
+    public void setEducation(ArrayList<Education> education) {
         this.education = education;
     }
 

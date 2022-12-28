@@ -1,5 +1,6 @@
 package com.example.cvdatabase;
 
+import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
