@@ -132,7 +132,11 @@ public class Controller implements Initializable {
         ObservableMap<Integer, Person> listValues = table.getSelectionModel().getSelection();
         ObservableList<Person> personList = FXCollections.observableArrayList(listValues.values());
 
-        treeView.setRoot(createTreeView(personList));
+        if(table.getSelectionModel().getSelectedValues().size() > 0){
+
+            treeView.setRoot(createTreeView(personList));
+
+        }
     }
 
     private MFXTreeItem<String> createTreeView(ObservableList<Person> personList) {
