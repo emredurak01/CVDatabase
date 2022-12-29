@@ -36,12 +36,15 @@ public class Person {
 
     }
 
-    public Person(String name, String surname, String birthdate, String email, String phone) {
+    public Person(String name, String surname, String birthdate, String email, String phone, ArrayList<String> interests,
+                  ArrayList<String> skills) {
         this.name = name;
         this.surname = surname;
         this.birthdate = birthdate;
         this.email = email;
         this.phone = phone;
+        this.interests = interests;
+        this.skills = skills;
     }
 
     public int getId() {

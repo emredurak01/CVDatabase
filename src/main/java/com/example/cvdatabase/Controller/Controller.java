@@ -23,6 +23,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableRow;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -35,7 +37,6 @@ import java.util.*;
 
 public class Controller implements Initializable {
     public Stage stage;
-    Database database = new Database();
     ObservableList<Person> personList = FXCollections.observableArrayList();
     @FXML
     private MFXButton addButton;
@@ -47,6 +48,12 @@ public class Controller implements Initializable {
     private MFXButton exportButton;
     @FXML
     private MFXButton helpButton;
+
+    @FXML
+    private MFXButton displayButton;
+
+    @FXML
+    private MFXButton attributeButton;
     @FXML
     public MFXTableView<Person> table;
     @FXML
@@ -64,7 +71,7 @@ public class Controller implements Initializable {
     private double x;
     private double y;
 
-    public Controller(){
+    public Controller() {
 
     }
 
@@ -73,10 +80,13 @@ public class Controller implements Initializable {
     }
 
 
-    public void createPerson(String name, String surname, String dateOfBirth, String email, String phone, ArrayList<Education> education
-    ,ArrayList<Experience> experiences, ArrayList<Publication> publications,ArrayList<String> interests,ArrayList<String> skills) {
+    public void createPerson(String name, String surname, String dateOfBirth, String email, String phone, String interests
+            , String skills) {
 
-        Person person = new Person(name, surname, dateOfBirth, email, phone, education, experiences, publications,interests,skills);
+        ArrayList<String> interestsList = new ArrayList<String>(Arrays.asList(interests.split(",")));
+        ArrayList<String> skillsList = new ArrayList<String>(Arrays.asList(skills.split(",")));
+
+        Person person = new Person(name, surname, dateOfBirth, email, phone, interestsList, skillsList);
         personList.add(person);
 
     }
@@ -106,37 +116,9 @@ public class Controller implements Initializable {
         helpButton.setOnAction(actionEvent -> onHelp());
         exportButton.setOnAction(actionEvent -> onExport(table));
         removeButton.setOnAction(actionEvent -> onRemove());
-        editButton.setOnMouseClicked(actionEvent -> handleRowSelection());
+        displayButton.setOnAction(actionEvent -> handleRowSelection());
 
 
-        Education education1 = new Education("IEU","01.01.2020", "01.01.2024");
-        Education education2 = new Education("UAL", "01.01.2015", "01.01.2019");
-        Experience experience1 = new Experience("Microfot", "01.01.02323", "1");
-        Publication publication1 = new Publication("AI", "ben", "01.52.023");
-
-
-        ArrayList<Education> educationArrayList = new ArrayList<>();
-        educationArrayList.add(education1);
-        educationArrayList.add(education2);
-
-        ArrayList<Experience> experienceArrayList = new ArrayList<>();
-        experienceArrayList.add(experience1);
-
-        ArrayList<Publication> publicationArrayList = new ArrayList<>();
-        publicationArrayList.add(publication1);
-
-        ArrayList<String> interests = new ArrayList<>();
-        interests.add("backgammon");
-        interests.add("football");
-
-        ArrayList<String> skills = new ArrayList<>();
-        skills.add("asd");
-        skills.add("asdfg");
-
-
-
-
-        createPerson("Emre", "Durak", "01.01", "e", "505", educationArrayList, experienceArrayList,publicationArrayList,interests,skills);
         createTable();
 
     }
@@ -155,14 +137,14 @@ public class Controller implements Initializable {
         String name = personList.listIterator().next().getName();
         String surname = personList.listIterator().next().getSurname();
 
-        MFXTreeItem<String> root = new MFXTreeItem<>(name +" " +surname);
+        MFXTreeItem<String> root = new MFXTreeItem<>(name + " " + surname);
 
         MFXTreeItem<String> educations = new MFXTreeItem<>("Educations");
 
 
-        for(int i = 0 ; i < 2; i++) {
+        for (int i = 0; i < personList.listIterator().next().getEducation().size(); i++) {
 
-            if(personList.listIterator().next().getEducation()!=null){
+            if (personList.listIterator().next().getEducation() != null) {
 
                 String educationName = personList.listIterator().next().getEducation().get(i).getName();
                 String educationStartDate = personList.listIterator().next().getEducation().get(i).getStartDate();
@@ -170,8 +152,8 @@ public class Controller implements Initializable {
 
                 MFXTreeItem<String> educationsName = new MFXTreeItem<>(educationName);
                 educationsName.getItems().addAll(List.of(
-                        new MFXTreeItem<>("Start Date: " +educationStartDate),
-                        new MFXTreeItem<>("End Date: " +educationEndDate)
+                        new MFXTreeItem<>("Start Date: " + educationStartDate),
+                        new MFXTreeItem<>("End Date: " + educationEndDate)
                 ));
                 educations.getItems().addAll(List.of(educationsName));
 
@@ -179,7 +161,71 @@ public class Controller implements Initializable {
 
         }
 
-        root.getItems().addAll(List.of(educations));
+        MFXTreeItem<String> experiences = new MFXTreeItem<>("Experiences");
+
+        for (int i = 0; i < personList.listIterator().next().getExperiences().size(); i++) {
+
+            if (personList.listIterator().next().getExperiences() != null) {
+
+                String title = personList.listIterator().next().getExperiences().get(i).getTitle();
+                String experienceStartDate = personList.listIterator().next().getExperiences().get(i).getStartDate();
+                String experienceEndDate = personList.listIterator().next().getPublications().get(i).getPublicationDate();
+
+                MFXTreeItem<String> experienceTitle = new MFXTreeItem<>(title);
+                experienceTitle.getItems().addAll(List.of(
+                        new MFXTreeItem<>("Start Date: " + experienceStartDate),
+                        new MFXTreeItem<>("End Date: " + experienceEndDate)
+                ));
+                experiences.getItems().addAll(List.of(experienceTitle));
+
+            }
+
+        }
+
+        MFXTreeItem<String> publications = new MFXTreeItem<>("Publications");
+
+        for (int i = 0; i < personList.listIterator().next().getPublications().size(); i++) {
+
+            if (personList.listIterator().next().getPublications() != null) {
+
+                String title = personList.listIterator().next().getPublications().get(i).getTitle();
+                String publisher = personList.listIterator().next().getPublications().get(i).getPublisher();
+                String publicationDate = personList.listIterator().next().getPublications().get(i).getPublicationDate();
+
+                MFXTreeItem<String> publicationTitle = new MFXTreeItem<>(title);
+                publicationTitle.getItems().addAll(List.of(
+                        new MFXTreeItem<>("Publisher: " + publisher),
+                        new MFXTreeItem<>("Publication date: " + publicationDate)
+                ));
+                publications.getItems().addAll(List.of(publicationTitle));
+
+            }
+
+        }
+
+        MFXTreeItem<String> interests = new MFXTreeItem<>("Interests");
+
+        for (int i = 0; i < personList.listIterator().next().getInterests().size(); i++) {
+            if (personList.listIterator().next().getInterests() != null) {
+
+                String interestName = personList.listIterator().next().getInterests().get(i);
+                MFXTreeItem<String> interestsItem = new MFXTreeItem<>(interestName);
+                interests.getItems().addAll(List.of(interestsItem));
+            }
+        }
+
+        MFXTreeItem<String> skills = new MFXTreeItem<>("Skills");
+
+        for (int i = 0; i < personList.listIterator().next().getSkills().size(); i++) {
+            if (personList.listIterator().next().getSkills() != null) {
+
+                String skillName = personList.listIterator().next().getSkills().get(i);
+                MFXTreeItem<String> skillsItem = new MFXTreeItem<>(skillName);
+                skills.getItems().addAll(List.of(skillsItem));
+            }
+        }
+
+        root.getItems().addAll(List.of(educations, experiences, publications, interests, skills));
 
 
         return root;
@@ -211,7 +257,7 @@ public class Controller implements Initializable {
                 new StringFilter<>("Phone", Person::getPhone)
         );
 
-        //personList = FXCollections.observableArrayList(DataManager.PullPersons());
+        personList = FXCollections.observableArrayList(DataManager.PullPersons());
 
         table.setItems(personList);
         table.update();
@@ -239,11 +285,10 @@ public class Controller implements Initializable {
     private void onEdit() {
     }
 
-    private void onList() {}
-
     private void onRemove() {
         table.getItems().removeAll(table.getSelectionModel().getSelectedValues());
     }
+
     private void onExport(MFXTableView<Person> table) {
         Export.buildCV(table);
     }
@@ -263,7 +308,4 @@ public class Controller implements Initializable {
 
     }
 
-    public MFXTableView<Person> getTable() {
-        return table;
-    }
 }

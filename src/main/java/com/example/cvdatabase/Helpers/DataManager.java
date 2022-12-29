@@ -10,14 +10,15 @@ public class DataManager {
 
     private final static DataManager INSTANCE = new DataManager();
 
-    private DataManager() {}
+    private DataManager() {
+    }
 
     public static DataManager getInstance() {
         return INSTANCE;
     }
 
 
-    public static ArrayList<Person> PullPersons(){
+    public static ArrayList<Person> PullPersons() {
 
         String q = "select * from Person";
         ArrayList<Person> persons = new ArrayList<>();
@@ -26,7 +27,7 @@ public class DataManager {
             ResultSet rs = DatabaseConnector.getInstance().createStatement().executeQuery(q);
 
             Person d;
-            while (rs.next()){
+            while (rs.next()) {
 
                 d = new Person();
                 d.setId(rs.getInt("id"));

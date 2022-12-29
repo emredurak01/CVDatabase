@@ -20,8 +20,6 @@ public class Export {
     public static void buildCV(MFXTableView<Person> table) {
         ObservableMap<Integer, Person> listValues = table.getSelectionModel().getSelection();
         ObservableList<Person> personList = FXCollections.observableArrayList(listValues.values());
-        System.out.println(personList.listIterator().next().getName());
-        Person p = new Person();
 
         StringBuilder s = new StringBuilder();
 

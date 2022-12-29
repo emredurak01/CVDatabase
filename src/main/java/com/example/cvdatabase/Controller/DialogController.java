@@ -34,7 +34,7 @@ import java.util.ResourceBundle;
 
 public class DialogController implements Initializable {
 
-
+    Controller controller = new Controller();
     @FXML
     private MFXGenericDialog rootPane;
     @FXML
@@ -97,33 +97,22 @@ public class DialogController implements Initializable {
 
     private void onAddConfirm() {
 
-        Person person = new Person();
-        person.setName(nameField.getText());
-        person.setSurname(surnameField.getText());
-        person.setBirthdate(dateField.getText());
-        person.setEmail(emailField.getText());
-        person.setPhone(phoneField.getText());
-        ArrayList<String> list = new ArrayList<String>();
-        list.add(interestsField.getText());
-        person.setInterests(list);
-        list.clear();
-        list.add(skillsField.getText());
-        person.setSkills(list);
-        list.clear();
+        controller.createPerson(nameField.getText(), surnameField.getText(), dateField.getText(), emailField.getText(), phoneField.getText()
+                , interestsField.getText(), skillsField.getText());
 
         String insert = "insert into Person(name,surname,birthdate,email,phone,interests,skills) values(?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(insert);
 
-            ps.setString(1,nameField.getText());
-            ps.setString(2,surnameField.getText());
-            ps.setString(3,dateField.getText());
-            ps.setString(4,emailField.getText());
-            ps.setString(5,phoneField.getText());
-            ps.setString(6,interestsField.getText());
-            ps.setString(7,skillsField.getText());
+            ps.setString(1, nameField.getText());
+            ps.setString(2, surnameField.getText());
+            ps.setString(3, dateField.getText());
+            ps.setString(4, emailField.getText());
+            ps.setString(5, phoneField.getText());
+            ps.setString(6, interestsField.getText());
+            ps.setString(7, skillsField.getText());
 
-            if(ps.executeUpdate() > 0){
+            if (ps.executeUpdate() > 0) {
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation");
@@ -138,7 +127,7 @@ public class DialogController implements Initializable {
                 System.out.println(a.table.getItems().size());
                 a.table.update();
 
-            }else{
+            } else {
 
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
@@ -148,12 +137,9 @@ public class DialogController implements Initializable {
             }
 
 
-
-
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
-
 
 
     }

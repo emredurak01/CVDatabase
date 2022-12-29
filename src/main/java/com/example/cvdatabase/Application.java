@@ -2,6 +2,8 @@ package com.example.cvdatabase;
 
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
+import com.example.cvdatabase.Helpers.Database;
+import com.example.cvdatabase.Helpers.DatabaseConnector;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,6 +20,7 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        DatabaseConnector.getInstance();
 
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(Config.mainPath));
         fxmlLoader.setControllerFactory(c -> new Controller(stage));
