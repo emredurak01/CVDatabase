@@ -5,7 +5,9 @@ import com.example.cvdatabase.Helpers.Config;
 import com.example.cvdatabase.Helpers.DataManager;
 import com.example.cvdatabase.Helpers.Database;
 import com.example.cvdatabase.Model.Education;
+import com.example.cvdatabase.Model.Experience;
 import com.example.cvdatabase.Model.Person;
+import com.example.cvdatabase.Model.Publication;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
@@ -71,9 +73,10 @@ public class Controller implements Initializable {
     }
 
 
-    public void createPerson(String name, String surname, String dateOfBirth, String email, String phone, ArrayList<Education> education) {
+    public void createPerson(String name, String surname, String dateOfBirth, String email, String phone, ArrayList<Education> education
+    ,ArrayList<Experience> experiences, ArrayList<Publication> publications,ArrayList<String> interests,ArrayList<String> skills) {
 
-        Person person = new Person(name, surname, dateOfBirth, email, phone, education);
+        Person person = new Person(name, surname, dateOfBirth, email, phone, education, experiences, publications,interests,skills);
         personList.add(person);
 
     }
@@ -101,17 +104,39 @@ public class Controller implements Initializable {
         addButton.setOnAction(actionEvent -> onAdd());
         editButton.setOnAction(actionEvent -> onEdit());
         helpButton.setOnAction(actionEvent -> onHelp());
-        exportButton.setOnAction(actionEvent -> onExport());
+        exportButton.setOnAction(actionEvent -> onExport(table));
         removeButton.setOnAction(actionEvent -> onRemove());
         editButton.setOnMouseClicked(actionEvent -> handleRowSelection());
 
 
         Education education1 = new Education("IEU","01.01.2020", "01.01.2024");
         Education education2 = new Education("UAL", "01.01.2015", "01.01.2019");
+        Experience experience1 = new Experience("Microfot", "01.01.02323", "1");
+        Publication publication1 = new Publication("AI", "ben", "01.52.023");
+
+
         ArrayList<Education> educationArrayList = new ArrayList<>();
         educationArrayList.add(education1);
         educationArrayList.add(education2);
 
+        ArrayList<Experience> experienceArrayList = new ArrayList<>();
+        experienceArrayList.add(experience1);
+
+        ArrayList<Publication> publicationArrayList = new ArrayList<>();
+        publicationArrayList.add(publication1);
+
+        ArrayList<String> interests = new ArrayList<>();
+        interests.add("backgammon");
+        interests.add("football");
+
+        ArrayList<String> skills = new ArrayList<>();
+        skills.add("asd");
+        skills.add("asdfg");
+
+
+
+
+        createPerson("Emre", "Durak", "01.01", "e", "505", educationArrayList, experienceArrayList,publicationArrayList,interests,skills);
         createTable();
 
     }
@@ -186,7 +211,8 @@ public class Controller implements Initializable {
                 new StringFilter<>("Phone", Person::getPhone)
         );
 
-        personList = FXCollections.observableArrayList(DataManager.PullPersons());
+        //personList = FXCollections.observableArrayList(DataManager.PullPersons());
+
         table.setItems(personList);
         table.update();
     }
@@ -218,8 +244,8 @@ public class Controller implements Initializable {
     private void onRemove() {
         table.getItems().removeAll(table.getSelectionModel().getSelectedValues());
     }
-    private void onExport() {
-        Export.buildCV();
+    private void onExport(MFXTableView<Person> table) {
+        Export.buildCV(table);
     }
 
     private void onHelp() {
@@ -237,4 +263,7 @@ public class Controller implements Initializable {
 
     }
 
+    public MFXTableView<Person> getTable() {
+        return table;
+    }
 }
