@@ -4,6 +4,7 @@ import com.example.cvdatabase.*;
 import com.example.cvdatabase.Helpers.Config;
 import com.example.cvdatabase.Helpers.DataManager;
 import com.example.cvdatabase.Helpers.Database;
+import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Education;
 import com.example.cvdatabase.Model.Experience;
 import com.example.cvdatabase.Model.Person;
@@ -23,6 +24,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableRow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -33,6 +35,8 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Controller implements Initializable {
@@ -141,10 +145,8 @@ public class Controller implements Initializable {
 
         MFXTreeItem<String> educations = new MFXTreeItem<>("Educations");
 
-
-        for (int i = 0; i < personList.listIterator().next().getEducation().size(); i++) {
-
-            if (personList.listIterator().next().getEducation() != null) {
+        if(personList.listIterator().next().getEducation() != null){
+            for (int i = 0; i < personList.listIterator().next().getEducation().size(); i++) {
 
                 String educationName = personList.listIterator().next().getEducation().get(i).getName();
                 String educationStartDate = personList.listIterator().next().getEducation().get(i).getStartDate();
@@ -158,14 +160,14 @@ public class Controller implements Initializable {
                 educations.getItems().addAll(List.of(educationsName));
 
             }
-
         }
 
         MFXTreeItem<String> experiences = new MFXTreeItem<>("Experiences");
 
-        for (int i = 0; i < personList.listIterator().next().getExperiences().size(); i++) {
+        if (personList.listIterator().next().getExperiences() != null) {
+            for (int i = 0; i < personList.listIterator().next().getExperiences().size(); i++) {
 
-            if (personList.listIterator().next().getExperiences() != null) {
+
 
                 String title = personList.listIterator().next().getExperiences().get(i).getTitle();
                 String experienceStartDate = personList.listIterator().next().getExperiences().get(i).getStartDate();
@@ -178,15 +180,15 @@ public class Controller implements Initializable {
                 ));
                 experiences.getItems().addAll(List.of(experienceTitle));
 
-            }
 
+
+            }
         }
 
         MFXTreeItem<String> publications = new MFXTreeItem<>("Publications");
+        if (personList.listIterator().next().getPublications() != null) {
+            for (int i = 0; i < personList.listIterator().next().getPublications().size(); i++) {
 
-        for (int i = 0; i < personList.listIterator().next().getPublications().size(); i++) {
-
-            if (personList.listIterator().next().getPublications() != null) {
 
                 String title = personList.listIterator().next().getPublications().get(i).getTitle();
                 String publisher = personList.listIterator().next().getPublications().get(i).getPublisher();
@@ -199,8 +201,9 @@ public class Controller implements Initializable {
                 ));
                 publications.getItems().addAll(List.of(publicationTitle));
 
-            }
 
+
+            }
         }
 
         MFXTreeItem<String> interests = new MFXTreeItem<>("Interests");
@@ -232,6 +235,8 @@ public class Controller implements Initializable {
     }
 
     public void createTable() {
+
+        table.getSelectionModel().setAllowsMultipleSelection(false);
 
         MFXTableColumn<Person> idColumn = new MFXTableColumn<>("ID", true, Comparator.comparing(Person::getId));
         MFXTableColumn<Person> nameColumn = new MFXTableColumn<>("Name", true, Comparator.comparing(Person::getName));
@@ -286,7 +291,37 @@ public class Controller implements Initializable {
     }
 
     private void onRemove() {
-        table.getItems().removeAll(table.getSelectionModel().getSelectedValues());
+
+
+        Person p = table.getSelectionModel().getSelectedValues().iterator().next();
+
+        String q = "delete from Person where id = ?";
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setInt(1,p.getId());
+
+            if(ps.executeUpdate()>0){
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Selected CV is deleted, successfully!");
+                alert.setTitle("Confirmation");
+                alert.showAndWait();
+                table.getItems().remove(p);
+
+            }else{
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Selected CV is not deleted, something went wrong!");
+                alert.setTitle("Error");
+                alert.showAndWait();
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void onExport(MFXTableView<Person> table) {
