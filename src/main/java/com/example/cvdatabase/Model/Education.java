@@ -1,6 +1,9 @@
-package com.example.cvdatabase;
+package com.example.cvdatabase.Model;
 
 public class Education {
+
+    private int id;
+    private int personID;
     private String name;
     private String startDate;
     private String endDate;
@@ -33,5 +36,21 @@ public class Education {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getPersonID() {
+        return personID;
+    }
+
+    public void setPersonID(int personID) {
+        this.personID = personID;
     }
 }

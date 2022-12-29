@@ -1,4 +1,4 @@
-package com.example.cvdatabase;
+package com.example.cvdatabase.Helpers;
 
 import java.io.File;
 import java.sql.*;

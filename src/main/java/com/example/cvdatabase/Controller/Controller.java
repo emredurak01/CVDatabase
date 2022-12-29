@@ -1,41 +1,38 @@
-package com.example.cvdatabase;
+package com.example.cvdatabase.Controller;
 
+import com.example.cvdatabase.*;
+import com.example.cvdatabase.Helpers.Config;
+import com.example.cvdatabase.Helpers.DataManager;
+import com.example.cvdatabase.Helpers.Database;
+import com.example.cvdatabase.Model.Education;
+import com.example.cvdatabase.Model.Person;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
 import io.github.palexdev.materialfx.filter.StringFilter;
-import io.github.palexdev.materialfx.filter.base.AbstractFilter;
 import io.github.palexdev.materialfx.font.MFXFontIcon;
-import io.github.palexdev.materialfx.skins.MFXTableColumnSkin;
-import io.github.palexdev.materialfx.utils.ColorUtils;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.swing.text.TableView;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.function.Function;
 
 public class Controller implements Initializable {
-    private final Stage stage;
+    public Stage stage;
     Database database = new Database();
     ObservableList<Person> personList = FXCollections.observableArrayList();
     @FXML
@@ -49,7 +46,7 @@ public class Controller implements Initializable {
     @FXML
     private MFXButton helpButton;
     @FXML
-    private MFXTableView<Person> table;
+    public MFXTableView<Person> table;
     @FXML
     private MFXTreeView<String> treeView;
     @FXML
@@ -65,13 +62,16 @@ public class Controller implements Initializable {
     private double x;
     private double y;
 
+    public Controller(){
+
+    }
 
     public Controller(Stage stage) {
         this.stage = stage;
     }
 
 
-    public void createPerson(String name, String surname, String dateOfBirth, String email, int phone, ArrayList<Education> education) {
+    public void createPerson(String name, String surname, String dateOfBirth, String email, String phone, ArrayList<Education> education) {
 
         Person person = new Person(name, surname, dateOfBirth, email, phone, education);
         personList.add(person);
@@ -112,9 +112,6 @@ public class Controller implements Initializable {
         educationArrayList.add(education1);
         educationArrayList.add(education2);
 
-        //Temporary
-        createPerson("Emre", "Durak", "01.01.2001", "emre@ieu.com", 505, educationArrayList);
-        createPerson("Can", "Ispartalıoğlu", "01.01.2001", "can@ieu.com", 507, educationArrayList);
         createTable();
 
     }
@@ -129,6 +126,7 @@ public class Controller implements Initializable {
 
     private MFXTreeItem<String> createTreeView(ObservableList<Person> personList) {
 
+
         String name = personList.listIterator().next().getName();
         String surname = personList.listIterator().next().getSurname();
 
@@ -136,18 +134,24 @@ public class Controller implements Initializable {
 
         MFXTreeItem<String> educations = new MFXTreeItem<>("Educations");
 
+
         for(int i = 0 ; i < 2; i++) {
 
-            String educationName = personList.listIterator().next().getEducation().get(i).getName();
-            String educationStartDate = personList.listIterator().next().getEducation().get(i).getStartDate();
-            String educationEndDate = personList.listIterator().next().getEducation().get(i).getEndDate();
+            if(personList.listIterator().next().getEducation()!=null){
 
-            MFXTreeItem<String> educationsName = new MFXTreeItem<>(educationName);
-            educationsName.getItems().addAll(List.of(
-                    new MFXTreeItem<>("Start Date: " +educationStartDate),
-                    new MFXTreeItem<>("End Date: " +educationEndDate)
-            ));
-            educations.getItems().addAll(List.of(educationsName));
+                String educationName = personList.listIterator().next().getEducation().get(i).getName();
+                String educationStartDate = personList.listIterator().next().getEducation().get(i).getStartDate();
+                String educationEndDate = personList.listIterator().next().getEducation().get(i).getEndDate();
+
+                MFXTreeItem<String> educationsName = new MFXTreeItem<>(educationName);
+                educationsName.getItems().addAll(List.of(
+                        new MFXTreeItem<>("Start Date: " +educationStartDate),
+                        new MFXTreeItem<>("End Date: " +educationEndDate)
+                ));
+                educations.getItems().addAll(List.of(educationsName));
+
+            }
+
         }
 
         root.getItems().addAll(List.of(educations));
@@ -156,19 +160,19 @@ public class Controller implements Initializable {
         return root;
     }
 
-    private void createTable() {
+    public void createTable() {
 
         MFXTableColumn<Person> idColumn = new MFXTableColumn<>("ID", true, Comparator.comparing(Person::getId));
         MFXTableColumn<Person> nameColumn = new MFXTableColumn<>("Name", true, Comparator.comparing(Person::getName));
         MFXTableColumn<Person> surnameColumn = new MFXTableColumn<>("Surname", true, Comparator.comparing(Person::getSurname));
-        MFXTableColumn<Person> dateOfBirthColumn = new MFXTableColumn<>("Date of birth", true, Comparator.comparing(Person::getDateOfBirth));
+        MFXTableColumn<Person> dateOfBirthColumn = new MFXTableColumn<>("Date of birth", true, Comparator.comparing(Person::getBirthdate));
         MFXTableColumn<Person> emailColumn = new MFXTableColumn<>("Email", true, Comparator.comparing(Person::getEmail));
         MFXTableColumn<Person> phoneColumn = new MFXTableColumn<>("Phone", true, Comparator.comparing(Person::getPhone));
 
         idColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getId));
         nameColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getName));
         surnameColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getSurname));
-        dateOfBirthColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getDateOfBirth));
+        dateOfBirthColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getBirthdate));
         emailColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getEmail));
         phoneColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getPhone));
 
@@ -177,19 +181,26 @@ public class Controller implements Initializable {
                 new IntegerFilter<>("ID", Person::getId),
                 new StringFilter<>("Name", Person::getName),
                 new StringFilter<>("Surname", Person::getSurname),
-                new StringFilter<>("Date of birth", Person::getDateOfBirth),
+                new StringFilter<>("Date of birth", Person::getBirthdate),
                 new StringFilter<>("Email", Person::getEmail),
-                new IntegerFilter<>("Phone", Person::getPhone)
+                new StringFilter<>("Phone", Person::getPhone)
         );
 
+        personList = FXCollections.observableArrayList(DataManager.PullPersons());
         table.setItems(personList);
-
+        table.update();
     }
 
     private void onAdd() {
         Parent root;
+        FXMLLoader loader;
         try {
-            root = FXMLLoader.load(Objects.requireNonNull(Application.class.getResource("addDialog.fxml")));
+
+            loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addDialogPath)));
+            root = loader.load();
+
+            DialogController a = loader.getController();
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.initStyle(StageStyle.TRANSPARENT);
@@ -200,7 +211,6 @@ public class Controller implements Initializable {
     }
 
     private void onEdit() {
-
     }
 
     private void onList() {}
@@ -215,7 +225,7 @@ public class Controller implements Initializable {
     private void onHelp() {
         Parent root;
         try {
-            root = FXMLLoader.load(Objects.requireNonNull(Application.class.getResource("helpDialog.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(Application.class.getResource(Config.helpDialogPath)));
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.initStyle(StageStyle.TRANSPARENT);

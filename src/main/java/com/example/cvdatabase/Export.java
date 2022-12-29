@@ -1,5 +1,7 @@
 package com.example.cvdatabase;
 
+import com.example.cvdatabase.Model.Person;
+
 import java.io.*;
 
 public class Export {
@@ -10,8 +12,8 @@ public class Export {
         p.setName("Emre");
         p.setSurname("Durak");
         p.setEmail("emre@");
-        p.setDateOfBirth("01.01.2001");
-        p.setPhone(505123542);
+        p.setBirthdate("01.01.2001");
+        p.setPhone("505123542");
 
 
         StringBuilder s = new StringBuilder();
@@ -49,7 +51,7 @@ public class Export {
                 "            </tr>\n" +
                 "            <tr>\n" +
                 "                <td>Date of Birth:</td>\n" +
-                "\t\t\t\t<td><b>" +p.getDateOfBirth() +"</b></td>\n" +
+                "\t\t\t\t<td><b>" +p.getBirthdate() +"</b></td>\n" +
                 "                \n" +
                 "            </tr>\n" +
                 "            <tr>\n" +

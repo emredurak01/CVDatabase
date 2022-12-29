@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<MFXGenericDialog maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="482.0" prefWidth="600.0" styleClass="rootPane" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cvdatabase.DialogController">
+<MFXGenericDialog maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720" prefWidth="720.0" styleClass="rootPane" stylesheets="@main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cvdatabase.Controller.DialogController">
     <center>
-        <GridPane alignment="CENTER_RIGHT" prefHeight="439.0" prefWidth="608.0" BorderPane.alignment="CENTER">
+        <GridPane alignment="CENTER_RIGHT" prefHeight="720.0" prefWidth="720.0" BorderPane.alignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -38,7 +38,7 @@
             </rowConstraints>
             <children>
                 <Label alignment="CENTER" prefHeight="31.0" prefWidth="83.0" text="Name" GridPane.rowIndex="1" />
-                <MFXTextField fx:id="nameField" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <MFXTextField fx:id="nameField" promptText="Name" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Label alignment="CENTER" prefHeight="25.0" prefWidth="275.0" text="Surname" GridPane.rowIndex="2" />
                 <Label alignment="CENTER" prefHeight="26.0" prefWidth="188.0" text="Date of birth (DD.MM.YYYY)" textAlignment="CENTER" GridPane.rowIndex="3" />
                 <Label alignment="CENTER" prefHeight="21.0" prefWidth="290.0" text="Email (example@example.com)" textAlignment="CENTER" GridPane.rowIndex="4" />
@@ -49,17 +49,18 @@
                 <Label alignment="CENTER" prefHeight="21.0" prefWidth="290.0" text="Interest(s)" textAlignment="CENTER" GridPane.rowIndex="9" />
                 <Label alignment="CENTER" prefHeight="21.0" prefWidth="290.0" text="Skill(s)" textAlignment="CENTER" GridPane.rowIndex="10" />
                 <Label alignment="CENTER" prefHeight="21.0" prefWidth="290.0" text="Tag(s)" textAlignment="CENTER" GridPane.rowIndex="11" />
-                <MFXTextField fx:id="surnameField" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <MFXTextField fx:id="emailField" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <MFXTextField fx:id="phoneField" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                <MFXTextField fx:id="surnameField" promptText="Surname" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <MFXTextField fx:id="emailField" promptText="Email" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <MFXTextField fx:id="phoneField" promptText="Phone" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                 <MFXTextField fx:id="educationsField" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                 <MFXTextField fx:id="experiencesField" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                 <MFXTextField fx:id="publicationsField" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                 <MFXTextField fx:id="interestsField" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                 <MFXTextField fx:id="skillsField" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                 <MFXTextField fx:id="tagsField" minHeight="-Infinity" prefHeight="30.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-                <MFXDatePicker fx:id="dateField" minHeight="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <MFXButton fx:id="addConfirmButton" prefHeight="13.0" prefWidth="200.0" styleClass="outline-button" stylesheets="@css/buttons.css" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="12">
+                <MFXDatePicker fx:id="dateField" promptText="Birthdate" minHeight="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <MFXButton fx:id="addConfirmButton" prefHeight="13.0" prefWidth="200.0" styleClass="outline-button" stylesheets="@buttons.css" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="12">
                     <GridPane.margin>
                         <Insets />
                     </GridPane.margin>
