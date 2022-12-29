@@ -1,20 +1,27 @@
 package com.example.cvdatabase;
 
+import com.example.cvdatabase.Controller.Controller;
+import com.example.cvdatabase.Model.Education;
 import com.example.cvdatabase.Model.Person;
+import io.github.palexdev.materialfx.controls.MFXTableView;
+import io.github.palexdev.materialfx.controls.MFXTreeItem;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Export {
 
 
-    public static void buildCV() {
-        Person p = new Person();
-        p.setName("Emre");
-        p.setSurname("Durak");
-        p.setEmail("emre@");
-        p.setBirthdate("01.01.2001");
-        p.setPhone("505123542");
 
+    public static void buildCV(MFXTableView<Person> table) {
+        ObservableMap<Integer, Person> listValues = table.getSelectionModel().getSelection();
+        ObservableList<Person> personList = FXCollections.observableArrayList(listValues.values());
+        System.out.println(personList.listIterator().next().getName());
+        Person p = new Person();
 
         StringBuilder s = new StringBuilder();
 
@@ -34,7 +41,7 @@ public class Export {
                 "    <div class=\"photo-and-name\">\n" +
                 "        \n" +
                 "        <div class=\"contact-info-box\">\n" +
-                "            <h1 class=\"name\">" +p.getName() +" " +p.getSurname() +"</h1>\n" +
+                "            <h1 class=\"name\">" +personList.listIterator().next().getName() +" " +personList.listIterator().next().getSurname() +"</h1>\n" +
                 "            <br>\n" +
                 "        </div>\n" +
                 "    </div>\n" +
@@ -43,24 +50,24 @@ public class Export {
                 "        <table>\n" +
                 "            <tr>\n" +
                 "                <td>Name:</td>\n" +
-                "                <td><b>" +p.getName() +"</b></td>\n" +
+                "                <td><b>" +personList.listIterator().next().getName() +"</b></td>\n" +
                 "            </tr>\n" +
                 "            <tr>\n" +
                 "                <td>Surname:</td>\n" +
-                "                <td><b>" +p.getSurname() +"</b></td>\n" +
+                "                <td><b>" +personList.listIterator().next().getSurname() +"</b></td>\n" +
                 "            </tr>\n" +
                 "            <tr>\n" +
                 "                <td>Date of Birth:</td>\n" +
-                "\t\t\t\t<td><b>" +p.getBirthdate() +"</b></td>\n" +
+                "\t\t\t\t<td><b>" +personList.listIterator().next().getBirthdate()+"</b></td>\n" +
                 "                \n" +
                 "            </tr>\n" +
                 "            <tr>\n" +
                 "                <td>E-mail:</td>\n" +
-                "                <td><b>" +p.getEmail() +"</b></td>\n" +
+                "                <td><b>" +personList.listIterator().next().getEmail() +"</b></td>\n" +
                 "            </tr>\n" +
                 "            <tr>\n" +
                 "                <td>Phone:</td>\n" +
-                "                <td><b>" +p.getPhone() +"</b></td>\n" +
+                "                <td><b>" +personList.listIterator().next().getPhone() +"</b></td>\n" +
                 "            </tr>\n" +
                 "        \n" +
                 "        </table>\n" +
@@ -69,10 +76,11 @@ public class Export {
                 "        <h3>Education</h3>\n" +
                 "        <table>\n");
 
-                for(int i = 0; i < 2; i++) {
+                for(int i = 0; i < personList.listIterator().next().getEducation().size(); i++) {
                     s.append("            <tr class=\"work-1\">\n" +
-                            "               <td>" +"p.getEducation.get(i).getstartdate" + " - " + "p.getEducation.get(i).getenddate" +"</td>\n" +
-                            "                <td> p.getEducation.get(i).getname</td>\n" +
+                            "               <td>" +personList.listIterator().next().getEducation().get(i).getStartDate() + " - "
+                            + personList.listIterator().next().getEducation().get(i).getEndDate() +"</td>\n" +
+                                            "<td>" +personList.listIterator().next().getEducation().get(i).getName() + "</td>\n" +
                             "            </tr>\n"
                     );
                 }
@@ -86,10 +94,11 @@ public class Export {
                         "        <h3>Experience</h3>\n" +
                         "        <table>\n");
 
-                for(int i = 0; i < 2; i++) {
+                for(int i = 0; i < personList.listIterator().next().getExperiences().size(); i++) {
                     s.append("            <tr class=\"work-1\">\n" +
-                            "                <td>+\"p.getExperience.get(i).getstartdate" + " - " + "p.getExperience.get(i).getenddate" +"</td>\n" +
-                            "                <td>p.getExperience.getname</td>\n" +
+                            "                <td>" + personList.listIterator().next().getExperiences().get(i).getStartDate() + " - " +
+                            " "+ personList.listIterator().next().getExperiences().get(i).getEndDate()  +"</td>\n" +
+                            "<td>" +personList.listIterator().next().getExperiences().get(i).getTitle() + "</td>\n" +
                             "            </tr>\n");
                 }
 
@@ -102,10 +111,10 @@ public class Export {
                         "        <h3>publications</h3>\n" +
                         "        <table>\n");
 
-                for(int i = 0; i < 3; i++) {
+                for(int i = 0; i < personList.listIterator().next().getPublications().size(); i++) {
                     s.append("            <tr class=\"work-1\">\n" +
-                            "                <td>p.getPublication.get(i).getyear</td>\n" +
-                            "                <td>p.getPublication..getname</td>\n" +
+                            "               <td>" + personList.listIterator().next().getPublications().get(i).getPublicationDate() + "\n" +
+                            "               <td>" + personList.listIterator().next().getPublications().get(i).getTitle() + "\n" +
                             "            </tr>\n");
                 }
 
@@ -115,8 +124,8 @@ public class Export {
                         "        <h3>interests</h3>\n" +
                         "      <div id = \"list\"> \n");
 
-                for(int i = 0; i < 3; i++) {
-                    s.append("\t\t\t<p>"+"+p.getInterests().get(i)" +"</p>\n");
+                for(int i = 0; i < personList.listIterator().next().getInterests().size(); i++) {
+                    s.append("\t\t\t<p>"+personList.listIterator().next().getInterests().get(i) +"</p>\n");
                 }
 
                 s.append("\t\t</div>\n" +
@@ -126,8 +135,8 @@ public class Export {
                         "        \n" +
                         "\t\t<div id = \"list\"> \n");
 
-                for(int i = 0; i < 5; i++) {
-                    s.append("\t\t\t<p>" +"+p.getSkills().get(i)" +"</p>\n");
+                for(int i = 0; i < personList.listIterator().next().getSkills().size(); i++) {
+                    s.append("\t\t\t<p>" +personList.listIterator().next().getSkills().get(i) +"</p>\n");
                 }
                 s.append("\t\t</div>\n" +
                         "        \n" +
@@ -137,9 +146,6 @@ public class Export {
                         "\n" +
                         "</body>\n" +
                         "</html>");
-
-
-        System.out.println(s);
 
 
         File f = new File("cv.html");

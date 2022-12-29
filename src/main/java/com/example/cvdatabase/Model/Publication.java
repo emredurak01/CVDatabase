@@ -8,8 +8,7 @@ public class Publication {
     private String publisher;
     private String publicationDate;
 
-    public Publication(int personID, String title, String publisher, String publicationDate) {
-        this.personID = personID;
+    public Publication(String title, String publisher, String publicationDate) {
         this.title = title;
         this.publisher = publisher;
         this.publicationDate = publicationDate;
