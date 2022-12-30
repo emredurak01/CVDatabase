@@ -93,12 +93,33 @@ public class EditDialogController implements Initializable {
         dateField.setText(Controller.personListSelection.listIterator().next().getBirthdate());
         emailField.setText(Controller.personListSelection.listIterator().next().getEmail());
         phoneField.setText(Controller.personListSelection.listIterator().next().getPhone());
-        //interestsField.setText(Controller.personListSelection.listIterator().next().getInterests());
-        //skillsField.setText(Controller.personListSelection.listIterator().next().getSkills);
-        //editConfirmButton.setOnAction(actionEvent -> onEditConfirm(personList));
+
+        StringBuilder interestString = new StringBuilder();
+
+        for(int i = 0; i < Controller.personListSelection.listIterator().next().getInterests().size(); i++) {
+            interestString.append(Controller.personListSelection.listIterator().next().getInterests().get(i)).append(",");
+        }
+        interestString.setLength(interestString.length() - 1);
+
+        StringBuilder skillString = new StringBuilder();
+        for(int i = 0; i < Controller.personListSelection.listIterator().next().getSkills().size(); i++) {
+            skillString.append(Controller.personListSelection.listIterator().next().getSkills().get(i)).append(",");
+        }
+        skillString.setLength(skillString.length() - 1);
+
+
+        interestsField.setText(String.valueOf(interestString));
+        skillsField.setText(String.valueOf(skillString));
+        editConfirmButton.setOnAction(actionEvent -> onEditConfirm(Controller.personListSelection));
     }
 
     private void onEditConfirm(ObservableList<Person> personList){
-        System.out.println();
+        Person person;
+        person = personList.listIterator().next();
+        person.setName(nameField.getText());
+        person.setSurname(surnameField.getText());
+        person.setBirthdate(dateField.getText());
+        person.setEmail(emailField.getText());
+        person.setPhone(phoneField.getText());
     }
 }

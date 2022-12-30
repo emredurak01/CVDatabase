@@ -36,13 +36,13 @@ public class DataManager {
                 d.setBirthdate(rs.getString("birthdate"));
                 d.setEmail(rs.getString("email"));
                 d.setPhone(rs.getString("phone"));
-                ArrayList<String> list = new ArrayList<>();
-                list.add(rs.getString("interests"));
-                d.setInterests(list);
-                list.clear();
-                list.add(rs.getString("skills"));
-                d.setSkills(list);
-                list.clear();
+                ArrayList<String> interestsList = new ArrayList<>();
+                interestsList.add(rs.getString("interests"));
+                d.setInterests(interestsList);
+                ArrayList<String> skillsList = new ArrayList<>();
+                skillsList.add(rs.getString("skills"));
+                d.setSkills(skillsList);
+
 
                 persons.add(d);
 

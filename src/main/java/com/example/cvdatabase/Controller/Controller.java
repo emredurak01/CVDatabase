@@ -3,12 +3,8 @@ package com.example.cvdatabase.Controller;
 import com.example.cvdatabase.*;
 import com.example.cvdatabase.Helpers.Config;
 import com.example.cvdatabase.Helpers.DataManager;
-import com.example.cvdatabase.Helpers.Database;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
-import com.example.cvdatabase.Model.Education;
-import com.example.cvdatabase.Model.Experience;
 import com.example.cvdatabase.Model.Person;
-import com.example.cvdatabase.Model.Publication;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
@@ -25,8 +21,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TableRow;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -282,7 +276,7 @@ public class Controller implements Initializable {
             loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addDialogPath)));
             root = loader.load();
 
-            DialogController a = loader.getController();
+            AddDialogController a = loader.getController();
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -301,7 +295,7 @@ public class Controller implements Initializable {
             loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addAttributeDialogPath)));
             root = loader.load();
 
-            DialogController a = loader.getController();
+            AddDialogController a = loader.getController();
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -387,5 +381,4 @@ public class Controller implements Initializable {
 
 
     }
-
 }
