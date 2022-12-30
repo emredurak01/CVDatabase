@@ -80,6 +80,10 @@ public class Controller implements Initializable {
         this.stage = stage;
     }
 
+    public void setStage(Stage stage){
+
+        this.stage = stage;
+    }
 
     public void createPerson(String name, String surname, String dateOfBirth, String email, String phone, String interests
             , String skills) {
@@ -277,11 +281,11 @@ public class Controller implements Initializable {
             root = loader.load();
 
             AddDialogController a = loader.getController();
-
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.show();
+            Stage add_stage = new Stage();
+            add_stage.setScene(new Scene(root));
+            add_stage.initStyle(StageStyle.TRANSPARENT);
+            a.setStage(stage);
+            add_stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

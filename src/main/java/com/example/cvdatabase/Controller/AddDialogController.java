@@ -14,10 +14,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -79,7 +81,7 @@ public class AddDialogController implements Initializable {
 
     private String name;
 
-    private Stage previousStage;
+    private Stage stage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -90,6 +92,11 @@ public class AddDialogController implements Initializable {
 
     }
 
+    public void setStage(Stage stage){
+
+        this.stage = stage;
+
+    }
 
     private void onAddConfirm() {
 
@@ -118,10 +125,15 @@ public class AddDialogController implements Initializable {
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.mainPath)));
                 Parent root = loader.load();
                 Controller a = loader.getController();
+                Scene scene = new Scene(root);
+                a.setStage(stage);
+                stage.setScene(scene);
+                stage.show();
                 System.out.println(a.personList.toString());
+                a.table.getItems().clear();
+                a.table.getTableColumns().clear();
                 a.createTable();
                 System.out.println(a.table.getItems().size());
-                a.table.update();
 
             } else {
 
@@ -129,7 +141,6 @@ public class AddDialogController implements Initializable {
                 alert.setTitle("Error");
                 alert.setContentText("This CV is not created!");
                 alert.showAndWait();
-
             }
 
 
