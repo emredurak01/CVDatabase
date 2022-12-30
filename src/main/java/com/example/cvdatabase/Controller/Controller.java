@@ -75,6 +75,9 @@ public class Controller implements Initializable {
     private double x;
     private double y;
 
+    static ObservableMap<Integer, Person> listValuesSelection;
+    static ObservableList<Person> personListSelection;
+
     public Controller() {
 
     }
@@ -121,7 +124,7 @@ public class Controller implements Initializable {
         exportButton.setOnAction(actionEvent -> onExport(table));
         removeButton.setOnAction(actionEvent -> onRemove());
         displayButton.setOnAction(actionEvent -> handleRowSelection());
-
+        attributeButton.setOnAction(actionEvent -> onAddAttribute());
 
         createTable();
 
@@ -131,7 +134,6 @@ public class Controller implements Initializable {
     private void handleRowSelection() {
         ObservableMap<Integer, Person> listValues = table.getSelectionModel().getSelection();
         ObservableList<Person> personList = FXCollections.observableArrayList(listValues.values());
-
         if(table.getSelectionModel().getSelectedValues().size() > 0){
 
             treeView.setRoot(createTreeView(personList));
@@ -291,7 +293,32 @@ public class Controller implements Initializable {
         }
     }
 
+    private void onAddAttribute() {
+        Parent root;
+        FXMLLoader loader;
+        try {
+
+            loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addAttributeDialogPath)));
+            root = loader.load();
+
+            DialogController a = loader.getController();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void onEdit() {
+        listValuesSelection = table.getSelectionModel().getSelection();
+        personListSelection = FXCollections.observableArrayList(listValuesSelection.values());
+
+
+
+        handleRowSelection();
         Parent root;
         FXMLLoader loader;
         try {

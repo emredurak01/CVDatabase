@@ -82,25 +82,14 @@ public class EditDialogController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FXMLLoader loader;
-        loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.mainPath)));
-        try {
-            Parent root = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Controller a = loader.getController();
 
-        a.createTable();
-        a.table.update();
 
         closeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Node) (event.getSource())).getScene().getWindow().hide());
         minimizeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Stage) rootPane.getScene().getWindow()).setIconified(true));
 
-        ObservableMap<Integer, Person> listValues = a.table.getSelectionModel().getSelection();
-        ObservableList<Person> personList = FXCollections.observableArrayList(listValues.values());
 
-        //nameField.setText(personList.listIterator().next().getName());
+
+        nameField.setText(Controller.personListSelection.listIterator().next().getName());
         //editConfirmButton.setOnAction(actionEvent -> onEditConfirm(personList));
     }
 

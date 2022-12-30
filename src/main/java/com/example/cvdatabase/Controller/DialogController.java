@@ -8,6 +8,7 @@ import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Person;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.font.MFXFontIcon;
