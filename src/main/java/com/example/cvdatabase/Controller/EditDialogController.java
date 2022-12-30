@@ -88,8 +88,13 @@ public class EditDialogController implements Initializable {
         minimizeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Stage) rootPane.getScene().getWindow()).setIconified(true));
 
 
-
         nameField.setText(Controller.personListSelection.listIterator().next().getName());
+        surnameField.setText(Controller.personListSelection.listIterator().next().getSurname());
+        dateField.setText(Controller.personListSelection.listIterator().next().getBirthdate());
+        emailField.setText(Controller.personListSelection.listIterator().next().getEmail());
+        phoneField.setText(Controller.personListSelection.listIterator().next().getPhone());
+        //interestsField.setText(Controller.personListSelection.listIterator().next().getInterests());
+        //skillsField.setText(Controller.personListSelection.listIterator().next().getSkills);
         //editConfirmButton.setOnAction(actionEvent -> onEditConfirm(personList));
     }
 
