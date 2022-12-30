@@ -92,6 +92,7 @@ public class DialogController implements Initializable {
         minimizeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Stage) rootPane.getScene().getWindow()).setIconified(true));
 
         addConfirmButton.setOnAction(actionEvent -> onAddConfirm());
+
     }
 
 
@@ -143,6 +144,7 @@ public class DialogController implements Initializable {
 
 
     }
+
 
 
 }

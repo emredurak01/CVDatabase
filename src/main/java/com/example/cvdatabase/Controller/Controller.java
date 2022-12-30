@@ -292,6 +292,20 @@ public class Controller implements Initializable {
     }
 
     private void onEdit() {
+        Parent root;
+        FXMLLoader loader;
+        try {
+
+            loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editDialogPath)));
+            root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void onRemove() {
