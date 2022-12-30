@@ -82,8 +82,7 @@
       <children>
          <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
-               <MFXButton fx:id="displayButton" prefHeight="47.0" prefWidth="137.0" styleClass="outline-button" stylesheets="@main.css" text="Display Info" />
-               <MFXButton fx:id="attributeButton" prefHeight="47.0" prefWidth="130.0" styleClass="outline-button" text="Add attribute" />
+               <MFXButton fx:id="displayButton" prefHeight="47.0" prefWidth="267.0" styleClass="outline-button" stylesheets="@main.css" text="Display Info" />
             </children>
          </HBox>
             <MFXTreeView fx:id="treeView" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="668.0" prefWidth="259.0" AnchorPane.topAnchor="0.0" />

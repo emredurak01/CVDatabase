@@ -47,6 +47,11 @@ public class Person {
         this.skills = skills;
     }
 
+    public void addEducation(Education education) {
+        getEducation().add(education);
+    }
+
+
     public int getId() {
         return id;
     }

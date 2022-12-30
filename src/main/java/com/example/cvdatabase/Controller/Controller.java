@@ -1,11 +1,15 @@
 package com.example.cvdatabase.Controller;
 
-import com.example.cvdatabase.*;
+import com.example.cvdatabase.Application;
+import com.example.cvdatabase.Controller.AddControllers.AddDialogController;
+import com.example.cvdatabase.Export;
 import com.example.cvdatabase.Helpers.Config;
 import com.example.cvdatabase.Helpers.DataManager;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
+import com.example.cvdatabase.Model.Education;
 import com.example.cvdatabase.Model.Person;
 import io.github.palexdev.materialfx.controls.*;
+import io.github.palexdev.materialfx.controls.base.AbstractMFXTreeItem;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
 import io.github.palexdev.materialfx.filter.StringFilter;
@@ -34,8 +38,15 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class Controller implements Initializable {
+    public static ObservableList<Person> personListSelection;
+    public static Person rootPerson;
+    private static ObservableMap<Integer, Person> listValuesSelection;
     public Stage stage;
-    ObservableList<Person> personList = FXCollections.observableArrayList();
+    @FXML
+    public MFXTableView<Person> table;
+    @FXML
+    public MFXTreeView<String> treeView;
+    private ObservableList<Person> personList = FXCollections.observableArrayList();
     @FXML
     private MFXButton addButton;
     @FXML
@@ -46,16 +57,8 @@ public class Controller implements Initializable {
     private MFXButton exportButton;
     @FXML
     private MFXButton helpButton;
-
     @FXML
     private MFXButton displayButton;
-
-    @FXML
-    private MFXButton attributeButton;
-    @FXML
-    public MFXTableView<Person> table;
-    @FXML
-    private MFXTreeView<String> treeView;
     @FXML
     private MFXFontIcon closeIcon;
     @FXML
@@ -69,9 +72,6 @@ public class Controller implements Initializable {
     private double x;
     private double y;
 
-    static ObservableMap<Integer, Person> listValuesSelection;
-    static ObservableList<Person> personListSelection;
-
     public Controller() {
 
     }
@@ -80,13 +80,11 @@ public class Controller implements Initializable {
         this.stage = stage;
     }
 
-    public void setStage(Stage stage){
-
+    public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public void createPerson(String name, String surname, String dateOfBirth, String email, String phone, String interests
-            , String skills) {
+    public void createPerson(String name, String surname, String dateOfBirth, String email, String phone, String interests, String skills) {
 
         ArrayList<String> interestsList = new ArrayList<String>(Arrays.asList(interests.split(",")));
         ArrayList<String> skillsList = new ArrayList<String>(Arrays.asList(skills.split(",")));
@@ -122,7 +120,7 @@ public class Controller implements Initializable {
         exportButton.setOnAction(actionEvent -> onExport(table));
         removeButton.setOnAction(actionEvent -> onRemove());
         displayButton.setOnAction(actionEvent -> handleRowSelection());
-        attributeButton.setOnAction(actionEvent -> onAddAttribute());
+
 
         createTable();
 
@@ -132,7 +130,8 @@ public class Controller implements Initializable {
     private void handleRowSelection() {
         ObservableMap<Integer, Person> listValues = table.getSelectionModel().getSelection();
         ObservableList<Person> personList = FXCollections.observableArrayList(listValues.values());
-        if(table.getSelectionModel().getSelectedValues().size() > 0){
+        rootPerson = personList.listIterator().next();
+        if (table.getSelectionModel().getSelectedValues().size() > 0) {
 
             treeView.setRoot(createTreeView(personList));
 
@@ -141,7 +140,6 @@ public class Controller implements Initializable {
 
     private MFXTreeItem<String> createTreeView(ObservableList<Person> personList) {
 
-
         String name = personList.listIterator().next().getName();
         String surname = personList.listIterator().next().getSurname();
 
@@ -149,7 +147,7 @@ public class Controller implements Initializable {
 
         MFXTreeItem<String> educations = new MFXTreeItem<>("Educations");
 
-        if(personList.listIterator().next().getEducation() != null){
+        if (personList.listIterator().next().getEducation() != null) {
             for (int i = 0; i < personList.listIterator().next().getEducation().size(); i++) {
 
                 String educationName = personList.listIterator().next().getEducation().get(i).getName();
@@ -157,11 +155,8 @@ public class Controller implements Initializable {
                 String educationEndDate = personList.listIterator().next().getEducation().get(i).getEndDate();
 
                 MFXTreeItem<String> educationsName = new MFXTreeItem<>(educationName);
-                educationsName.getItems().addAll(List.of(
-                        new MFXTreeItem<>("Start Date: " + educationStartDate),
-                        new MFXTreeItem<>("End Date: " + educationEndDate)
-                ));
-                educations.getItems().addAll(List.of(educationsName));
+                educationsName.getItems().addAll(List.of(new MFXTreeItem<>("Start Date: " + educationStartDate), new MFXTreeItem<>("End Date: " + educationEndDate)));
+                educations.getItems().add(educationsName);
 
             }
         }
@@ -172,18 +167,13 @@ public class Controller implements Initializable {
             for (int i = 0; i < personList.listIterator().next().getExperiences().size(); i++) {
 
 
-
                 String title = personList.listIterator().next().getExperiences().get(i).getTitle();
                 String experienceStartDate = personList.listIterator().next().getExperiences().get(i).getStartDate();
                 String experienceEndDate = personList.listIterator().next().getPublications().get(i).getPublicationDate();
 
                 MFXTreeItem<String> experienceTitle = new MFXTreeItem<>(title);
-                experienceTitle.getItems().addAll(List.of(
-                        new MFXTreeItem<>("Start Date: " + experienceStartDate),
-                        new MFXTreeItem<>("End Date: " + experienceEndDate)
-                ));
-                experiences.getItems().addAll(List.of(experienceTitle));
-
+                experienceTitle.getItems().addAll(List.of(new MFXTreeItem<>("Start Date: " + experienceStartDate), new MFXTreeItem<>("End Date: " + experienceEndDate)));
+                experiences.getItems().add(experienceTitle);
 
 
             }
@@ -199,12 +189,8 @@ public class Controller implements Initializable {
                 String publicationDate = personList.listIterator().next().getPublications().get(i).getPublicationDate();
 
                 MFXTreeItem<String> publicationTitle = new MFXTreeItem<>(title);
-                publicationTitle.getItems().addAll(List.of(
-                        new MFXTreeItem<>("Publisher: " + publisher),
-                        new MFXTreeItem<>("Publication date: " + publicationDate)
-                ));
-                publications.getItems().addAll(List.of(publicationTitle));
-
+                publicationTitle.getItems().addAll(List.of(new MFXTreeItem<>("Publisher: " + publisher), new MFXTreeItem<>("Publication date: " + publicationDate)));
+                publications.getItems().add(publicationTitle);
 
 
             }
@@ -217,7 +203,7 @@ public class Controller implements Initializable {
 
                 String interestName = personList.listIterator().next().getInterests().get(i);
                 MFXTreeItem<String> interestsItem = new MFXTreeItem<>(interestName);
-                interests.getItems().addAll(List.of(interestsItem));
+                interests.getItems().add(interestsItem);
             }
         }
 
@@ -228,7 +214,7 @@ public class Controller implements Initializable {
 
                 String skillName = personList.listIterator().next().getSkills().get(i);
                 MFXTreeItem<String> skillsItem = new MFXTreeItem<>(skillName);
-                skills.getItems().addAll(List.of(skillsItem));
+                skills.getItems().add(skillsItem);
             }
         }
 
@@ -257,14 +243,7 @@ public class Controller implements Initializable {
         phoneColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getPhone));
 
         table.getTableColumns().addAll(idColumn, nameColumn, surnameColumn, dateOfBirthColumn, emailColumn, phoneColumn);
-        table.getFilters().addAll(
-                new IntegerFilter<>("ID", Person::getId),
-                new StringFilter<>("Name", Person::getName),
-                new StringFilter<>("Surname", Person::getSurname),
-                new StringFilter<>("Date of birth", Person::getBirthdate),
-                new StringFilter<>("Email", Person::getEmail),
-                new StringFilter<>("Phone", Person::getPhone)
-        );
+        table.getFilters().addAll(new IntegerFilter<>("ID", Person::getId), new StringFilter<>("Name", Person::getName), new StringFilter<>("Surname", Person::getSurname), new StringFilter<>("Date of birth", Person::getBirthdate), new StringFilter<>("Email", Person::getEmail), new StringFilter<>("Phone", Person::getPhone));
 
         personList = FXCollections.observableArrayList(DataManager.PullPersons());
 
@@ -275,46 +254,55 @@ public class Controller implements Initializable {
     private void onAdd() {
         Parent root;
         FXMLLoader loader;
+        AbstractMFXTreeItem treeItem = treeView.getSelectionModel().getSelectedItem();
         try {
+            if (treeItem.getData().equals("Educations")) {
 
-            loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addDialogPath)));
-            root = loader.load();
+                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addEducationDialogPath)));
+                root = loader.load();
 
-            AddDialogController a = loader.getController();
-            Stage add_stage = new Stage();
-            add_stage.setScene(new Scene(root));
-            add_stage.initStyle(StageStyle.TRANSPARENT);
-            a.setStage(stage);
-            add_stage.show();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initStyle(StageStyle.TRANSPARENT);
+                stage.show();
+            } else if (treeItem.getData().equals("Experiences")) {
+                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addExperienceDialogPath)));
+                root = loader.load();
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initStyle(StageStyle.TRANSPARENT);
+                stage.show();
+            } else if (treeItem.getData().equals("Publications")) {
+                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addPublicationDialogPath)));
+                root = loader.load();
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initStyle(StageStyle.TRANSPARENT);
+                stage.show();
+            } else {
+                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addDialogPath)));
+                root = loader.load();
+
+                AddDialogController a = loader.getController();
+                Stage add_stage = new Stage();
+                add_stage.setScene(new Scene(root));
+                add_stage.initStyle(StageStyle.TRANSPARENT);
+                a.setStage(stage);
+                add_stage.show();
+            }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void onAddAttribute() {
-        Parent root;
-        FXMLLoader loader;
-        try {
-
-            loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addAttributeDialogPath)));
-            root = loader.load();
-
-            AddDialogController a = loader.getController();
-
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void onEdit() {
         listValuesSelection = table.getSelectionModel().getSelection();
         personListSelection = FXCollections.observableArrayList(listValuesSelection.values());
-
-
 
         handleRowSelection();
         Parent root;
@@ -343,9 +331,9 @@ public class Controller implements Initializable {
         String q = "delete from Person where id = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,p.getId());
+            ps.setInt(1, p.getId());
 
-            if(ps.executeUpdate()>0){
+            if (ps.executeUpdate() > 0) {
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setContentText("Selected CV is deleted, successfully!");
@@ -353,7 +341,7 @@ public class Controller implements Initializable {
                 alert.showAndWait();
                 table.getItems().remove(p);
 
-            }else{
+            } else {
 
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Selected CV is not deleted, something went wrong!");

@@ -13,5 +13,7 @@ module com.example.cvdatabase {
     opens com.example.cvdatabase.Model to javafx.fxml;
     exports com.example.cvdatabase.Helpers;
     opens com.example.cvdatabase.Helpers to javafx.fxml;
+    exports com.example.cvdatabase.Controller.AddControllers;
+    opens com.example.cvdatabase.Controller.AddControllers to javafx.fxml;
 
 }

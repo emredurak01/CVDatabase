@@ -6,13 +6,10 @@ import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Person;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
-import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.font.MFXFontIcon;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -85,7 +82,7 @@ public class EditDialogController implements Initializable {
 
     private Stage stage;
 
-    public void setStage(Stage stage){
+    public void setStage(Stage stage) {
 
         this.stage = stage;
 
@@ -107,13 +104,13 @@ public class EditDialogController implements Initializable {
 
         StringBuilder interestString = new StringBuilder();
 
-        for(int i = 0; i < Controller.personListSelection.listIterator().next().getInterests().size(); i++) {
+        for (int i = 0; i < Controller.personListSelection.listIterator().next().getInterests().size(); i++) {
             interestString.append(Controller.personListSelection.listIterator().next().getInterests().get(i)).append(",");
         }
         interestString.setLength(interestString.length() - 1);
 
         StringBuilder skillString = new StringBuilder();
-        for(int i = 0; i < Controller.personListSelection.listIterator().next().getSkills().size(); i++) {
+        for (int i = 0; i < Controller.personListSelection.listIterator().next().getSkills().size(); i++) {
             skillString.append(Controller.personListSelection.listIterator().next().getSkills().get(i)).append(",");
         }
         skillString.setLength(skillString.length() - 1);
@@ -124,7 +121,7 @@ public class EditDialogController implements Initializable {
         editConfirmButton.setOnAction(actionEvent -> onEditConfirm(Controller.personListSelection));
     }
 
-    private void onEditConfirm(ObservableList<Person> personList){
+    private void onEditConfirm(ObservableList<Person> personList) {
         Person person;
         person = personList.listIterator().next();
         person.setName(nameField.getText());
@@ -136,14 +133,14 @@ public class EditDialogController implements Initializable {
         String q = "update person set name=?,surname=?,birthdate=?,email=?,phone=? where id = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setString(1,person.getName());
+            ps.setString(1, person.getName());
             ps.setString(2, person.getSurname());
             ps.setString(3, person.getBirthdate());
             ps.setString(4, person.getEmail());
             ps.setString(5, person.getPhone());
-            ps.setInt(6,person.getId());
+            ps.setInt(6, person.getId());
 
-            if(ps.executeUpdate() > 0){
+            if (ps.executeUpdate() > 0) {
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation");

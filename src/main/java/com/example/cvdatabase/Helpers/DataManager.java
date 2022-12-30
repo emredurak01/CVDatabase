@@ -43,6 +43,9 @@ public class DataManager {
                 skillsList.add(rs.getString("skills"));
                 d.setSkills(skillsList);
 
+                d.setEducation(new ArrayList<>());
+                d.setExperiences(new ArrayList<>());
+                d.setPublications(new ArrayList<>());
 
                 persons.add(d);
 

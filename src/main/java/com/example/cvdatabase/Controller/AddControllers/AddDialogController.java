@@ -1,7 +1,8 @@
-package com.example.cvdatabase.Controller;
+package com.example.cvdatabase.Controller.AddControllers;
 
 
 import com.example.cvdatabase.Application;
+import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -19,7 +20,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -92,7 +92,7 @@ public class AddDialogController implements Initializable {
 
     }
 
-    public void setStage(Stage stage){
+    public void setStage(Stage stage) {
 
         this.stage = stage;
 
@@ -149,7 +149,6 @@ public class AddDialogController implements Initializable {
 
 
     }
-
 
 
 }
