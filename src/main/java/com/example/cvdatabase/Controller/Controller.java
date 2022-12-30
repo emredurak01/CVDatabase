@@ -324,6 +324,8 @@ public class Controller implements Initializable {
             loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editDialogPath)));
             root = loader.load();
 
+            EditDialogController e = loader.getController();
+            e.setStage(stage);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.initStyle(StageStyle.TRANSPARENT);

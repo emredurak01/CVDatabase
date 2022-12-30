@@ -129,11 +129,10 @@ public class AddDialogController implements Initializable {
                 a.setStage(stage);
                 stage.setScene(scene);
                 stage.show();
-                System.out.println(a.personList.toString());
                 a.table.getItems().clear();
                 a.table.getTableColumns().clear();
                 a.createTable();
-                System.out.println(a.table.getItems().size());
+                addConfirmButton.getScene().getWindow().hide();
 
             } else {
 

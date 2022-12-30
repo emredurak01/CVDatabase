@@ -2,6 +2,7 @@ package com.example.cvdatabase.Controller;
 
 import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Helpers.Config;
+import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Person;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -17,12 +18,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -78,7 +83,13 @@ public class EditDialogController implements Initializable {
 
     private String name;
 
-    private Stage previousStage;
+    private Stage stage;
+
+    public void setStage(Stage stage){
+
+        this.stage = stage;
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -121,5 +132,47 @@ public class EditDialogController implements Initializable {
         person.setBirthdate(dateField.getText());
         person.setEmail(emailField.getText());
         person.setPhone(phoneField.getText());
+
+        String q = "update person set name=?,surname=?,birthdate=?,email=?,phone=? where id = ?";
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setString(1,person.getName());
+            ps.setString(2, person.getSurname());
+            ps.setString(3, person.getBirthdate());
+            ps.setString(4, person.getEmail());
+            ps.setString(5, person.getPhone());
+            ps.setInt(6,person.getId());
+
+            if(ps.executeUpdate() > 0){
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setContentText("This CV is updated,successfully!");
+                alert.showAndWait();
+                FXMLLoader loader;
+                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.mainPath)));
+                Parent root = loader.load();
+                Controller a = loader.getController();
+                Scene scene = new Scene(root);
+                a.setStage(stage);
+                stage.setScene(scene);
+                stage.show();
+                a.table.getItems().clear();
+                a.table.getTableColumns().clear();
+                a.createTable();
+                editConfirmButton.getScene().getWindow().hide();
+
+            } else {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("This CV is not updated!");
+                alert.showAndWait();
+            }
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
