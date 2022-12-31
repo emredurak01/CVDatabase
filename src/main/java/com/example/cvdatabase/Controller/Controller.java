@@ -28,6 +28,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableRow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -287,7 +288,7 @@ public class Controller implements Initializable {
     private void onAdd() {
         Parent root;
         FXMLLoader loader;
-        AbstractMFXTreeItem treeItem = treeView.getSelectionModel().getSelectedItem();
+        AbstractMFXTreeItem<String> treeItem = treeView.getSelectionModel().getSelectedItem();
         try {
             if (treeItem != null && treeItem.getData().equals("Educations")) {
 
@@ -351,13 +352,13 @@ public class Controller implements Initializable {
         listValuesSelection = table.getSelectionModel().getSelection();
         personListSelection = FXCollections.observableArrayList(listValuesSelection.values());
 
-        AbstractMFXTreeItem treeItem = treeView.getSelectionModel().getSelectedItem();
+        AbstractMFXTreeItem<String> treeItem = treeView.getSelectionModel().getSelectedItem();
 
         Parent root;
         FXMLLoader loader;
         try {
 
-            if (treeItem == null || treeItem.getData().equals(rootPerson.getName() +" " +rootPerson.getSurname())) {
+            if (treeItem == null || treeItem.getData().equals(rootPerson.getName() + " " + rootPerson.getSurname())) {
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editDialogPath)));
                 root = loader.load();
 
@@ -368,7 +369,7 @@ public class Controller implements Initializable {
                 stage.initStyle(StageStyle.TRANSPARENT);
                 stage.show();
             } else {
-                AbstractMFXTreeItem parent = treeItem.getItemParent();
+                AbstractMFXTreeItem<String> parent = treeItem.getItemParent();
                 rootPersonEdit = treeItem.getData();
 
                 if (treeItem != null && parent != null && parent.getData().equals("Educations")) {
@@ -411,8 +412,6 @@ public class Controller implements Initializable {
                     stage.setScene(new Scene(root));
                     stage.initStyle(StageStyle.TRANSPARENT);
                     stage.show();
-                } else {
-
                 }
             }
 
@@ -423,30 +422,74 @@ public class Controller implements Initializable {
     }
 
     private void onRemove() {
+        AbstractMFXTreeItem<String> treeItem = treeView.getSelectionModel().getSelectedItem();
+        if (treeItem == null || treeItem.getData().equals(rootPerson.getName() + " " + rootPerson.getSurname())) {
+            Person p = table.getSelectionModel().getSelectedValues().iterator().next();
 
+            String q = "delete from Person where id = ?";
+            try {
+                PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+                ps.setInt(1, p.getId());
 
-        Person p = table.getSelectionModel().getSelectedValues().iterator().next();
+                if (ps.executeUpdate() > 0) {
 
-        String q = "delete from Person where id = ?";
-        try {
-            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1, p.getId());
+                    Controller.createAlert("Selected CV deleted successfully.", "");
+                    table.getItems().remove(p);
 
-            if (ps.executeUpdate() > 0) {
+                } else {
 
-                Controller.createAlert("Selected CV deleted successfully.", "");
-                table.getItems().remove(p);
+                    Controller.createAlert("Selected CV could not be deleted, something went wrong.", "");
+                    table.getItems().remove(p);
 
-            } else {
+                }
 
-                Controller.createAlert("Selected CV could not be deleted, something went wrong.", "");
-                table.getItems().remove(p);
-
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
+        } else {
+            AbstractMFXTreeItem<String> parent = treeItem.getItemParent();
+            rootPersonEdit = treeItem.getData();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            if (treeItem != null && parent != null && parent.getData().equals("Educations")) {
+                for (int i = 0; i < rootPerson.getEducation().size(); i++) {
+                    if (rootPerson.getEducation().get(i).getName().equals(treeItem.getData())) {
+                        rootPerson.getEducation().remove(i);
+                        createAlert("Education deleted successfully", "");
+                    }
+                }
+            } else if (treeItem != null && parent != null && parent.getData().equals("Experiences")) {
+                for (int i = 0; i < rootPerson.getExperiences().size(); i++) {
+                    if (rootPerson.getExperiences().get(i).getTitle().equals(treeItem.getData())) {
+                        rootPerson.getExperiences().remove(i);
+                        createAlert("Experience deleted successfully", "");
+                    }
+                }
+            } else if (treeItem != null && parent != null && parent.getData().equals("Publications")) {
+                for (int i = 0; i < rootPerson.getPublications().size(); i++) {
+                    if (rootPerson.getPublications().get(i).getTitle().equals(treeItem.getData())) {
+                        rootPerson.getPublications().remove(i);
+                        createAlert("Publication deleted successfully", "");
+                    }
+                }
+            } else if (treeItem != null && parent != null && parent.getData().equals("Interests")) {
+                for (int i = 0; i < rootPerson.getInterests().size(); i++) {
+                    if (rootPerson.getInterests().get(i).equals(treeItem.getData())) {
+                        rootPerson.getInterests().remove(i);
+                        createAlert("Interest deleted successfully", "");
+                    }
+                }
+            } else if (treeItem != null && parent != null && parent.getData().equals("Skills")) {
+                for (int i = 0; i < rootPerson.getSkills().size(); i++) {
+                    if (rootPerson.getSkills().get(i).equals(treeItem.getData())) {
+                        rootPerson.getSkills().remove(i);
+                        createAlert("Skill deleted successfully", "");
+                    }
+                }
+            }
         }
+
+
+        ///////////////
 
 
     }
