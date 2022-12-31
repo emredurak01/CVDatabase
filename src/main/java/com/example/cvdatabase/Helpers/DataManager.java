@@ -5,6 +5,7 @@ import com.example.cvdatabase.Model.Person;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DataManager {
 
@@ -36,11 +37,11 @@ public class DataManager {
                 d.setBirthdate(rs.getString("birthdate"));
                 d.setEmail(rs.getString("email"));
                 d.setPhone(rs.getString("phone"));
-                ArrayList<String> interestsList = new ArrayList<>();
-                interestsList.add(rs.getString("interests"));
+
+                ArrayList<String> interestsList = new ArrayList<String>(Arrays.asList(rs.getString("interests").split(",")));
                 d.setInterests(interestsList);
-                ArrayList<String> skillsList = new ArrayList<>();
-                skillsList.add(rs.getString("skills"));
+
+                ArrayList<String> skillsList = new ArrayList<String>(Arrays.asList(rs.getString("skills").split(",")));
                 d.setSkills(skillsList);
 
                 d.setEducation(new ArrayList<>());

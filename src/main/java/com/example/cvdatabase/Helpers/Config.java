@@ -8,6 +8,8 @@ public class Config {
     public static String addEducationDialogPath = "View/addEducationDialog.fxml";
     public static String addExperienceDialogPath = "View/addExperienceDialog.fxml";
     public static String addPublicationDialogPath = "View/addPublicationDialog.fxml";
+    public static String addInterestDialogPath = "View/addInterestDialog.fxml";
+    public static String addSkillDialogPath = "View/addSkillDialog.fxml";
     public static String editDialogPath = "View/editDialog.fxml";
     public static String helpDialogPath = "View/helpDialog.fxml";
     public static String mainPath = "View/main.fxml";

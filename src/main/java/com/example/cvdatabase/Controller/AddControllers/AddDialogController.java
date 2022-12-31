@@ -117,10 +117,6 @@ public class AddDialogController implements Initializable {
 
             if (ps.executeUpdate() > 0) {
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation");
-                alert.setContentText("This CV is created,successfully!");
-                alert.showAndWait();
                 FXMLLoader loader;
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.mainPath)));
                 Parent root = loader.load();
@@ -134,12 +130,11 @@ public class AddDialogController implements Initializable {
                 a.createTable();
                 addConfirmButton.getScene().getWindow().hide();
 
+                Controller.createAlert("CV created successfully.", "");
+
             } else {
 
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setContentText("This CV is not created!");
-                alert.showAndWait();
+                Controller.createAlert("CV could not be created, something went wrong.", "");
             }
 
 

@@ -49,7 +49,7 @@ public class AddEducationController implements Initializable {
     private void onAddConfirm() {
         Education newEducation = new Education(nameField.getText(), startDateField.getText(), endDateField.getText());
         Controller.rootPerson.getEducation().add(newEducation);
-
+        Controller.createAlert("Education created successfully.", "");
     }
 
 

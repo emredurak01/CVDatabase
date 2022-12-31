@@ -6,11 +6,14 @@ import com.example.cvdatabase.Export;
 import com.example.cvdatabase.Helpers.Config;
 import com.example.cvdatabase.Helpers.DataManager;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
-import com.example.cvdatabase.Model.Education;
 import com.example.cvdatabase.Model.Person;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.base.AbstractMFXTreeItem;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
+import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
+import io.github.palexdev.materialfx.enums.ScrimPriority;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
 import io.github.palexdev.materialfx.filter.StringFilter;
 import io.github.palexdev.materialfx.font.MFXFontIcon;
@@ -24,10 +27,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -80,6 +83,27 @@ public class Controller implements Initializable {
         this.stage = stage;
     }
 
+    public static void createAlert(String content, String header) {
+        MFXGenericDialog dialogContent = MFXGenericDialogBuilder.build()
+                .setContentText(content).get();
+        MFXStageDialog dialog = MFXGenericDialogBuilder.build(dialogContent)
+                .toStageDialogBuilder()
+                .initModality(Modality.APPLICATION_MODAL)
+                .setDraggable(true)
+                .setTitle("Dialog")
+                .setScrimPriority(ScrimPriority.WINDOW)
+                .setScrimOwner(true)
+                .get();
+
+        dialogContent.setMaxSize(400, 200);
+
+        MFXFontIcon infoIcon = new MFXFontIcon("mfx-info-circle-filled", 18);
+        dialogContent.setHeaderIcon(infoIcon);
+
+        dialogContent.setHeaderText(header);
+        dialog.showDialog();
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -125,7 +149,6 @@ public class Controller implements Initializable {
         createTable();
 
     }
-
 
     private void handleRowSelection() {
         ObservableMap<Integer, Person> listValues = table.getSelectionModel().getSelection();
@@ -256,7 +279,7 @@ public class Controller implements Initializable {
         FXMLLoader loader;
         AbstractMFXTreeItem treeItem = treeView.getSelectionModel().getSelectedItem();
         try {
-            if (treeItem.getData().equals("Educations")) {
+            if (treeItem != null && treeItem.getData().equals("Educations")) {
 
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addEducationDialogPath)));
                 root = loader.load();
@@ -265,7 +288,7 @@ public class Controller implements Initializable {
                 stage.setScene(new Scene(root));
                 stage.initStyle(StageStyle.TRANSPARENT);
                 stage.show();
-            } else if (treeItem.getData().equals("Experiences")) {
+            } else if (treeItem != null && treeItem.getData().equals("Experiences")) {
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addExperienceDialogPath)));
                 root = loader.load();
 
@@ -273,8 +296,24 @@ public class Controller implements Initializable {
                 stage.setScene(new Scene(root));
                 stage.initStyle(StageStyle.TRANSPARENT);
                 stage.show();
-            } else if (treeItem.getData().equals("Publications")) {
+            } else if (treeItem != null && treeItem.getData().equals("Publications")) {
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addPublicationDialogPath)));
+                root = loader.load();
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initStyle(StageStyle.TRANSPARENT);
+                stage.show();
+            } else if (treeItem != null && treeItem.getData().equals("Interests")) {
+                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addInterestDialogPath)));
+                root = loader.load();
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initStyle(StageStyle.TRANSPARENT);
+                stage.show();
+            } else if (treeItem != null && treeItem.getData().equals("Skills")) {
+                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addSkillDialogPath)));
                 root = loader.load();
 
                 Stage stage = new Stage();
@@ -293,12 +332,10 @@ public class Controller implements Initializable {
                 add_stage.show();
             }
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     private void onEdit() {
         listValuesSelection = table.getSelectionModel().getSelection();
@@ -335,18 +372,13 @@ public class Controller implements Initializable {
 
             if (ps.executeUpdate() > 0) {
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Selected CV is deleted, successfully!");
-                alert.setTitle("Confirmation");
-                alert.showAndWait();
+                Controller.createAlert("Selected CV deleted successfully.", "");
                 table.getItems().remove(p);
 
             } else {
 
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Selected CV is not deleted, something went wrong!");
-                alert.setTitle("Error");
-                alert.showAndWait();
+                Controller.createAlert("Selected CV could not be deleted, something went wrong.", "");
+                table.getItems().remove(p);
 
             }
 

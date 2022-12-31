@@ -47,6 +47,6 @@ public class AddExperienceController implements Initializable {
     private void onAddConfirm() {
         Experience newExperience = new Experience(titleField.getText(), startDateField.getText(), endDateField.getText());
         Controller.rootPerson.getExperiences().add(newExperience);
-
+        Controller.createAlert("Experience created successfully.", "");
     }
 }
