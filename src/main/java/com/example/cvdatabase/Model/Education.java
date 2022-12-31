@@ -14,6 +14,9 @@ public class Education {
         this.endDate = endDate;
     }
 
+    public Education() {
+    }
+
     public String getName() {
         return name;
     }

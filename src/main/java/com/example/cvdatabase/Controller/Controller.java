@@ -2,6 +2,7 @@ package com.example.cvdatabase.Controller;
 
 import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.AddControllers.AddDialogController;
+import com.example.cvdatabase.Controller.EditControllers.EditDialogController;
 import com.example.cvdatabase.Export;
 import com.example.cvdatabase.Helpers.Config;
 import com.example.cvdatabase.Helpers.DataManager;
@@ -43,6 +44,7 @@ import java.util.*;
 public class Controller implements Initializable {
     public static ObservableList<Person> personListSelection;
     public static Person rootPerson;
+    public static Object rootPersonEdit;
     private static ObservableMap<Integer, Person> listValuesSelection;
     public Stage stage;
     @FXML
@@ -84,16 +86,8 @@ public class Controller implements Initializable {
     }
 
     public static void createAlert(String content, String header) {
-        MFXGenericDialog dialogContent = MFXGenericDialogBuilder.build()
-                .setContentText(content).get();
-        MFXStageDialog dialog = MFXGenericDialogBuilder.build(dialogContent)
-                .toStageDialogBuilder()
-                .initModality(Modality.APPLICATION_MODAL)
-                .setDraggable(true)
-                .setTitle("Dialog")
-                .setScrimPriority(ScrimPriority.WINDOW)
-                .setScrimOwner(true)
-                .get();
+        MFXGenericDialog dialogContent = MFXGenericDialogBuilder.build().setContentText(content).get();
+        MFXStageDialog dialog = MFXGenericDialogBuilder.build(dialogContent).toStageDialogBuilder().initModality(Modality.APPLICATION_MODAL).setDraggable(true).setTitle("Dialog").setScrimPriority(ScrimPriority.WINDOW).setScrimOwner(true).get();
 
         dialogContent.setMaxSize(400, 200);
 
@@ -192,7 +186,7 @@ public class Controller implements Initializable {
 
                 String title = personList.listIterator().next().getExperiences().get(i).getTitle();
                 String experienceStartDate = personList.listIterator().next().getExperiences().get(i).getStartDate();
-                String experienceEndDate = personList.listIterator().next().getPublications().get(i).getPublicationDate();
+                String experienceEndDate = personList.listIterator().next().getExperiences().get(i).getEndDate();
 
                 MFXTreeItem<String> experienceTitle = new MFXTreeItem<>(title);
                 experienceTitle.getItems().addAll(List.of(new MFXTreeItem<>("Start Date: " + experienceStartDate), new MFXTreeItem<>("End Date: " + experienceEndDate)));
@@ -341,20 +335,72 @@ public class Controller implements Initializable {
         listValuesSelection = table.getSelectionModel().getSelection();
         personListSelection = FXCollections.observableArrayList(listValuesSelection.values());
 
-        handleRowSelection();
+        AbstractMFXTreeItem treeItem = treeView.getSelectionModel().getSelectedItem();
+
         Parent root;
         FXMLLoader loader;
         try {
 
-            loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editDialogPath)));
-            root = loader.load();
+            if (treeItem == null || treeItem.getData().equals(rootPerson.getName() +" " +rootPerson.getSurname())) {
+                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editDialogPath)));
+                root = loader.load();
 
-            EditDialogController e = loader.getController();
-            e.setStage(stage);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.show();
+                EditDialogController e = loader.getController();
+                e.setStage(stage);
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initStyle(StageStyle.TRANSPARENT);
+                stage.show();
+            } else {
+                AbstractMFXTreeItem parent = treeItem.getItemParent();
+                rootPersonEdit = treeItem.getData();
+
+                if (treeItem != null && parent != null && parent.getData().equals("Educations")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editEducationDialogPath)));
+                    root = loader.load();
+
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.show();
+                } else if (treeItem != null && parent != null && parent.getData().equals("Experiences")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editExperienceDialogPath)));
+                    root = loader.load();
+
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.show();
+                } else if (treeItem != null && parent != null && parent.getData().equals("Publications")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editPublicationDialogPath)));
+                    root = loader.load();
+
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.show();
+                } else if (treeItem != null && parent != null && parent.getData().equals("Interests") || treeItem.getData().equals("Interests")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editDialogPath)));
+                    root = loader.load();
+
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.show();
+                } else if (treeItem != null && parent != null && parent.getData().equals("Skills") || treeItem.getData().equals("Skills")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editDialogPath)));
+                    root = loader.load();
+
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.show();
+                } else {
+
+                }
+            }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }

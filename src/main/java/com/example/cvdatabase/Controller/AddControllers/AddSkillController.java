@@ -47,6 +47,6 @@ public class AddSkillController implements Initializable {
         for(int i = 0; i < skillsList.size(); i++) {
             Controller.rootPerson.getSkills().add(skillsList.get(i));
         }
-        Controller.createAlert("Skills created successfully.", "");
+        Controller.createAlert("Skills added successfully.", "");
     }
 }

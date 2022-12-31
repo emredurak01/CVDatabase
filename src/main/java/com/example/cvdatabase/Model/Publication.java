@@ -14,6 +14,9 @@ public class Publication {
         this.publicationDate = publicationDate;
     }
 
+    public Publication() {
+    }
+
     // Getters & Setters
     public int getId() {
         return id;

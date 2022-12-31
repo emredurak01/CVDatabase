@@ -1,6 +1,7 @@
-package com.example.cvdatabase.Controller;
+package com.example.cvdatabase.Controller.EditControllers;
 
 import com.example.cvdatabase.Application;
+import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Person;
@@ -25,6 +26,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -129,8 +132,26 @@ public class EditDialogController implements Initializable {
         person.setBirthdate(dateField.getText());
         person.setEmail(emailField.getText());
         person.setPhone(phoneField.getText());
+        ArrayList<String> interestsList = new ArrayList<>(Arrays.asList(interestsField.getText().split(",")));
+        person.setInterests(interestsList);
+        ArrayList<String> skillsList = new ArrayList<>(Arrays.asList(skillsField.getText().split(",")));
+        person.setInterests(skillsList);
 
-        String q = "update person set name=?,surname=?,birthdate=?,email=?,phone=? where id = ?";
+        StringBuilder interestString = new StringBuilder();
+        for(int i = 0; i < interestsList.size(); i++) {
+            interestString.append(interestsList.get(i)).append(",");
+        }
+        interestString.setLength(interestString.length() - 1);
+
+
+        StringBuilder skillString = new StringBuilder();
+        for(int i = 0; i < skillsList.size(); i++) {
+            skillString.append(skillsList.get(i)).append(",");
+        }
+        skillString.setLength(skillString.length() - 1);
+
+
+        String q = "update person set name=?,surname=?,birthdate=?,email=?,phone=?,interests=?,skills=? where id = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
             ps.setString(1, person.getName());
@@ -138,14 +159,13 @@ public class EditDialogController implements Initializable {
             ps.setString(3, person.getBirthdate());
             ps.setString(4, person.getEmail());
             ps.setString(5, person.getPhone());
-            ps.setInt(6, person.getId());
+            ps.setString(6, String.valueOf(interestString));
+            ps.setString(7, String.valueOf(skillString));
+            ps.setInt(8, person.getId());
 
             if (ps.executeUpdate() > 0) {
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation");
-                alert.setContentText("This CV is updated,successfully!");
-                alert.showAndWait();
+                Controller.createAlert("CV updated successfully", "");
                 FXMLLoader loader;
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.mainPath)));
                 Parent root = loader.load();
@@ -161,10 +181,7 @@ public class EditDialogController implements Initializable {
 
             } else {
 
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setContentText("This CV is not updated!");
-                alert.showAndWait();
+                Controller.createAlert("CV could not be created.", "");
             }
 
         } catch (SQLException | IOException e) {

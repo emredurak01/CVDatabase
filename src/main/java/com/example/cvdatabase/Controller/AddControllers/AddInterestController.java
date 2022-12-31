@@ -48,7 +48,7 @@ public class AddInterestController implements Initializable {
         for(int i = 0; i < interestsList.size(); i++) {
             Controller.rootPerson.getInterests().add(interestsList.get(i));
         }
-        Controller.createAlert("Interests created successfully.", "");
+        Controller.createAlert("Interests added successfully.", "");
 
 
     }

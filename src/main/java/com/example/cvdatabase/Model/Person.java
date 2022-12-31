@@ -16,12 +16,11 @@ public class Person {
     private ArrayList<String> skills;
     private ArrayList<Tag> tags;
 
-    public Person(){
+    public Person() {
 
     }
 
-    public Person(String name, String surname, String birthdate, String email, String phone, ArrayList<Education> education,ArrayList<Experience> experiences,
-                  ArrayList<Publication> publications , ArrayList<String> interests,ArrayList<String> skills) {
+    public Person(String name, String surname, String birthdate, String email, String phone, ArrayList<Education> education, ArrayList<Experience> experiences, ArrayList<Publication> publications, ArrayList<String> interests, ArrayList<String> skills) {
         this.name = name;
         this.surname = surname;
         this.birthdate = birthdate;
@@ -36,8 +35,7 @@ public class Person {
 
     }
 
-    public Person(String name, String surname, String birthdate, String email, String phone, ArrayList<String> interests,
-                  ArrayList<String> skills) {
+    public Person(String name, String surname, String birthdate, String email, String phone, ArrayList<String> interests, ArrayList<String> skills) {
         this.name = name;
         this.surname = surname;
         this.birthdate = birthdate;
@@ -151,9 +149,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                '}';
+        return "Person{" + "name='" + name + '\'' + ", surname='" + surname + '\'' + '}';
     }
 }

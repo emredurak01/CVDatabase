@@ -14,6 +14,9 @@ public class Experience {
         this.endDate = endDate;
     }
 
+    public Experience() {
+    }
+
     // Getters & Setters
     public int getId() {
         return id;
