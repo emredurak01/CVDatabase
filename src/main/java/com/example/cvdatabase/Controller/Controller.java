@@ -2,6 +2,7 @@ package com.example.cvdatabase.Controller;
 
 import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.AddControllers.AddDialogController;
+import com.example.cvdatabase.Controller.AddControllers.AddTagController;
 import com.example.cvdatabase.Controller.EditControllers.EditDialogController;
 import com.example.cvdatabase.Export;
 import com.example.cvdatabase.Helpers.Config;
@@ -335,10 +336,12 @@ public class Controller implements Initializable {
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addTagDialogPath)));
                 root = loader.load();
 
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.initStyle(StageStyle.TRANSPARENT);
-                stage.show();
+                AddTagController a = loader.getController();
+                Stage tag_stage = new Stage();
+                tag_stage.setScene(new Scene(root));
+                tag_stage.initStyle(StageStyle.TRANSPARENT);
+                a.setStage(stage);
+                tag_stage.show();
             }else {
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addDialogPath)));
                 root = loader.load();
