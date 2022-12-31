@@ -331,7 +331,15 @@ public class Controller implements Initializable {
                 stage.setScene(new Scene(root));
                 stage.initStyle(StageStyle.TRANSPARENT);
                 stage.show();
-            } else {
+            } else if (treeItem != null && treeItem.getData().equals("Tags")) {
+                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addTagDialogPath)));
+                root = loader.load();
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initStyle(StageStyle.TRANSPARENT);
+                stage.show();
+            }else {
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addDialogPath)));
                 root = loader.load();
 

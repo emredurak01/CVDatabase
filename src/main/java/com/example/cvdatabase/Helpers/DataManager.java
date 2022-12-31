@@ -2,6 +2,7 @@ package com.example.cvdatabase.Helpers;
 
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Model.*;
+import org.sqlite.SQLiteUpdateListener;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -63,9 +64,9 @@ public class DataManager {
 
                 if(ps1.executeUpdate() > 0){
 
-
                     ps2.setInt(1,personID);
                     ps2.setInt(2,PullTagByName(tag.getName()).getId());
+
 
                     if(ps2.executeUpdate() > 0){
 
@@ -119,7 +120,7 @@ public class DataManager {
             ps1.setInt(1,personID);
             ResultSet rs = ps1.executeQuery();
 
-            if(rs.next()){
+            while(rs.next()){
 
                 ps2.setInt(1,rs.getInt("tag_id"));
                 ResultSet rs2 = ps2.executeQuery();

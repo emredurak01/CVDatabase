@@ -10,6 +10,7 @@ public class Config {
     public static String addPublicationDialogPath = "View/addPublicationDialog.fxml";
     public static String addInterestDialogPath = "View/addInterestDialog.fxml";
     public static String addSkillDialogPath = "View/addSkillDialog.fxml";
+    public static String addTagDialogPath = "View/addTagDialog.fxml";
     public static String editDialogPath = "View/editDialog.fxml";
     public static String editEducationDialogPath = "View/editEducationDialog.fxml";
     public static String editExperienceDialogPath = "View/editExperienceDialog.fxml";

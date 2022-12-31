@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class DatabaseConnector {
 
-    private Connection connection = null;
+    private static Connection connection = null;
     File file = new File(Config.DB_FILE_NAME);
     boolean firstRun = !file.exists();
 
@@ -21,87 +21,93 @@ public class DatabaseConnector {
 
             if (firstRun) {
                 Statement stat = connection.createStatement();
-                stat.executeUpdate("CREATE TABLE Person\n" +
-                        "(\n" +
-                        "    id        integer\n" +
-                        "        constraint Person_pk\n" +
-                        "            primary key autoincrement,\n" +
-                        "    name      text,\n" +
-                        "    surname   text,\n" +
-                        "    birthdate text,\n" +
-                        "    email     text,\n" +
-                        "    phone     text,\n" +
-                        "    about_me  text\n" +
-                        ", interests text, skills text)");
+                stat.executeUpdate("""
+                        CREATE TABLE Person
+                        (
+                            id        integer
+                                constraint Person_pk
+                                    primary key autoincrement,
+                            name      text,
+                            surname   text,
+                            birthdate text,
+                            email     text,
+                            phone     text,
+                            about_me  text
+                        , interests text, skills text)""");
 
-                stat.executeUpdate("CREATE TABLE \"Education\"\n" +
-                        "(\n" +
-                        "    id          INTEGER\n" +
-                        "        constraint Education_pk\n" +
-                        "            primary key autoincrement,\n" +
-                        "    person_id   INTEGER\n" +
-                        "        constraint education_fk\n" +
-                        "            references Person\n" +
-                        "            on update cascade on delete cascade,\n" +
-                        "    school_name TEXT,\n" +
-                        "    degree      TEXT,\n" +
-                        "    study_field TEXT,\n" +
-                        "    start_date  TEXT,\n" +
-                        "    end_date    TEXT\n" +
-                        ")");
-                stat.executeUpdate("CREATE TABLE Experience\n" +
-                        "(\n" +
-                        "    id              integer\n" +
-                        "        constraint Experience_pk\n" +
-                        "            primary key autoincrement,\n" +
-                        "    person_id       integer\n" +
-                        "        constraint experience_fk\n" +
-                        "            references Person\n" +
-                        "            on update cascade on delete cascade,\n" +
-                        "    title           text,\n" +
-                        "    employment_type text,\n" +
-                        "    company_name    text,\n" +
-                        "    location        text,\n" +
-                        "    location_type   text,\n" +
-                        "    industry        text,\n" +
-                        "    description     text,\n" +
-                        "    start_date      text,\n" +
-                        "    end_date        text\n" +
-                        ")");
-                stat.executeUpdate("CREATE TABLE Publication\n" +
-                        "(\n" +
-                        "    id               integer\n" +
-                        "        constraint Publication_pk\n" +
-                        "            primary key autoincrement,\n" +
-                        "    person_id        integer\n" +
-                        "        constraint publication_fk\n" +
-                        "            references Person\n" +
-                        "            on update cascade on delete cascade,\n" +
-                        "    title            text,\n" +
-                        "    publisher        text,\n" +
-                        "    publication_date text\n" +
-                        ")");
+                stat.executeUpdate("""
+                        CREATE TABLE "Education"
+                        (
+                            id          INTEGER
+                                constraint Education_pk
+                                    primary key autoincrement,
+                            person_id   INTEGER
+                                constraint education_fk
+                                    references Person
+                                    on update cascade on delete cascade,
+                            school_name TEXT,
+                            degree      TEXT,
+                            study_field TEXT,
+                            start_date  TEXT,
+                            end_date    TEXT
+                        )""");
+                stat.executeUpdate("""
+                        CREATE TABLE Experience
+                        (
+                            id              integer
+                                constraint Experience_pk
+                                    primary key autoincrement,
+                            person_id       integer
+                                constraint experience_fk
+                                    references Person
+                                    on update cascade on delete cascade,
+                            title           text,
+                            employment_type text,
+                            company_name    text,
+                            location        text,
+                            location_type   text,
+                            industry        text,
+                            description     text,
+                            start_date      text,
+                            end_date        text
+                        )""");
+                stat.executeUpdate("""
+                        CREATE TABLE Publication
+                        (
+                            id               integer
+                                constraint Publication_pk
+                                    primary key autoincrement,
+                            person_id        integer
+                                constraint publication_fk
+                                    references Person
+                                    on update cascade on delete cascade,
+                            title            text,
+                            publisher        text,
+                            publication_date text
+                        )""");
 
-                stat.executeUpdate("create table Tag\n" +
-                        "(\n" +
-                        "    id   INTEGER\n" +
-                        "        constraint Tag_pk\n" +
-                        "            primary key autoincrement,\n" +
-                        "    name TEXT\n" +
-                        ")");
+                stat.executeUpdate("""
+                        create table Tag
+                        (
+                            id   INTEGER
+                                constraint Tag_pk
+                                    primary key autoincrement,
+                            name TEXT
+                        )""");
 
-                stat.executeUpdate("create table TagMap\n" +
-                        "(\n" +
-                        "    id        INTEGER\n" +
-                        "        constraint TagMap_pk\n" +
-                        "            primary key autoincrement,\n" +
-                        "    person_id INTEGER\n" +
-                        "        references Person\n" +
-                        "            on update cascade on delete cascade,\n" +
-                        "    tag_id    INTEGER\n" +
-                        "        references Tag\n" +
-                        "            on update cascade on delete cascade\n" +
-                        ")");
+                stat.executeUpdate("""
+                        create table TagMap
+                        (
+                            id        INTEGER
+                                constraint TagMap_pk
+                                    primary key autoincrement,
+                            person_id INTEGER
+                                references Person
+                                    on update cascade on delete cascade,
+                            tag_id    INTEGER
+                                references Tag
+                                    on update cascade on delete cascade
+                        )""");
 
             }
 
@@ -117,8 +123,12 @@ public class DatabaseConnector {
 
     public static Connection getInstance() {
 
-        DatabaseConnector dbConnector = new DatabaseConnector();
-        return dbConnector.connectDB();
+        if(connection == null){
+            DatabaseConnector dbConnector = new DatabaseConnector();
+            connection = dbConnector.connectDB();
+        }
+
+        return connection;
 
     }
 
