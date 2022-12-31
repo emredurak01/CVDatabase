@@ -1,6 +1,8 @@
 package com.example.cvdatabase.Controller.AddControllers;
 
 import com.example.cvdatabase.Controller.Controller;
+import com.example.cvdatabase.Helpers.DataManager;
+import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Education;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -14,6 +16,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AddEducationController implements Initializable {
@@ -49,7 +53,29 @@ public class AddEducationController implements Initializable {
     private void onAddConfirm() {
         Education newEducation = new Education(nameField.getText(), startDateField.getText(), endDateField.getText());
         Controller.rootPerson.getEducation().add(newEducation);
-        Controller.createAlert("Education created successfully.", "");
+
+        String q = "insert into Education(person_id,school_name,start_date,end_date) values(?,?,?,?)";
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setInt(1,Controller.rootPerson.getId());
+            ps.setString(2, newEducation.getName());
+            ps.setString(3, newEducation.getStartDate());
+            ps.setString(4, newEducation.getEndDate());
+
+            if(ps.executeUpdate() > 0){
+
+                Controller.createAlert("Education is created for the selected CV","");
+
+            }else{
+
+                Controller.createAlert("An Error occurred.","Error");
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

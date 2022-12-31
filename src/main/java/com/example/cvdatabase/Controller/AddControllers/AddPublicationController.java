@@ -1,6 +1,7 @@
 package com.example.cvdatabase.Controller.AddControllers;
 
 import com.example.cvdatabase.Controller.Controller;
+import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Experience;
 import com.example.cvdatabase.Model.Publication;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -15,6 +16,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AddPublicationController implements Initializable {
@@ -47,5 +50,27 @@ public class AddPublicationController implements Initializable {
         Publication newPublication = new Publication(titleField.getText(), publisherField.getText(), publicationDateField.getText());
         Controller.rootPerson.getPublications().add(newPublication);
         Controller.createAlert("Publication created successfully.", "");
+
+        String q = "insert into Publication(person_id,title,publisher,publication_date) values(?,?,?,?)";
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setInt(1,Controller.rootPerson.getId());
+            ps.setString(2,newPublication.getTitle());
+            ps.setString(3, newPublication.getPublisher());
+            ps.setString(4, newPublication.getPublicationDate());
+            if(ps.executeUpdate() > 0){
+
+                Controller.createAlert("Publication added successfully.", "");
+
+            }else{
+
+                Controller.createAlert("Error occurred.", "Error");
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -17,7 +17,7 @@ public class Person {
     private ArrayList<Tag> tags;
 
     public Person() {
-
+        this.tags = new ArrayList<>();
     }
 
     public Person(String name, String surname, String birthdate, String email, String phone, ArrayList<Education> education, ArrayList<Experience> experiences, ArrayList<Publication> publications, ArrayList<String> interests, ArrayList<String> skills) {
@@ -31,8 +31,7 @@ public class Person {
         this.publications = publications;
         this.interests = interests;
         this.skills = skills;
-
-
+        this.tags = new ArrayList<>();
     }
 
     public Person(String name, String surname, String birthdate, String email, String phone, ArrayList<String> interests, ArrayList<String> skills) {
@@ -43,12 +42,32 @@ public class Person {
         this.phone = phone;
         this.interests = interests;
         this.skills = skills;
+        this.tags = new ArrayList<>();
     }
 
     public void addEducation(Education education) {
         getEducation().add(education);
     }
 
+    public String getTagsAsString(){
+
+        String tagsString = "No Tags";
+
+        if(this.tags.size() > 0){
+
+            tagsString = "";
+
+            for (Tag tag:this.tags){
+
+                tagsString = tagsString.concat("#" + tag.getName() + "    ");
+
+            }
+
+        }
+
+
+        return tagsString;
+    }
 
     public int getId() {
         return id;

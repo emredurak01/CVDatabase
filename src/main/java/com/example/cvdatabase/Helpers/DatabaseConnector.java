@@ -81,6 +81,28 @@ public class DatabaseConnector {
                         "    publisher        text,\n" +
                         "    publication_date text\n" +
                         ")");
+
+                stat.executeUpdate("create table Tag\n" +
+                        "(\n" +
+                        "    id   INTEGER\n" +
+                        "        constraint Tag_pk\n" +
+                        "            primary key autoincrement,\n" +
+                        "    name TEXT\n" +
+                        ")");
+
+                stat.executeUpdate("create table TagMap\n" +
+                        "(\n" +
+                        "    id        INTEGER\n" +
+                        "        constraint TagMap_pk\n" +
+                        "            primary key autoincrement,\n" +
+                        "    person_id INTEGER\n" +
+                        "        references Person\n" +
+                        "            on update cascade on delete cascade,\n" +
+                        "    tag_id    INTEGER\n" +
+                        "        references Tag\n" +
+                        "            on update cascade on delete cascade\n" +
+                        ")");
+
             }
 
             System.out.println("Connection to SQLite has been established.");

@@ -235,7 +235,19 @@ public class Controller implements Initializable {
             }
         }
 
-        root.getItems().addAll(List.of(educations, experiences, publications, interests, skills));
+        MFXTreeItem<String> tags = new MFXTreeItem<>("Tags");
+
+        for (int i = 0; i < personList.listIterator().next().getTags().size(); i++) {
+            if (personList.listIterator().next().getTags() != null) {
+
+                String tagName = personList.listIterator().next().getTags().get(i).getName();
+                MFXTreeItem<String> tagItem = new MFXTreeItem<>(tagName);
+                tags.getItems().add(tagItem);
+            }
+        }
+
+
+        root.getItems().addAll(List.of(educations, experiences, publications, interests, skills,tags));
 
 
         return root;
@@ -251,6 +263,8 @@ public class Controller implements Initializable {
         MFXTableColumn<Person> dateOfBirthColumn = new MFXTableColumn<>("Date of birth", true, Comparator.comparing(Person::getBirthdate));
         MFXTableColumn<Person> emailColumn = new MFXTableColumn<>("Email", true, Comparator.comparing(Person::getEmail));
         MFXTableColumn<Person> phoneColumn = new MFXTableColumn<>("Phone", true, Comparator.comparing(Person::getPhone));
+        MFXTableColumn<Person> tagsColumn = new MFXTableColumn<>("Tags", true, Comparator.comparing(Person::getTagsAsString));
+
 
         idColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getId));
         nameColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getName));
@@ -258,11 +272,13 @@ public class Controller implements Initializable {
         dateOfBirthColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getBirthdate));
         emailColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getEmail));
         phoneColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getPhone));
+        tagsColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getTagsAsString));
 
-        table.getTableColumns().addAll(idColumn, nameColumn, surnameColumn, dateOfBirthColumn, emailColumn, phoneColumn);
-        table.getFilters().addAll(new IntegerFilter<>("ID", Person::getId), new StringFilter<>("Name", Person::getName), new StringFilter<>("Surname", Person::getSurname), new StringFilter<>("Date of birth", Person::getBirthdate), new StringFilter<>("Email", Person::getEmail), new StringFilter<>("Phone", Person::getPhone));
 
-        personList = FXCollections.observableArrayList(DataManager.PullPersons());
+        table.getTableColumns().addAll(idColumn, nameColumn, surnameColumn, dateOfBirthColumn, emailColumn, phoneColumn,tagsColumn);
+        table.getFilters().addAll(new IntegerFilter<>("ID", Person::getId), new StringFilter<>("Name", Person::getName), new StringFilter<>("Surname", Person::getSurname), new StringFilter<>("Date of birth", Person::getBirthdate), new StringFilter<>("Email", Person::getEmail), new StringFilter<>("Phone", Person::getPhone),new StringFilter<>("Tag", Person::getTagsAsString));
+
+        personList = FXCollections.observableArrayList(DataManager.getInstance().PullPersons());
 
         table.setItems(personList);
         table.update();

@@ -1,6 +1,7 @@
 package com.example.cvdatabase.Controller.AddControllers;
 
 import com.example.cvdatabase.Controller.Controller;
+import com.example.cvdatabase.Helpers.DatabaseConnector;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
@@ -12,6 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -49,6 +52,25 @@ public class AddInterestController implements Initializable {
             Controller.rootPerson.getInterests().add(interestsList.get(i));
         }
         Controller.createAlert("Interests added successfully.", "");
+
+        String q = "update Person set interests = ? where id = ?";
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setString(1,interestsList.toString());
+            ps.setInt(2,Controller.rootPerson.getId());
+            if(ps.executeUpdate() > 0){
+
+                Controller.createAlert("Interests data added successfully.", "");
+
+            }else{
+
+                Controller.createAlert("Error occurred.", "Error");
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
     }
