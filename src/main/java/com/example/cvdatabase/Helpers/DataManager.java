@@ -308,5 +308,51 @@ public class DataManager {
 
     }
 
+    public void DeletePublication(int personID){
+
+        String q = "delete from Publication where person_id = ?";
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setInt(1,personID);
+            if (ps.executeUpdate()>0){
+
+                Controller.createAlert("Deleted successfully.","Remove Publication");
+
+            }else{
+
+                Controller.createAlert("An error occurred.","Error");
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void DeleteTag(int personID,int tagID){
+
+        String q = "delete from TagMap where person_id = ? and tag_id = ?";
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setInt(1,personID);
+            ps.setInt(2,tagID);
+            if (ps.executeUpdate()>0){
+
+                Controller.createAlert("Deleted successfully.","Remove Tag");
+
+            }else{
+
+                Controller.createAlert("An error occurred.","Error");
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 
 }

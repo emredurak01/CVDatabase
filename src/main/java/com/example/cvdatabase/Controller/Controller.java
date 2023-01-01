@@ -8,6 +8,7 @@ import com.example.cvdatabase.Helpers.Config;
 import com.example.cvdatabase.Helpers.DataManager;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Person;
+import com.example.cvdatabase.Model.Tag;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.base.AbstractMFXTreeItem;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
@@ -536,7 +537,8 @@ public class Controller implements Initializable {
                 for (int i = 0; i < rootPerson.getPublications().size(); i++) {
                     if (rootPerson.getPublications().get(i).getTitle().equals(treeItem.getData())) {
                         rootPerson.getPublications().remove(i);
-                        createAlert("Publication deleted successfully", "");
+                        DataManager.getInstance().DeletePublication(rootPerson.getId());
+                        //createAlert("Publication deleted successfully", "");
                     }
                 }
             } else if (parent != null && parent.getData().equals("Interests")) {
@@ -556,8 +558,10 @@ public class Controller implements Initializable {
             } else if (parent != null && parent.getData().equals("Tags")) {
                 for (int i = 0; i < rootPerson.getTags().size(); i++) {
                     if (rootPerson.getTags().get(i).getName().equals(treeItem.getData())) {
+                        Tag tag = rootPerson.getTags().get(i);
+                        DataManager.getInstance().DeleteTag(rootPerson.getId(),DataManager.getInstance().PullTagByName(tag.getName()).getId());
                         rootPerson.getTags().remove(i);
-                        createAlert("Tag deleted successfully", "");
+                        //createAlert("Tag deleted successfully", "");
                     }
                 }
             }
