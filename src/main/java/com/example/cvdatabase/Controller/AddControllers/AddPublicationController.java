@@ -49,7 +49,7 @@ public class AddPublicationController implements Initializable {
     private void onAddConfirm() {
         Publication newPublication = new Publication(titleField.getText(), publisherField.getText(), publicationDateField.getText());
         Controller.rootPerson.getPublications().add(newPublication);
-        Controller.createAlert("Publication created successfully.", "");
+
 
         String q = "insert into Publication(person_id,title,publisher,publication_date) values(?,?,?,?)";
         try {
@@ -60,7 +60,7 @@ public class AddPublicationController implements Initializable {
             ps.setString(4, newPublication.getPublicationDate());
             if(ps.executeUpdate() > 0){
 
-                Controller.createAlert("Publication added successfully.", "");
+                Controller.createAlert("Publication created successfully.", "");
 
             }else{
 

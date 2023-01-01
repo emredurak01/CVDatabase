@@ -9,6 +9,9 @@ public class Tag {
         this.name = name;
     }
 
+    public Tag() {
+    }
+
     // Getters & Setters
     public int getId() {
         return id;

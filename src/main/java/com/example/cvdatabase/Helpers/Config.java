@@ -15,6 +15,7 @@ public class Config {
     public static String editEducationDialogPath = "View/editEducationDialog.fxml";
     public static String editExperienceDialogPath = "View/editExperienceDialog.fxml";
     public static String editPublicationDialogPath = "View/editPublicationDialog.fxml";
+    public static String editTagDialogPath = "View/editTagDialog.fxml";
     public static String helpDialogPath = "View/helpDialog.fxml";
     public static String mainPath = "View/main.fxml";
 }

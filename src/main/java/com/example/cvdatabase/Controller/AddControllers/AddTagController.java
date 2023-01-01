@@ -33,11 +33,15 @@ public class AddTagController implements Initializable {
 
     @FXML
     private MFXGenericDialog rootPane;
-
+    @FXML
     public MFXTextField tagNameField;
+    @FXML
     public MFXButton addConfirmButton;
+    @FXML
     public HBox windowHeader;
+    @FXML
     public MFXFontIcon minimizeIcon;
+    @FXML
     public MFXFontIcon closeIcon;
 
     private Stage stage;
@@ -58,10 +62,14 @@ public class AddTagController implements Initializable {
 
     private void onAddConfirm() {
 
-        Tag tag = new Tag(tagNameField.getText());
-        Controller.rootPerson.getTags().add(tag);
+        ArrayList<String> tagNameList = new ArrayList<>(Arrays.asList(tagNameField.getText().split(",")));
 
-        DataManager.getInstance().AddTag(Controller.rootPerson.getId(),tag);
+        for(int i = 0; i < tagNameList.size(); i++) {
+            Tag tag = new Tag();
+            tag.setName(tagNameList.get(i));
+            Controller.rootPerson.getTags().add(tag);
+            DataManager.getInstance().AddTag(Controller.rootPerson.getId(),tag);
+        }
 
         FXMLLoader loader;
         loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.mainPath)));

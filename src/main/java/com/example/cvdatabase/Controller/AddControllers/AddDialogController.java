@@ -99,7 +99,6 @@ public class AddDialogController implements Initializable {
     }
 
     private void onAddConfirm() {
-
         controller.createPerson(nameField.getText(), surnameField.getText(), dateField.getText(), emailField.getText(), phoneField.getText()
                 , interestsField.getText(), skillsField.getText());
 

@@ -50,7 +50,7 @@ public class AddExperienceController implements Initializable {
     private void onAddConfirm() {
         Experience newExperience = new Experience(titleField.getText(), startDateField.getText(), endDateField.getText());
         Controller.rootPerson.getExperiences().add(newExperience);
-        Controller.createAlert("Experience created successfully.", "");
+
 
         String q = "insert into Experience(person_id,title,start_date,end_date) values(?,?,?,?)";
         try {
@@ -62,7 +62,7 @@ public class AddExperienceController implements Initializable {
 
             if(ps.executeUpdate() > 0){
 
-                Controller.createAlert("Experience data is created for the selected CV.","");
+                Controller.createAlert("Experience created successfully.", "");
 
             }else{
 

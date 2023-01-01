@@ -12,6 +12,7 @@ import com.example.cvdatabase.Model.Person;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.base.AbstractMFXTreeItem;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
+import io.github.palexdev.materialfx.controls.legacy.MFXLegacyTableRow;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
@@ -64,8 +65,6 @@ public class Controller implements Initializable {
     private MFXButton exportButton;
     @FXML
     private MFXButton helpButton;
-    @FXML
-    private MFXButton displayButton;
     @FXML
     private MFXFontIcon closeIcon;
     @FXML
@@ -139,7 +138,6 @@ public class Controller implements Initializable {
         helpButton.setOnAction(actionEvent -> onHelp());
         exportButton.setOnAction(actionEvent -> onExport(table));
         removeButton.setOnAction(actionEvent -> onRemove());
-        displayButton.setOnAction(actionEvent -> handleRowSelection());
 
 
         createTable();
@@ -149,11 +147,12 @@ public class Controller implements Initializable {
     private void handleRowSelection() {
         ObservableMap<Integer, Person> listValues = table.getSelectionModel().getSelection();
         ObservableList<Person> personList = FXCollections.observableArrayList(listValues.values());
-        rootPerson = personList.listIterator().next();
         if (table.getSelectionModel().getSelectedValues().size() > 0) {
-
+            rootPerson = personList.listIterator().next();
             treeView.setRoot(createTreeView(personList));
-
+        }
+        else {
+           createAlert("You must select a CV first.","");
         }
     }
 
@@ -257,6 +256,14 @@ public class Controller implements Initializable {
 
     public void createTable() {
 
+        table.setTableRowFactory(tv -> {
+            MFXTableRow<Person> row = new MFXTableRow<>(table, personList.listIterator().next());
+            row.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+                handleRowSelection();
+            });
+            return row;
+        });
+
         table.getSelectionModel().setAllowsMultipleSelection(false);
 
         MFXTableColumn<Person> idColumn = new MFXTableColumn<>("ID", true, Comparator.comparing(Person::getId));
@@ -284,6 +291,8 @@ public class Controller implements Initializable {
 
         table.setItems(personList);
         table.update();
+
+
     }
 
     private void onAdd() {
@@ -423,6 +432,14 @@ public class Controller implements Initializable {
                     stage.setScene(new Scene(root));
                     stage.initStyle(StageStyle.TRANSPARENT);
                     stage.show();
+                } else if (treeItem != null && parent != null && parent.getData().equals("Tags")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editTagDialogPath)));
+                    root = loader.load();
+
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.show();
                 }
             }
 
@@ -496,12 +513,15 @@ public class Controller implements Initializable {
                         createAlert("Skill deleted successfully", "");
                     }
                 }
+            } else if (treeItem != null && parent != null && parent.getData().equals("Tags")) {
+                for (int i = 0; i < rootPerson.getTags().size(); i++) {
+                    if (rootPerson.getTags().get(i).getName().equals(treeItem.getData())) {
+                        rootPerson.getTags().remove(i);
+                        createAlert("Tag deleted successfully", "");
+                    }
+                }
             }
         }
-
-
-        ///////////////
-
 
     }
 

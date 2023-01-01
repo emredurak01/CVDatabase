@@ -135,7 +135,7 @@ public class EditDialogController implements Initializable {
         ArrayList<String> interestsList = new ArrayList<>(Arrays.asList(interestsField.getText().split(",")));
         person.setInterests(interestsList);
         ArrayList<String> skillsList = new ArrayList<>(Arrays.asList(skillsField.getText().split(",")));
-        person.setInterests(skillsList);
+        person.setSkills(skillsList);
 
         StringBuilder interestString = new StringBuilder();
         for(int i = 0; i < interestsList.size(); i++) {

@@ -31,5 +31,7 @@ public class Application extends javafx.application.Application {
         stage.setTitle("CV DATABASE");
         stage.setScene(scene);
         stage.show();
+
+
     }
 }

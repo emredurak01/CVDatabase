@@ -47,7 +47,6 @@ public class EditPublicationController implements Initializable {
                 index = i;
             }
         }
-        System.out.println(index);
 
         titleField.setText(publication.getTitle());
         publisherField.setText(publication.getPublisher());

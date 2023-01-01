@@ -47,7 +47,6 @@ public class EditEducationController implements Initializable {
                 index = i;
             }
         }
-        System.out.println(education.getName());
 
         nameField.setText(education.getName());
         startDateField.setText(education.getStartDate());
@@ -60,7 +59,7 @@ public class EditEducationController implements Initializable {
         Controller.rootPerson.getEducation().get(index).setName(nameField.getText());
         Controller.rootPerson.getEducation().get(index).setStartDate(startDateField.getText());
         Controller.rootPerson.getEducation().get(index).setEndDate(endDateField.getText());
-        Controller.createAlert("Education edited successfully", "");
+        Controller.createAlert("Education edited successfully.", "");
     }
 
 

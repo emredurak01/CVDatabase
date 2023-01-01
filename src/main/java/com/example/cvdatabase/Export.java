@@ -28,7 +28,7 @@ public class Export {
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
                 "    <meta charset=\"UTF-8\">\n" +
-                "    <title>CV </title>\n" +
+                "    <title>"+personList.listIterator().next().getName() +" " +personList.listIterator().next().getSurname() +"</title>\n" +
                 "    <link href=\"https://fonts.googleapis.com/css?family=Montserrat\" rel=\"stylesheet\">\n" +
                 "    <link rel=\"stylesheet\" href=\"style.css\">\n" +
                 "</head>\n" +
@@ -112,7 +112,7 @@ public class Export {
                 for(int i = 0; i < personList.listIterator().next().getPublications().size(); i++) {
                     s.append("            <tr class=\"work-1\">\n" +
                             "               <td>" + personList.listIterator().next().getPublications().get(i).getPublicationDate() + "\n" +
-                            "               <td>" + personList.listIterator().next().getPublications().get(i).getTitle() + "\n" +
+                            "               <td>" + personList.listIterator().next().getPublications().get(i).getTitle() +", " +personList.listIterator().next().getPublications().get(i).getPublisher() + "\n" +
                             "            </tr>\n");
                 }
 
@@ -146,12 +146,14 @@ public class Export {
                         "</html>");
 
 
-        File f = new File("cv.html");
+        File f = new File(personList.listIterator().next().getName() +" " +
+                personList.listIterator().next().getSurname()+".html");
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(f));
             bw.write(String.valueOf(s));
             bw.close();
+            Controller.createAlert("CV successfully exported.", "");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
