@@ -35,7 +35,7 @@ public class AddInterestController implements Initializable {
 
     @FXML
     private MFXTextField interestsField;
-
+    private Controller controller;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         closeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Node) (event.getSource())).getScene().getWindow().hide());
@@ -51,7 +51,7 @@ public class AddInterestController implements Initializable {
         for(int i = 0; i < interestsList.size(); i++) {
             Controller.rootPerson.getInterests().add(interestsList.get(i));
         }
-        Controller.createAlert("Interests added successfully.", "");
+
 
         String q = "update Person set interests = ? where id = ?";
         try {
@@ -60,8 +60,7 @@ public class AddInterestController implements Initializable {
             ps.setInt(2,Controller.rootPerson.getId());
             if(ps.executeUpdate() > 0){
 
-                Controller.createAlert("Interests data added successfully.", "");
-
+                Controller.createAlert("Interests added successfully.", "");
             }else{
 
                 Controller.createAlert("Error occurred.", "Error");

@@ -12,7 +12,6 @@ import com.example.cvdatabase.Model.Person;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.base.AbstractMFXTreeItem;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
-import io.github.palexdev.materialfx.controls.legacy.MFXLegacyTableRow;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
@@ -30,7 +29,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableRow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -144,15 +142,28 @@ public class Controller implements Initializable {
 
     }
 
-    private void handleRowSelection() {
+    public void handleRowSelection() {
         ObservableMap<Integer, Person> listValues = table.getSelectionModel().getSelection();
         ObservableList<Person> personList = FXCollections.observableArrayList(listValues.values());
         if (table.getSelectionModel().getSelectedValues().size() > 0) {
             rootPerson = personList.listIterator().next();
             treeView.setRoot(createTreeView(personList));
-        }
-        else {
-           createAlert("You must select a CV first.","");
+            treeView.getRoot().setStartExpanded(true);
+            ObservableList<AbstractMFXTreeItem<String>> treeItem = treeView.getRoot().getItems();
+            for(int i = 0; i < treeItem.size(); i++) {
+                if(treeItem.get(i).getData().equals("Interests")) {
+                    treeItem.get(i).setStartExpanded(true);
+                }
+                if(treeItem.get(i).getData().equals("Skills")) {
+                    treeItem.get(i).setStartExpanded(true);
+                }
+                if(treeItem.get(i).getData().equals("Tags")) {
+                    treeItem.get(i).setStartExpanded(true);
+                }
+            }
+        } else {
+            MFXTreeItem<String> root = new MFXTreeItem<>("");
+            treeView.setRoot(root);
         }
     }
 
@@ -300,58 +311,7 @@ public class Controller implements Initializable {
         FXMLLoader loader;
         AbstractMFXTreeItem<String> treeItem = treeView.getSelectionModel().getSelectedItem();
         try {
-            if (treeItem != null && treeItem.getData().equals("Educations")) {
-
-                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addEducationDialogPath)));
-                root = loader.load();
-
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.initStyle(StageStyle.TRANSPARENT);
-                stage.show();
-            } else if (treeItem != null && treeItem.getData().equals("Experiences")) {
-                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addExperienceDialogPath)));
-                root = loader.load();
-
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.initStyle(StageStyle.TRANSPARENT);
-                stage.show();
-            } else if (treeItem != null && treeItem.getData().equals("Publications")) {
-                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addPublicationDialogPath)));
-                root = loader.load();
-
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.initStyle(StageStyle.TRANSPARENT);
-                stage.show();
-            } else if (treeItem != null && treeItem.getData().equals("Interests")) {
-                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addInterestDialogPath)));
-                root = loader.load();
-
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.initStyle(StageStyle.TRANSPARENT);
-                stage.show();
-            } else if (treeItem != null && treeItem.getData().equals("Skills")) {
-                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addSkillDialogPath)));
-                root = loader.load();
-
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.initStyle(StageStyle.TRANSPARENT);
-                stage.show();
-            } else if (treeItem != null && treeItem.getData().equals("Tags")) {
-                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addTagDialogPath)));
-                root = loader.load();
-
-                AddTagController a = loader.getController();
-                Stage tag_stage = new Stage();
-                tag_stage.setScene(new Scene(root));
-                tag_stage.initStyle(StageStyle.TRANSPARENT);
-                a.setStage(stage);
-                tag_stage.show();
-            }else {
+            if(treeItem == null || treeItem.getData().equals(rootPerson.getName() + " " + rootPerson.getSurname())) {
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addDialogPath)));
                 root = loader.load();
 
@@ -361,7 +321,62 @@ public class Controller implements Initializable {
                 add_stage.initStyle(StageStyle.TRANSPARENT);
                 a.setStage(stage);
                 add_stage.show();
+            } else {
+                if (treeItem.getData().equals("Educations")) {
+                    treeItem.setStartExpanded(true);
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addEducationDialogPath)));
+                    root = loader.load();
+
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.show();
+                } else if (treeItem.getData().equals("Experiences")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addExperienceDialogPath)));
+                    root = loader.load();
+
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.show();
+                } else if (treeItem.getData().equals("Publications")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addPublicationDialogPath)));
+                    root = loader.load();
+
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.show();
+                } else if (treeItem.getData().equals("Interests")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addInterestDialogPath)));
+                    root = loader.load();
+
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.show();
+                } else if (treeItem.getData().equals("Skills")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addSkillDialogPath)));
+                    root = loader.load();
+
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.show();
+                } else if (treeItem.getData().equals("Tags")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addTagDialogPath)));
+                    root = loader.load();
+
+                    AddTagController a = loader.getController();
+                    Stage tag_stage = new Stage();
+                    tag_stage.setScene(new Scene(root));
+                    tag_stage.initStyle(StageStyle.TRANSPARENT);
+                    a.setStage(stage);
+                    tag_stage.show();
+                }
+
             }
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -392,7 +407,7 @@ public class Controller implements Initializable {
                 AbstractMFXTreeItem<String> parent = treeItem.getItemParent();
                 rootPersonEdit = treeItem.getData();
 
-                if (treeItem != null && parent != null && parent.getData().equals("Educations")) {
+                if (parent != null && parent.getData().equals("Educations")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editEducationDialogPath)));
                     root = loader.load();
 
@@ -400,7 +415,7 @@ public class Controller implements Initializable {
                     stage.setScene(new Scene(root));
                     stage.initStyle(StageStyle.TRANSPARENT);
                     stage.show();
-                } else if (treeItem != null && parent != null && parent.getData().equals("Experiences")) {
+                } else if (parent != null && parent.getData().equals("Experiences")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editExperienceDialogPath)));
                     root = loader.load();
 
@@ -408,7 +423,7 @@ public class Controller implements Initializable {
                     stage.setScene(new Scene(root));
                     stage.initStyle(StageStyle.TRANSPARENT);
                     stage.show();
-                } else if (treeItem != null && parent != null && parent.getData().equals("Publications")) {
+                } else if (parent != null && parent.getData().equals("Publications")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editPublicationDialogPath)));
                     root = loader.load();
 
@@ -416,7 +431,7 @@ public class Controller implements Initializable {
                     stage.setScene(new Scene(root));
                     stage.initStyle(StageStyle.TRANSPARENT);
                     stage.show();
-                } else if (treeItem != null && parent != null && parent.getData().equals("Interests") || treeItem.getData().equals("Interests")) {
+                } else if (parent != null && parent.getData().equals("Interests") || treeItem.getData().equals("Interests")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editDialogPath)));
                     root = loader.load();
 
@@ -424,7 +439,7 @@ public class Controller implements Initializable {
                     stage.setScene(new Scene(root));
                     stage.initStyle(StageStyle.TRANSPARENT);
                     stage.show();
-                } else if (treeItem != null && parent != null && parent.getData().equals("Skills") || treeItem.getData().equals("Skills")) {
+                } else if (parent != null && parent.getData().equals("Skills") || treeItem.getData().equals("Skills")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editDialogPath)));
                     root = loader.load();
 
@@ -432,7 +447,7 @@ public class Controller implements Initializable {
                     stage.setScene(new Scene(root));
                     stage.initStyle(StageStyle.TRANSPARENT);
                     stage.show();
-                } else if (treeItem != null && parent != null && parent.getData().equals("Tags")) {
+                } else if (parent != null && parent.getData().equals("Tags")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editTagDialogPath)));
                     root = loader.load();
 
@@ -478,42 +493,42 @@ public class Controller implements Initializable {
             AbstractMFXTreeItem<String> parent = treeItem.getItemParent();
             rootPersonEdit = treeItem.getData();
 
-            if (treeItem != null && parent != null && parent.getData().equals("Educations")) {
+            if (parent != null && parent.getData().equals("Educations")) {
                 for (int i = 0; i < rootPerson.getEducation().size(); i++) {
                     if (rootPerson.getEducation().get(i).getName().equals(treeItem.getData())) {
                         rootPerson.getEducation().remove(i);
                         createAlert("Education deleted successfully", "");
                     }
                 }
-            } else if (treeItem != null && parent != null && parent.getData().equals("Experiences")) {
+            } else if (parent != null && parent.getData().equals("Experiences")) {
                 for (int i = 0; i < rootPerson.getExperiences().size(); i++) {
                     if (rootPerson.getExperiences().get(i).getTitle().equals(treeItem.getData())) {
                         rootPerson.getExperiences().remove(i);
                         createAlert("Experience deleted successfully", "");
                     }
                 }
-            } else if (treeItem != null && parent != null && parent.getData().equals("Publications")) {
+            } else if (parent != null && parent.getData().equals("Publications")) {
                 for (int i = 0; i < rootPerson.getPublications().size(); i++) {
                     if (rootPerson.getPublications().get(i).getTitle().equals(treeItem.getData())) {
                         rootPerson.getPublications().remove(i);
                         createAlert("Publication deleted successfully", "");
                     }
                 }
-            } else if (treeItem != null && parent != null && parent.getData().equals("Interests")) {
+            } else if (parent != null && parent.getData().equals("Interests")) {
                 for (int i = 0; i < rootPerson.getInterests().size(); i++) {
                     if (rootPerson.getInterests().get(i).equals(treeItem.getData())) {
                         rootPerson.getInterests().remove(i);
                         createAlert("Interest deleted successfully", "");
                     }
                 }
-            } else if (treeItem != null && parent != null && parent.getData().equals("Skills")) {
+            } else if (parent != null && parent.getData().equals("Skills")) {
                 for (int i = 0; i < rootPerson.getSkills().size(); i++) {
                     if (rootPerson.getSkills().get(i).equals(treeItem.getData())) {
                         rootPerson.getSkills().remove(i);
                         createAlert("Skill deleted successfully", "");
                     }
                 }
-            } else if (treeItem != null && parent != null && parent.getData().equals("Tags")) {
+            } else if (parent != null && parent.getData().equals("Tags")) {
                 for (int i = 0; i < rootPerson.getTags().size(); i++) {
                     if (rootPerson.getTags().get(i).getName().equals(treeItem.getData())) {
                         rootPerson.getTags().remove(i);
@@ -522,6 +537,7 @@ public class Controller implements Initializable {
                 }
             }
         }
+        handleRowSelection();
 
     }
 
