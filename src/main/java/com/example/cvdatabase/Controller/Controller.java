@@ -1,8 +1,7 @@
 package com.example.cvdatabase.Controller;
 
 import com.example.cvdatabase.Application;
-import com.example.cvdatabase.Controller.AddControllers.AddDialogController;
-import com.example.cvdatabase.Controller.AddControllers.AddTagController;
+import com.example.cvdatabase.Controller.AddControllers.*;
 import com.example.cvdatabase.Controller.EditControllers.EditDialogController;
 import com.example.cvdatabase.Export;
 import com.example.cvdatabase.Helpers.Config;
@@ -76,6 +75,8 @@ public class Controller implements Initializable {
     private double x;
     private double y;
 
+    private Person person;
+
     public Controller() {
 
     }
@@ -83,6 +84,8 @@ public class Controller implements Initializable {
     public Controller(Stage stage) {
         this.stage = stage;
     }
+
+
 
     public static void createAlert(String content, String header) {
         MFXGenericDialog dialogContent = MFXGenericDialogBuilder.build().setContentText(content).get();
@@ -99,6 +102,12 @@ public class Controller implements Initializable {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setSelectedPersonFromPreviousStage(Person person){
+
+        this.person = person;
+
     }
 
     public void createPerson(String name, String surname, String dateOfBirth, String email, String phone, String interests, String skills) {
@@ -143,6 +152,11 @@ public class Controller implements Initializable {
     }
 
     public void handleRowSelection() {
+        if(rootPerson!=null){
+
+            table.getSelectionModel().selectItem(rootPerson);
+
+        }
         ObservableMap<Integer, Person> listValues = table.getSelectionModel().getSelection();
         ObservableList<Person> personList = FXCollections.observableArrayList(listValues.values());
         if (table.getSelectionModel().getSelectedValues().size() > 0) {
@@ -261,7 +275,6 @@ public class Controller implements Initializable {
 
         root.getItems().addAll(List.of(educations, experiences, publications, interests, skills,tags));
 
-
         return root;
     }
 
@@ -327,42 +340,52 @@ public class Controller implements Initializable {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addEducationDialogPath)));
                     root = loader.load();
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.show();
+                    AddEducationController a = loader.getController();
+                    Stage edu_stage = new Stage();
+                    edu_stage.setScene(new Scene(root));
+                    edu_stage.initStyle(StageStyle.TRANSPARENT);
+                    a.setStage(stage);
+                    edu_stage.show();
                 } else if (treeItem.getData().equals("Experiences")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addExperienceDialogPath)));
                     root = loader.load();
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.show();
+                    AddExperienceController a = loader.getController();
+                    Stage exp_stage = new Stage();
+                    exp_stage.setScene(new Scene(root));
+                    exp_stage.initStyle(StageStyle.TRANSPARENT);
+                    a.setStage(stage);
+                    exp_stage.show();
                 } else if (treeItem.getData().equals("Publications")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addPublicationDialogPath)));
                     root = loader.load();
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.show();
+                    AddPublicationController a = loader.getController();
+                    Stage pub_stage = new Stage();
+                    pub_stage.setScene(new Scene(root));
+                    pub_stage.initStyle(StageStyle.TRANSPARENT);
+                    a.setStage(stage);
+                    pub_stage.show();
                 } else if (treeItem.getData().equals("Interests")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addInterestDialogPath)));
                     root = loader.load();
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.show();
+                    AddInterestController a = loader.getController();
+                    Stage interest_stage = new Stage();
+                    interest_stage.setScene(new Scene(root));
+                    interest_stage.initStyle(StageStyle.TRANSPARENT);
+                    a.setStage(stage);
+                    interest_stage.show();
                 } else if (treeItem.getData().equals("Skills")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addSkillDialogPath)));
                     root = loader.load();
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.show();
+                    AddSkillController a = loader.getController();
+                    Stage skill_stage = new Stage();
+                    skill_stage.setScene(new Scene(root));
+                    skill_stage.initStyle(StageStyle.TRANSPARENT);
+                    a.setStage(stage);
+                    skill_stage.show();
                 } else if (treeItem.getData().equals("Tags")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addTagDialogPath)));
                     root = loader.load();
@@ -399,10 +422,12 @@ public class Controller implements Initializable {
 
                 EditDialogController e = loader.getController();
                 e.setStage(stage);
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.initStyle(StageStyle.TRANSPARENT);
-                stage.show();
+                AddSkillController a = loader.getController();
+                Stage skill_stage = new Stage();
+                skill_stage.setScene(new Scene(root));
+                skill_stage.initStyle(StageStyle.TRANSPARENT);
+                a.setStage(stage);
+                skill_stage.show();
             } else {
                 AbstractMFXTreeItem<String> parent = treeItem.getItemParent();
                 rootPersonEdit = treeItem.getData();

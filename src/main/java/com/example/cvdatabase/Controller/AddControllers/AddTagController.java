@@ -85,10 +85,8 @@ public class AddTagController implements Initializable {
         a.setStage(stage);
         stage.setScene(scene);
         stage.show();
-        System.out.println(windowHeader.getScene());
-        //a.table.getItems().clear();
-        //a.table.getTableColumns().clear();
-        //a.createTable();
+        addConfirmButton.getScene().getWindow().hide();
+
 
 
     }

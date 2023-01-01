@@ -32,8 +32,9 @@ public class DatabaseConnector {
                             birthdate text,
                             email     text,
                             phone     text,
-                            about_me  text
-                        , interests text, skills text)""");
+                            about_me  text,
+                            interests text,
+                            skills text)""");
 
                 stat.executeUpdate("""
                         CREATE TABLE "Education"

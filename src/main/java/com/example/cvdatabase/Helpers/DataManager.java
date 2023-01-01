@@ -281,5 +281,32 @@ public class DataManager {
 
     }
 
+    public String PullSkills(int personID){
+
+        String skills = "";
+
+        String q = "select * from Person where id = ?";
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setInt(1,personID);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+
+                skills = rs.getString("skills");
+
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return skills;
+
+
+    }
+
 
 }
