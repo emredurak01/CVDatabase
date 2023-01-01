@@ -3,12 +3,9 @@ package com.example.cvdatabase.Controller.EditControllers;
 import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
-import com.example.cvdatabase.Helpers.DataManager;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
-import com.example.cvdatabase.Model.Education;
 import com.example.cvdatabase.Model.Person;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.font.MFXFontIcon;
@@ -18,41 +15,38 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class EditEducationController implements Initializable {
+public class EditSkillController implements Initializable {
 
-
-    Education education = new Education();
-    int index = 0;
     @FXML
     private MFXGenericDialog rootPane;
+
     @FXML
     private MFXFontIcon minimizeIcon;
+
     @FXML
     private MFXFontIcon closeIcon;
-    @FXML
-    private MFXTextField nameField;
-    @FXML
-    private MFXDatePicker startDateField;
-    @FXML
-    private MFXDatePicker endDateField;
+
     @FXML
     private MFXButton editConfirmButton;
 
-    private Stage stage;
+    @FXML
+    private MFXTextField skillsField;
+    private Controller controller;
 
-    public void setStage(Stage stage) {
+    private Stage stage;
+    int index;
+
+    public void setStage(Stage stage){
 
         this.stage = stage;
 
@@ -63,40 +57,33 @@ public class EditEducationController implements Initializable {
         closeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Node) (event.getSource())).getScene().getWindow().hide());
         minimizeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Stage) rootPane.getScene().getWindow()).setIconified(true));
 
-        for (int i = 0; i < Controller.rootPerson.getEducation().size(); i++) {
-            if (Controller.rootPerson.getEducation().get(i).getName().equals(Controller.rootPersonEdit)) {
-                education = Controller.rootPerson.getEducation().get(i);
+        for (int i = 0; i < Controller.rootPerson.getSkills().size(); i++) {
+            if (Controller.rootPerson.getSkills().get(i).equals(Controller.rootPersonEdit)) {
+                skillsField.setText(Controller.rootPerson.getSkills().get(i));
                 index = i;
             }
         }
 
-        nameField.setText(education.getName());
-        startDateField.setText(education.getStartDate());
-        endDateField.setText(education.getEndDate());
-
         editConfirmButton.setOnAction(actionEvent -> onEditConfirm(index));
+
+
     }
 
     private void onEditConfirm(int index) {
 
-        String q = "update education set school_name=?,start_date=?,end_date=? where person_id = ? and id=?";
+        String q = "update person set skills=? where id=?";
+
         try {
             Person person = Controller.rootPerson;
-
-            person.getEducation().get(index).setName(nameField.getText());
-            person.getEducation().get(index).setStartDate(startDateField.getText());
-            person.getEducation().get(index).setEndDate(endDateField.getText());
+            person.getSkills().set(index, skillsField.getText());
 
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setString(1, person.getEducation().get(index).getName());
-            ps.setString(2, person.getEducation().get(index).getStartDate());
-            ps.setString(3, person.getEducation().get(index).getEndDate());
-            ps.setInt(4, person.getId());
-            ps.setInt(5, person.getEducation().get(index).getId());
+            ps.setString(1, person.getSkills().get(index));
+            ps.setInt(2, person.getId());
 
             if (ps.executeUpdate() > 0) {
 
-                Controller.createAlert("Education edited successfully.", "");
+                Controller.createAlert("Skills edited successfully.", "");
                 FXMLLoader loader;
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.mainPath)));
                 Parent root = loader.load();
@@ -110,13 +97,13 @@ public class EditEducationController implements Initializable {
                 a.createTable();
                 editConfirmButton.getScene().getWindow().hide();
                 a.handleRowSelection();
-
             } else {
 
-                Controller.createAlert("Education could not be edited.", "");
+                Controller.createAlert("Skills could not be edited.", "");
             }
+
         } catch (SQLException | IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
 

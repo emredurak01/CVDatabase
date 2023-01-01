@@ -153,11 +153,6 @@ public class Controller implements Initializable {
     }
 
     public void handleRowSelection() {
-        if(rootPerson!=null){
-
-            table.getSelectionModel().selectItem(rootPerson);
-
-        }
         ObservableMap<Integer, Person> listValues = table.getSelectionModel().getSelection();
         ObservableList<Person> personList = FXCollections.observableArrayList(listValues.values());
         if (table.getSelectionModel().getSelectedValues().size() > 0) {
@@ -457,16 +452,16 @@ public class Controller implements Initializable {
                     stage.setScene(new Scene(root));
                     stage.initStyle(StageStyle.TRANSPARENT);
                     stage.show();
-                } else if (parent != null && parent.getData().equals("Interests") || treeItem.getData().equals("Interests")) {
-                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editDialogPath)));
+                } else if (parent != null && parent.getData().equals("Interests")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editInterestDialogPath)));
                     root = loader.load();
 
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.initStyle(StageStyle.TRANSPARENT);
                     stage.show();
-                } else if (parent != null && parent.getData().equals("Skills") || treeItem.getData().equals("Skills")) {
-                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editDialogPath)));
+                } else if (parent != null && parent.getData().equals("Skills")) {
+                    loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editSkillDialogPath)));
                     root = loader.load();
 
                     Stage stage = new Stage();

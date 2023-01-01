@@ -45,9 +45,6 @@ public class Person {
         this.tags = new ArrayList<>();
     }
 
-    public void addEducation(Education education) {
-        getEducation().add(education);
-    }
 
     public String getTagsAsString(){
 
