@@ -105,9 +105,6 @@ public class EditEducationController implements Initializable {
                 a.setStage(stage);
                 stage.setScene(scene);
                 stage.show();
-                a.table.getItems().clear();
-                a.table.getTableColumns().clear();
-                a.createTable();
                 editConfirmButton.getScene().getWindow().hide();
                 a.handleRowSelection();
 

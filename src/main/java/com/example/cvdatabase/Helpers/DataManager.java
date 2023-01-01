@@ -162,12 +162,14 @@ public class DataManager {
                 d.setEmail(rs.getString("email"));
                 d.setPhone(rs.getString("phone"));
 
-                ArrayList<String> interestsList = new ArrayList<String>(Arrays.asList(rs.getString("interests").split(",")));
+                ArrayList<String> interestsList;
+                interestsList  = new ArrayList<String>(Arrays.asList(rs.getString("interests").split(",")));
                 d.setInterests(interestsList);
 
-                ArrayList<String> skillsList = new ArrayList<String>(Arrays.asList(rs.getString("skills").split(",")));
-                d.setSkills(skillsList);
+                ArrayList<String> skillsList;
+                skillsList = new ArrayList<String>(Arrays.asList(rs.getString("skills").split(",")));
 
+                d.setSkills(skillsList);
 
                 d.setEducation(PullEducations(d.getId()));
                 d.setExperiences(PullExperiences(d.getId()));
@@ -307,6 +309,33 @@ public class DataManager {
 
 
     }
+
+    public String PullInterests(int personID){
+
+        String interests = "";
+
+        String q = "select * from Person where id = ?";
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setInt(1,personID);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+
+                interests = rs.getString("interests");
+
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return interests;
+
+    }
+
 
     public void DeletePublication(int personID){
 

@@ -2,7 +2,7 @@ package com.example.cvdatabase.Controller;
 
 import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.AddControllers.*;
-import com.example.cvdatabase.Controller.EditControllers.EditDialogController;
+import com.example.cvdatabase.Controller.EditControllers.*;
 import com.example.cvdatabase.Export;
 import com.example.cvdatabase.Helpers.Config;
 import com.example.cvdatabase.Helpers.DataManager;
@@ -337,7 +337,6 @@ public class Controller implements Initializable {
                     treeItem.setStartExpanded(true);
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addEducationDialogPath)));
                     root = loader.load();
-
                     AddEducationController a = loader.getController();
                     Stage edu_stage = new Stage();
                     edu_stage.setScene(new Scene(root));
@@ -418,14 +417,12 @@ public class Controller implements Initializable {
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editDialogPath)));
                 root = loader.load();
 
-                EditDialogController e = loader.getController();
-                e.setStage(stage);
-                AddSkillController a = loader.getController();
-                Stage skill_stage = new Stage();
-                skill_stage.setScene(new Scene(root));
-                skill_stage.initStyle(StageStyle.TRANSPARENT);
+                EditDialogController a = loader.getController();
+                Stage edit_stage = new Stage();
+                edit_stage.setScene(new Scene(root));
+                edit_stage.initStyle(StageStyle.TRANSPARENT);
                 //a.setStage(stage);
-                skill_stage.show();
+                edit_stage.show();
             } else {
                 AbstractMFXTreeItem<String> parent = treeItem.getItemParent();
                 rootPersonEdit = treeItem.getData();
@@ -434,26 +431,35 @@ public class Controller implements Initializable {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editEducationDialogPath)));
                     root = loader.load();
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.show();
+                    EditEducationController a = loader.getController();
+                    Stage edu_stage = new Stage();
+                    edu_stage.setScene(new Scene(root));
+                    edu_stage.initStyle(StageStyle.TRANSPARENT);
+                    a.setStage(stage);
+                    edu_stage.show();
+
                 } else if (parent != null && parent.getData().equals("Experiences")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editExperienceDialogPath)));
                     root = loader.load();
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.show();
+                    EditExperienceController a = loader.getController();
+                    Stage exp_stage = new Stage();
+                    exp_stage.setScene(new Scene(root));
+                    exp_stage.initStyle(StageStyle.TRANSPARENT);
+                    a.setStage(stage);
+                    exp_stage.show();
+
                 } else if (parent != null && parent.getData().equals("Publications")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editPublicationDialogPath)));
                     root = loader.load();
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.show();
+                    EditPublicationController a = loader.getController();
+                    Stage pub_stage = new Stage();
+                    pub_stage.setScene(new Scene(root));
+                    pub_stage.initStyle(StageStyle.TRANSPARENT);
+                    a.setStage(stage);
+                    pub_stage.show();
+
                 } else if (parent != null && parent.getData().equals("Interests")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editInterestDialogPath)));
                     root = loader.load();
@@ -474,10 +480,12 @@ public class Controller implements Initializable {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editTagDialogPath)));
                     root = loader.load();
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.show();
+                    EditTagController a = loader.getController();
+                    Stage tag_stage = new Stage();
+                    tag_stage.setScene(new Scene(root));
+                    tag_stage.initStyle(StageStyle.TRANSPARENT);
+                    a.setStage(stage);
+                    tag_stage.show();
                 }
             }
 
@@ -564,6 +572,7 @@ public class Controller implements Initializable {
             }
         }
         handleRowSelection();
+        createTable();
 
     }
 

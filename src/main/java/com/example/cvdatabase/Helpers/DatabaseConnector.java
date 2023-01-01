@@ -42,15 +42,13 @@ public class DatabaseConnector {
                             id          INTEGER
                                 constraint Education_pk
                                     primary key autoincrement,
-                            person_id   INTEGER
-                                constraint education_fk
-                                    references Person
-                                    on update cascade on delete cascade,
+                            person_id   INTEGER,
                             school_name TEXT,
                             degree      TEXT,
                             study_field TEXT,
                             start_date  TEXT,
-                            end_date    TEXT
+                            end_date    TEXT,
+                            FOREIGN KEY(person_id) REFERENCES Person(id) on update cascade on delete cascade
                         )""");
                 stat.executeUpdate("""
                         CREATE TABLE Experience
@@ -58,10 +56,7 @@ public class DatabaseConnector {
                             id              integer
                                 constraint Experience_pk
                                     primary key autoincrement,
-                            person_id       integer
-                                constraint experience_fk
-                                    references Person
-                                    on update cascade on delete cascade,
+                            person_id       integer,
                             title           text,
                             employment_type text,
                             company_name    text,
@@ -70,7 +65,8 @@ public class DatabaseConnector {
                             industry        text,
                             description     text,
                             start_date      text,
-                            end_date        text
+                            end_date        text,
+                            FOREIGN KEY(person_id) REFERENCES Person(id) on update cascade on delete cascade
                         )""");
                 stat.executeUpdate("""
                         CREATE TABLE Publication
@@ -78,13 +74,11 @@ public class DatabaseConnector {
                             id               integer
                                 constraint Publication_pk
                                     primary key autoincrement,
-                            person_id        integer
-                                constraint publication_fk
-                                    references Person
-                                    on update cascade on delete cascade,
+                            person_id        integer,
                             title            text,
                             publisher        text,
-                            publication_date text
+                            publication_date text,
+                            FOREIGN KEY(person_id) REFERENCES Person(id) on update cascade on delete cascade
                         )""");
 
                 stat.executeUpdate("""
@@ -102,12 +96,10 @@ public class DatabaseConnector {
                             id        INTEGER
                                 constraint TagMap_pk
                                     primary key autoincrement,
-                            person_id INTEGER
-                                references Person
-                                    on update cascade on delete cascade,
-                            tag_id    INTEGER
-                                references Tag
-                                    on update cascade on delete cascade
+                            person_id INTEGER,
+                            tag_id    INTEGER,
+                            FOREIGN KEY(person_id) REFERENCES Person(id) on update cascade on delete cascade,
+                            FOREIGN KEY(tag_id) REFERENCES Tag(id) on update cascade on delete cascade
                         )""");
 
             }

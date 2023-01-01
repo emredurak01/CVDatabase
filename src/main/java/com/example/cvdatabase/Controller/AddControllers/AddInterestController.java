@@ -3,6 +3,7 @@ package com.example.cvdatabase.Controller.AddControllers;
 import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
+import com.example.cvdatabase.Helpers.DataManager;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -67,13 +68,16 @@ public class AddInterestController implements Initializable {
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
 
-            StringBuilder interestString = new StringBuilder();
-            for(int i = 0; i < Controller.rootPerson.getInterests().size(); i++) {
-                interestString.append(Controller.rootPerson.getInterests().get(i)).append(",");
-            }
-            System.out.println(interestString);
 
-            ps.setString(1, String.valueOf(interestString));
+            String s = DataManager.getInstance().PullInterests(Controller.rootPerson.getId());
+
+            String interestString = interestsList.toString();
+            interestString = interestString.replace('[',' ');
+            interestString = interestString.replace(']',' ');
+            interestString = interestString.trim();
+
+
+            ps.setString(1, s + ',' + interestString);
             ps.setInt(2,Controller.rootPerson.getId());
 
             if(ps.executeUpdate() > 0){

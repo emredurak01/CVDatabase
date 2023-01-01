@@ -87,7 +87,6 @@ public class AddTagController implements Initializable {
         stage.show();
         addConfirmButton.getScene().getWindow().hide();
         a.handleRowSelection();
-        a.setSelectedPersonFromPreviousStage(Controller.rootPerson);
 
 
     }

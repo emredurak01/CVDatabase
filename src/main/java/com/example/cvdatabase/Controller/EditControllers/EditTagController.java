@@ -55,4 +55,8 @@ public class EditTagController implements Initializable {
         Controller.rootPerson.getTags().get(index).setName(tagNameField.getText());
         Controller.createAlert("Tag edited successfully", "");
     }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 }

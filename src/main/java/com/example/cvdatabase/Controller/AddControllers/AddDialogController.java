@@ -114,6 +114,7 @@ public class AddDialogController implements Initializable {
             ps.setString(6, "");
             ps.setString(7, "");
 
+
             if (ps.executeUpdate() > 0) {
 
                 FXMLLoader loader;
