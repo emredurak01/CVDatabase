@@ -1,19 +1,30 @@
 package com.example.cvdatabase.Controller.EditControllers;
 
+import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.Controller;
+import com.example.cvdatabase.Helpers.Config;
+import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Education;
+import com.example.cvdatabase.Model.Person;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.font.MFXFontIcon;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class EditEducationController implements Initializable {
@@ -36,6 +47,14 @@ public class EditEducationController implements Initializable {
     @FXML
     private MFXButton editConfirmButton;
 
+    private Stage stage;
+
+    public void setStage(Stage stage) {
+
+        this.stage = stage;
+
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         closeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Node) (event.getSource())).getScene().getWindow().hide());
@@ -56,10 +75,48 @@ public class EditEducationController implements Initializable {
     }
 
     private void onEditConfirm(int index) {
-        Controller.rootPerson.getEducation().get(index).setName(nameField.getText());
-        Controller.rootPerson.getEducation().get(index).setStartDate(startDateField.getText());
-        Controller.rootPerson.getEducation().get(index).setEndDate(endDateField.getText());
-        Controller.createAlert("Education edited successfully.", "");
+
+        String q = "update education set school_name=?,start_date=?,end_date=? where person_id = ? and id=?";
+        try {
+            Person person = Controller.rootPerson;
+
+            person.getEducation().get(index).setName(nameField.getText());
+            person.getEducation().get(index).setStartDate(startDateField.getText());
+            person.getEducation().get(index).setEndDate(endDateField.getText());
+
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setString(1, person.getEducation().get(index).getName());
+            ps.setString(2, person.getEducation().get(index).getStartDate());
+            ps.setString(3, person.getEducation().get(index).getEndDate());
+            ps.setInt(4, person.getId());
+            ps.setInt(5, person.getEducation().get(index).getId());
+
+            if (ps.executeUpdate() > 0) {
+
+                Controller.createAlert("Education edited successfully.", "");
+                FXMLLoader loader;
+                loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.mainPath)));
+                Parent root = loader.load();
+                Controller a = loader.getController();
+                Scene scene = new Scene(root);
+                a.setStage(stage);
+                stage.setScene(scene);
+                stage.show();
+                a.table.getItems().clear();
+                a.table.getTableColumns().clear();
+                a.createTable();
+                editConfirmButton.getScene().getWindow().hide();
+                a.handleRowSelection();
+
+            } else {
+
+                Controller.createAlert("Education could not be edited.", "");
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 

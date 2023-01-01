@@ -2,7 +2,6 @@ package com.example.cvdatabase;
 
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
-import com.example.cvdatabase.Helpers.Database;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
