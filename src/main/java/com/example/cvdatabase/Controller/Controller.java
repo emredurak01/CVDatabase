@@ -422,7 +422,7 @@ public class Controller implements Initializable {
                 Stage skill_stage = new Stage();
                 skill_stage.setScene(new Scene(root));
                 skill_stage.initStyle(StageStyle.TRANSPARENT);
-                a.setStage(stage);
+                //a.setStage(stage);
                 skill_stage.show();
             } else {
                 AbstractMFXTreeItem<String> parent = treeItem.getItemParent();

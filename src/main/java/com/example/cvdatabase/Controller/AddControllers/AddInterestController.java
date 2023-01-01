@@ -66,8 +66,14 @@ public class AddInterestController implements Initializable {
         String q = "update Person set interests = ? where id = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setString(1,interestsList.toString());
+
+            StringBuilder interestString = new StringBuilder();
+            for(int i = 0; i < interestsList.size(); i++) {
+                interestString.append(interestsList.get(i)).append(",");
+            }
+            ps.setString(1, String.valueOf(interestString));
             ps.setInt(2,Controller.rootPerson.getId());
+
             if(ps.executeUpdate() > 0){
 
 

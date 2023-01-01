@@ -65,9 +65,14 @@ public class AddSkillController implements Initializable {
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
 
+            StringBuilder skillString = new StringBuilder();
+            for(int i = 0; i < skillsList.size(); i++) {
+                skillString.append(skillsList.get(i)).append(",");
+            }
+
             String s = DataManager.getInstance().PullSkills(Controller.rootPerson.getId());
 
-            ps.setString(1,s + "," + (skillsList.toString()));
+            ps.setString(1,s + "," + (skillString));
             ps.setInt(2,Controller.rootPerson.getId());
             if(ps.executeUpdate() > 0){
 
