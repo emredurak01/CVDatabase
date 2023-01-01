@@ -243,8 +243,13 @@ public class Controller implements Initializable {
             if (personList.listIterator().next().getInterests() != null) {
 
                 String interestName = personList.listIterator().next().getInterests().get(i);
-                MFXTreeItem<String> interestsItem = new MFXTreeItem<>(interestName);
-                interests.getItems().add(interestsItem);
+                if(!interestName.isEmpty()){
+
+                    MFXTreeItem<String> interestsItem = new MFXTreeItem<>(interestName);
+                    interests.getItems().add(interestsItem);
+
+                }
+
             }
         }
 
@@ -254,8 +259,15 @@ public class Controller implements Initializable {
             if (personList.listIterator().next().getSkills() != null) {
 
                 String skillName = personList.listIterator().next().getSkills().get(i);
-                MFXTreeItem<String> skillsItem = new MFXTreeItem<>(skillName);
-                skills.getItems().add(skillsItem);
+
+                if(!skillName.isEmpty()){
+
+                    MFXTreeItem<String> skillsItem = new MFXTreeItem<>(skillName);
+                    skills.getItems().add(skillsItem);
+
+                }
+
+
             }
         }
 
