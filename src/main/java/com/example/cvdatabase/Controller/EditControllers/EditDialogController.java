@@ -178,6 +178,7 @@ public class EditDialogController implements Initializable {
                 a.table.getTableColumns().clear();
                 a.createTable();
                 editConfirmButton.getScene().getWindow().hide();
+                a.handleRowSelection();
 
             } else {
 

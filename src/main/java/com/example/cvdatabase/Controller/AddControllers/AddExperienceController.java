@@ -81,6 +81,7 @@ public class AddExperienceController implements Initializable {
                 stage.setScene(scene);
                 stage.show();
                 addConfirmButton.getScene().getWindow().hide();
+                a.handleRowSelection();
 
             }else{
 

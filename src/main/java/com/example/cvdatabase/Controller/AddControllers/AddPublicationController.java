@@ -77,6 +77,7 @@ public class AddPublicationController implements Initializable {
                 stage.setScene(scene);
                 stage.show();
                 addConfirmButton.getScene().getWindow().hide();
+                a.handleRowSelection();
 
                 Controller.createAlert("Publication created successfully.", "");
 
