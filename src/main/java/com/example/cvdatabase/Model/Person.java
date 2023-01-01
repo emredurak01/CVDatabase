@@ -20,19 +20,6 @@ public class Person {
         this.tags = new ArrayList<>();
     }
 
-    public Person(String name, String surname, String birthdate, String email, String phone, ArrayList<Education> education, ArrayList<Experience> experiences, ArrayList<Publication> publications, ArrayList<String> interests, ArrayList<String> skills) {
-        this.name = name;
-        this.surname = surname;
-        this.birthdate = birthdate;
-        this.email = email;
-        this.phone = phone;
-        this.education = education;
-        this.experiences = experiences;
-        this.publications = publications;
-        this.interests = interests;
-        this.skills = skills;
-        this.tags = new ArrayList<>();
-    }
 
     public Person(String name, String surname, String birthdate, String email, String phone, ArrayList<String> interests, ArrayList<String> skills) {
         this.name = name;

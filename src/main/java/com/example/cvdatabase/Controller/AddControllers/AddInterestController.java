@@ -68,9 +68,11 @@ public class AddInterestController implements Initializable {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
 
             StringBuilder interestString = new StringBuilder();
-            for(int i = 0; i < interestsList.size(); i++) {
-                interestString.append(interestsList.get(i)).append(",");
+            for(int i = 0; i < Controller.rootPerson.getInterests().size(); i++) {
+                interestString.append(Controller.rootPerson.getInterests().get(i)).append(",");
             }
+            System.out.println(interestString);
+
             ps.setString(1, String.valueOf(interestString));
             ps.setInt(2,Controller.rootPerson.getId());
 

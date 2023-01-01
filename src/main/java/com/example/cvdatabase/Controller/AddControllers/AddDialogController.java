@@ -99,8 +99,8 @@ public class AddDialogController implements Initializable {
     }
 
     private void onAddConfirm() {
-        controller.createPerson(nameField.getText(), surnameField.getText(), dateField.getText(), emailField.getText(), phoneField.getText()
-                , interestsField.getText(), skillsField.getText());
+
+        controller.createPerson(nameField.getText(), surnameField.getText(), dateField.getText(), emailField.getText(), phoneField.getText());
 
         String insert = "insert into Person(name,surname,birthdate,email,phone,interests,skills) values(?,?,?,?,?,?,?)";
         try {
@@ -111,8 +111,8 @@ public class AddDialogController implements Initializable {
             ps.setString(3, dateField.getText());
             ps.setString(4, emailField.getText());
             ps.setString(5, phoneField.getText());
-            ps.setString(6, interestsField.getText());
-            ps.setString(7, skillsField.getText());
+            ps.setString(6, "");
+            ps.setString(7, "");
 
             if (ps.executeUpdate() > 0) {
 

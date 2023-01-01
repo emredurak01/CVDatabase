@@ -111,12 +111,14 @@ public class Controller implements Initializable {
 
     }
 
-    public void createPerson(String name, String surname, String dateOfBirth, String email, String phone, String interests, String skills) {
+    public void createPerson(String name, String surname, String dateOfBirth, String email, String phone) {
 
-        ArrayList<String> interestsList = new ArrayList<String>(Arrays.asList(interests.split(",")));
-        ArrayList<String> skillsList = new ArrayList<String>(Arrays.asList(skills.split(",")));
+        ArrayList<String> interests = new ArrayList<>();
+        ArrayList<String> skills = new ArrayList<>();
 
-        Person person = new Person(name, surname, dateOfBirth, email, phone, interestsList, skillsList);
+
+        Person person = new Person(name, surname, dateOfBirth, email, phone, interests, skills);
+
         personList.add(person);
 
     }
