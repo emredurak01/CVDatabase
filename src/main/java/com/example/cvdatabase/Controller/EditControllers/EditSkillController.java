@@ -77,13 +77,25 @@ public class EditSkillController implements Initializable {
             Person person = Controller.rootPerson;
             person.getSkills().set(index, skillsField.getText());
 
+            person.getSkills().remove(" ");
+
             String skillString = person.getSkills().toString();
             skillString = skillString.replace('[',' ');
             skillString = skillString.replace(']',' ');
             skillString = skillString.trim();
 
+            String[] c  = skillString.split(",");
+
+            String res = "";
+
+            for (String a:c){
+
+                res += "," + a.trim();
+
+            }
+
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setString(1, skillString);
+            ps.setString(1, res);
             ps.setInt(2, person.getId());
 
             if (ps.executeUpdate() > 0) {

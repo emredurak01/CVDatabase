@@ -329,6 +329,7 @@ public class Controller implements Initializable {
         table.setItems(personList);
         //table.update();
 
+        table.getSelectionModel().selectItem(rootPerson);
 
     }
 

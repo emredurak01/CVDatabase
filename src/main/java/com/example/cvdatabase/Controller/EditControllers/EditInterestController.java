@@ -80,13 +80,26 @@ public class EditInterestController implements Initializable {
             Person person = Controller.rootPerson;
             person.getInterests().set(index, interestsField.getText());
 
+            person.getInterests().remove(" ");
+
             String interestString = person.getInterests().toString();
             interestString = interestString.replace('[',' ');
             interestString = interestString.replace(']',' ');
             interestString = interestString.trim();
 
+            String[] c  = interestString.split(",");
+
+            String res = "";
+
+            for (String a:c){
+
+                res += "," + a.trim();
+
+            }
+
+
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setString(1, interestString);
+            ps.setString(1, res);
             ps.setInt(2, person.getId());
 
             if (ps.executeUpdate() > 0) {
