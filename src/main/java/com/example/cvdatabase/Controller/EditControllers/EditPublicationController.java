@@ -82,7 +82,7 @@ public class EditPublicationController implements Initializable {
 
             person.getPublications().get(index).setTitle(titleField.getText());
             person.getPublications().get(index).setPublisher(publisherField.getText());
-            person.getExperiences().get(index).setEndDate(publicationDateField.getText());
+            person.getPublications().get(index).setPublicationDate(publicationDateField.getText());
 
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
             ps.setString(1, person.getPublications().get(index).getTitle());

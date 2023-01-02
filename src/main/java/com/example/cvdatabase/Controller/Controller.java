@@ -290,6 +290,9 @@ public class Controller implements Initializable {
 
     public void createTable() {
 
+        table.getItems().clear();
+        table.getTableColumns().clear();
+
         table.setTableRowFactory(tv -> {
             MFXTableRow<Person> row = new MFXTableRow<>(table, personList.listIterator().next());
             row.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
@@ -324,7 +327,7 @@ public class Controller implements Initializable {
         personList = FXCollections.observableArrayList(DataManager.getInstance().PullPersons());
 
         table.setItems(personList);
-        table.update();
+        //table.update();
 
 
     }
@@ -472,23 +475,27 @@ public class Controller implements Initializable {
                     a.setStage(stage);
                     pub_stage.show();
 
-                } else if (parent != null && parent.getData().equals("Interests")) {
+                }/* else if (parent != null && parent.getData().equals("Interests")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editInterestDialogPath)));
                     root = loader.load();
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.show();
+                    EditInterestController a = loader.getController();
+                    Stage interest_stage = new Stage();
+                    interest_stage.setScene(new Scene(root));
+                    interest_stage.initStyle(StageStyle.TRANSPARENT);
+                    a.setStage(stage);
+                    interest_stage.show();
                 } else if (parent != null && parent.getData().equals("Skills")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editSkillDialogPath)));
                     root = loader.load();
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.initStyle(StageStyle.TRANSPARENT);
-                    stage.show();
-                } else if (parent != null && parent.getData().equals("Tags")) {
+                    EditSkillController a = loader.getController();
+                    Stage skill_stage = new Stage();
+                    skill_stage.setScene(new Scene(root));
+                    skill_stage.initStyle(StageStyle.TRANSPARENT);
+                    a.setStage(stage);
+                    skill_stage.show();
+                } */else if (parent != null && parent.getData().equals("Tags")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editTagDialogPath)));
                     root = loader.load();
 
@@ -540,7 +547,7 @@ public class Controller implements Initializable {
                 for (int i = 0; i < rootPerson.getEducation().size(); i++) {
                     if (rootPerson.getEducation().get(i).getName().equals(treeItem.getData())) {
                         rootPerson.getEducation().remove(i);
-                        DataManager.getInstance().DeleteEducation(rootPerson.getId());
+                        DataManager.getInstance().DeleteEducation(rootPerson.getId(),treeItem.getData());
                         //createAlert("Education deleted successfully", "");
                     }
                 }
@@ -548,7 +555,8 @@ public class Controller implements Initializable {
                 for (int i = 0; i < rootPerson.getExperiences().size(); i++) {
                     if (rootPerson.getExperiences().get(i).getTitle().equals(treeItem.getData())) {
                         rootPerson.getExperiences().remove(i);
-                        DataManager.getInstance().DeleteExperience(rootPerson.getId());
+                        DataManager.getInstance().DeleteExperience(rootPerson.getId(),treeItem.getData());
+                        System.out.println("Remove Experience");
                         //createAlert("Experience deleted successfully", "");
                     }
                 }
@@ -556,7 +564,7 @@ public class Controller implements Initializable {
                 for (int i = 0; i < rootPerson.getPublications().size(); i++) {
                     if (rootPerson.getPublications().get(i).getTitle().equals(treeItem.getData())) {
                         rootPerson.getPublications().remove(i);
-                        DataManager.getInstance().DeletePublication(rootPerson.getId());
+                        DataManager.getInstance().DeletePublication(rootPerson.getId(),treeItem.getData());
                     }
                 }
             } else if (parent != null && parent.getData().equals("Interests")) {

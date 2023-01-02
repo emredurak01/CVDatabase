@@ -46,6 +46,33 @@ public class DataManager {
 
     }
 
+    public void UpdateTag(String name,int tagID){
+
+        String q = "update Tag set name = ? where id = ?";
+
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setString(1,name);
+            ps.setInt(2,tagID);
+
+            if(ps.executeUpdate()>0){
+
+                Controller.createAlert("Tag is updated","Confirmation");
+
+
+            }else{
+
+                Controller.createAlert("An error occurred.","Error");
+
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void AddTag(int personID,Tag tag){
 
         String q1 = "insert into Tag(name) values(?)";
@@ -337,12 +364,13 @@ public class DataManager {
     }
 
 
-    public void DeletePublication(int personID){
+    public void DeletePublication(int personID,String title){
 
-        String q = "delete from Publication where person_id = ?";
+        String q = "delete from Publication where person_id = ? and title = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
             ps.setInt(1,personID);
+            ps.setString(2,title);
             if (ps.executeUpdate()>0){
 
                 Controller.createAlert("Deleted successfully.","Remove Publication");
@@ -382,12 +410,13 @@ public class DataManager {
 
     }
 
-    public void DeleteExperience(int personID){
+    public void DeleteExperience(int personID,String title){
 
-        String q = "delete from Experience where person_id = ?";
+        String q = "delete from Experience where person_id = ? and title = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
             ps.setInt(1,personID);
+            ps.setString(2,title);
             if (ps.executeUpdate()>0){
 
                 Controller.createAlert("Deleted successfully.","Remove Experience");
@@ -404,12 +433,13 @@ public class DataManager {
 
     }
 
-    public void DeleteEducation(int personID){
+    public void DeleteEducation(int personID,String name){
 
-        String q = "delete from Education where person_id = ?";
+        String q = "delete from Education where person_id = ? and school_name = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
             ps.setInt(1,personID);
+            ps.setString(2,name);
             if (ps.executeUpdate()>0){
 
                 Controller.createAlert("Deleted successfully.","Remove Education");
