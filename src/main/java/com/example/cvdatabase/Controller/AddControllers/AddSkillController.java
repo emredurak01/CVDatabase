@@ -53,11 +53,12 @@ public class AddSkillController implements Initializable {
 
         addConfirmButton.setOnAction(actionEvent -> onAddConfirm());
     }
+
     private void onAddConfirm() {
 
         ArrayList<String> skillsList = new ArrayList<String>(Arrays.asList(skillsField.getText().split(",")));
 
-        for(int i = 0; i < skillsList.size(); i++) {
+        for (int i = 0; i < skillsList.size(); i++) {
             Controller.rootPerson.getSkills().add(skillsList.get(i));
         }
 
@@ -68,13 +69,13 @@ public class AddSkillController implements Initializable {
             String s = DataManager.getInstance().PullSkills(Controller.rootPerson.getId());
 
             String skillString = skillsList.toString();
-            skillString = skillString.replace('[',' ');
-            skillString = skillString.replace(']',' ');
+            skillString = skillString.replace('[', ' ');
+            skillString = skillString.replace(']', ' ');
             skillString = skillString.trim();
 
-            ps.setString(1,s + "," + (skillString));
-            ps.setInt(2,Controller.rootPerson.getId());
-            if(ps.executeUpdate() > 0){
+            ps.setString(1, s + "," + (skillString));
+            ps.setInt(2, Controller.rootPerson.getId());
+            if (ps.executeUpdate() > 0) {
 
                 Controller.createAlert("Skills added successfully.", "");
 
@@ -95,7 +96,7 @@ public class AddSkillController implements Initializable {
                 addConfirmButton.getScene().getWindow().hide();
                 a.handleRowSelection();
 
-            }else{
+            } else {
 
                 Controller.createAlert("Error occurred.", "Error");
 
@@ -108,7 +109,7 @@ public class AddSkillController implements Initializable {
 
     }
 
-    public void setStage(Stage stage){
+    public void setStage(Stage stage) {
 
         this.stage = stage;
 

@@ -12,6 +12,17 @@ public class DatabaseConnector {
     File file = new File(Config.DB_FILE_NAME);
     boolean firstRun = !file.exists();
 
+    public static Connection getInstance() {
+
+        if (connection == null) {
+            DatabaseConnector dbConnector = new DatabaseConnector();
+            connection = dbConnector.connectDB();
+        }
+
+        return connection;
+
+    }
+
     public Connection connectDB() {
 
         try {
@@ -108,17 +119,6 @@ public class DatabaseConnector {
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-        }
-
-        return connection;
-
-    }
-
-    public static Connection getInstance() {
-
-        if(connection == null){
-            DatabaseConnector dbConnector = new DatabaseConnector();
-            connection = dbConnector.connectDB();
         }
 
         return connection;

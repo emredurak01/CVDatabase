@@ -27,26 +27,21 @@ import java.util.ResourceBundle;
 
 public class EditSkillController implements Initializable {
 
+    int index;
     @FXML
     private MFXGenericDialog rootPane;
-
     @FXML
     private MFXFontIcon minimizeIcon;
-
     @FXML
     private MFXFontIcon closeIcon;
-
     @FXML
     private MFXButton editConfirmButton;
-
     @FXML
     private MFXTextField skillsField;
     private Controller controller;
-
     private Stage stage;
-    int index;
 
-    public void setStage(Stage stage){
+    public void setStage(Stage stage) {
 
         this.stage = stage;
 
@@ -80,15 +75,15 @@ public class EditSkillController implements Initializable {
             person.getSkills().remove(" ");
 
             String skillString = person.getSkills().toString();
-            skillString = skillString.replace('[',' ');
-            skillString = skillString.replace(']',' ');
+            skillString = skillString.replace('[', ' ');
+            skillString = skillString.replace(']', ' ');
             skillString = skillString.trim();
 
-            String[] c  = skillString.split(",");
+            String[] c = skillString.split(",");
 
             String res = "";
 
-            for (String a:c){
+            for (String a : c) {
 
                 res += "," + a.trim();
 

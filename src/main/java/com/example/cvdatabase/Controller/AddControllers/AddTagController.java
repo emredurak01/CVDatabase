@@ -4,7 +4,6 @@ import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
 import com.example.cvdatabase.Helpers.DataManager;
-import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Tag;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -22,8 +21,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -31,8 +28,6 @@ import java.util.ResourceBundle;
 
 public class AddTagController implements Initializable {
 
-    @FXML
-    private MFXGenericDialog rootPane;
     @FXML
     public MFXTextField tagNameField;
     @FXML
@@ -43,7 +38,8 @@ public class AddTagController implements Initializable {
     public MFXFontIcon minimizeIcon;
     @FXML
     public MFXFontIcon closeIcon;
-
+    @FXML
+    private MFXGenericDialog rootPane;
     private Stage stage;
 
     @Override
@@ -64,11 +60,11 @@ public class AddTagController implements Initializable {
 
         ArrayList<String> tagNameList = new ArrayList<>(Arrays.asList(tagNameField.getText().split(",")));
 
-        for(int i = 0; i < tagNameList.size(); i++) {
+        for (int i = 0; i < tagNameList.size(); i++) {
             Tag tag = new Tag();
             tag.setName(tagNameList.get(i));
             Controller.rootPerson.getTags().add(tag);
-            DataManager.getInstance().AddTag(Controller.rootPerson.getId(),tag);
+            DataManager.getInstance().AddTag(Controller.rootPerson.getId(), tag);
         }
 
         FXMLLoader loader;

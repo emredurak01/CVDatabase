@@ -3,7 +3,6 @@ package com.example.cvdatabase.Controller.EditControllers;
 import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
-import com.example.cvdatabase.Helpers.DataManager;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Person;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -23,33 +22,26 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class EditInterestController implements Initializable {
 
+    int index;
     @FXML
     private MFXGenericDialog rootPane;
-
     @FXML
     private MFXFontIcon minimizeIcon;
-
     @FXML
     private MFXFontIcon closeIcon;
-
     @FXML
     private MFXButton editConfirmButton;
-
     @FXML
     private MFXTextField interestsField;
     private Controller controller;
-
     private Stage stage;
-    int index;
 
-    public void setStage(Stage stage){
+    public void setStage(Stage stage) {
 
         this.stage = stage;
 
@@ -83,15 +75,15 @@ public class EditInterestController implements Initializable {
             person.getInterests().remove(" ");
 
             String interestString = person.getInterests().toString();
-            interestString = interestString.replace('[',' ');
-            interestString = interestString.replace(']',' ');
+            interestString = interestString.replace('[', ' ');
+            interestString = interestString.replace(']', ' ');
             interestString = interestString.trim();
 
-            String[] c  = interestString.split(",");
+            String[] c = interestString.split(",");
 
             String res = "";
 
-            for (String a:c){
+            for (String a : c) {
 
                 res += "," + a.trim();
 

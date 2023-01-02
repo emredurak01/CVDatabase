@@ -59,7 +59,7 @@ public class AddInterestController implements Initializable {
 
         ArrayList<String> interestsList = new ArrayList<String>(Arrays.asList(interestsField.getText().split(",")));
 
-        for(int i = 0; i < interestsList.size(); i++) {
+        for (int i = 0; i < interestsList.size(); i++) {
             Controller.rootPerson.getInterests().add(interestsList.get(i));
         }
 
@@ -72,15 +72,15 @@ public class AddInterestController implements Initializable {
             String s = DataManager.getInstance().PullInterests(Controller.rootPerson.getId());
 
             String interestString = interestsList.toString();
-            interestString = interestString.replace('[',' ');
-            interestString = interestString.replace(']',' ');
+            interestString = interestString.replace('[', ' ');
+            interestString = interestString.replace(']', ' ');
             interestString = interestString.trim();
             s = s.trim();
 
             ps.setString(1, s + ',' + interestString);
-            ps.setInt(2,Controller.rootPerson.getId());
+            ps.setInt(2, Controller.rootPerson.getId());
 
-            if(ps.executeUpdate() > 0){
+            if (ps.executeUpdate() > 0) {
 
 
                 FXMLLoader loader;
@@ -96,7 +96,7 @@ public class AddInterestController implements Initializable {
 
                 Controller.createAlert("Interests added successfully.", "");
 
-            }else{
+            } else {
 
                 Controller.createAlert("Error occurred.", "Error");
 
@@ -109,7 +109,7 @@ public class AddInterestController implements Initializable {
 
     }
 
-    public void setStage(Stage stage){
+    public void setStage(Stage stage) {
 
         this.stage = stage;
 

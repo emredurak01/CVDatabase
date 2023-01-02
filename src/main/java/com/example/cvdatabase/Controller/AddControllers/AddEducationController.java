@@ -3,7 +3,6 @@ package com.example.cvdatabase.Controller.AddControllers;
 import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
-import com.example.cvdatabase.Helpers.DataManager;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Education;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -65,14 +64,14 @@ public class AddEducationController implements Initializable {
         String q = "insert into Education(person_id,school_name,start_date,end_date) values(?,?,?,?)";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,Controller.rootPerson.getId());
+            ps.setInt(1, Controller.rootPerson.getId());
             ps.setString(2, newEducation.getName());
             ps.setString(3, newEducation.getStartDate());
             ps.setString(4, newEducation.getEndDate());
 
-            if(ps.executeUpdate() > 0){
+            if (ps.executeUpdate() > 0) {
 
-                Controller.createAlert("Education is created for the selected CV","");
+                Controller.createAlert("Education is created for the selected CV", "");
 
                 FXMLLoader loader;
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.mainPath)));
@@ -91,9 +90,9 @@ public class AddEducationController implements Initializable {
                 addConfirmButton.getScene().getWindow().hide();
                 a.handleRowSelection();
 
-            }else{
+            } else {
 
-                Controller.createAlert("An Error occurred.","Error");
+                Controller.createAlert("An Error occurred.", "Error");
 
             }
 

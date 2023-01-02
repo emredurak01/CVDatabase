@@ -24,10 +24,10 @@
                 <RowConstraints maxHeight="89.8922643456431" minHeight="0.0" prefHeight="50.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-            <MFXButton fx:id="removeHelpButton" prefHeight="13.0" prefWidth="200.0" styleClass="outline-button" stylesheets="@buttons.css" text="Remove" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <MFXButton fx:id="addHelpButton" prefHeight="13.0" prefWidth="200.0" styleClass="outline-button" stylesheets="@buttons.css" text="Add" GridPane.rowIndex="1" />
-            <MFXButton fx:id="editHelpButton" prefHeight="13.0" prefWidth="200.0" styleClass="outline-button" stylesheets="@buttons.css" text="Edit" GridPane.rowIndex="2" />
-            <MFXButton fx:id="exportHelpButton" prefHeight="13.0" prefWidth="200.0" styleClass="outline-button" stylesheets="@buttons.css" text="Export" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <MFXButton fx:id="removeHelpButton" prefHeight="13.0" prefWidth="200.0" styleClass="outline-button" stylesheets="@buttons.css" text="Deleting a CV" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <MFXButton fx:id="addHelpButton" prefHeight="13.0" prefWidth="200.0" styleClass="outline-button" stylesheets="@buttons.css" text="Adding a CV" GridPane.rowIndex="1" />
+            <MFXButton fx:id="editHelpButton" prefHeight="13.0" prefWidth="200.0" styleClass="outline-button" stylesheets="@buttons.css" text="Editing a CV" GridPane.rowIndex="2" />
+            <MFXButton fx:id="exportHelpButton" prefHeight="13.0" prefWidth="200.0" styleClass="outline-button" stylesheets="@buttons.css" text="Exporting a CV" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             </children>
         </GridPane>
     </center>

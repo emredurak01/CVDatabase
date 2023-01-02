@@ -87,12 +87,11 @@ public class Controller implements Initializable {
     }
 
 
-
     public static void createAlert(String content, String header) {
         MFXGenericDialog dialogContent = MFXGenericDialogBuilder.build().setContentText(content).get();
         MFXStageDialog dialog = MFXGenericDialogBuilder.build(dialogContent).toStageDialogBuilder().initModality(Modality.APPLICATION_MODAL).setDraggable(true).setTitle("Dialog").setScrimPriority(ScrimPriority.WINDOW).setScrimOwner(true).get();
 
-        dialogContent.setMaxSize(400, 200);
+        dialogContent.setMaxSize(600, 600);
 
         MFXFontIcon infoIcon = new MFXFontIcon("mfx-info-circle-filled", 18);
         dialogContent.setHeaderIcon(infoIcon);
@@ -105,7 +104,7 @@ public class Controller implements Initializable {
         this.stage = stage;
     }
 
-    public void setSelectedPersonFromPreviousStage(Person person){
+    public void setSelectedPersonFromPreviousStage(Person person) {
 
         this.person = person;
 
@@ -162,14 +161,14 @@ public class Controller implements Initializable {
             treeView.setRoot(createTreeView(personList));
             treeView.getRoot().setStartExpanded(true);
             ObservableList<AbstractMFXTreeItem<String>> treeItem = treeView.getRoot().getItems();
-            for(int i = 0; i < treeItem.size(); i++) {
-                if(treeItem.get(i).getData().equals("Interests")) {
+            for (int i = 0; i < treeItem.size(); i++) {
+                if (treeItem.get(i).getData().equals("Interests")) {
                     treeItem.get(i).setStartExpanded(true);
                 }
-                if(treeItem.get(i).getData().equals("Skills")) {
+                if (treeItem.get(i).getData().equals("Skills")) {
                     treeItem.get(i).setStartExpanded(true);
                 }
-                if(treeItem.get(i).getData().equals("Tags")) {
+                if (treeItem.get(i).getData().equals("Tags")) {
                     treeItem.get(i).setStartExpanded(true);
                 }
             }
@@ -243,7 +242,7 @@ public class Controller implements Initializable {
             if (personList.listIterator().next().getInterests() != null) {
 
                 String interestName = personList.listIterator().next().getInterests().get(i).trim();
-                if(!interestName.isEmpty()){
+                if (!interestName.isEmpty()) {
 
                     MFXTreeItem<String> interestsItem = new MFXTreeItem<>(interestName);
                     interests.getItems().add(interestsItem);
@@ -260,7 +259,7 @@ public class Controller implements Initializable {
 
                 String skillName = personList.listIterator().next().getSkills().get(i);
 
-                if(!skillName.isEmpty()){
+                if (!skillName.isEmpty()) {
 
                     MFXTreeItem<String> skillsItem = new MFXTreeItem<>(skillName);
                     skills.getItems().add(skillsItem);
@@ -283,7 +282,7 @@ public class Controller implements Initializable {
         }
 
 
-        root.getItems().addAll(List.of(educations, experiences, publications, interests, skills,tags));
+        root.getItems().addAll(List.of(educations, experiences, publications, interests, skills, tags));
 
         return root;
     }
@@ -321,8 +320,8 @@ public class Controller implements Initializable {
         tagsColumn.setRowCellFactory(person -> new MFXTableRowCell<>(Person::getTagsAsString));
 
 
-        table.getTableColumns().addAll(idColumn, nameColumn, surnameColumn, dateOfBirthColumn, emailColumn, phoneColumn,tagsColumn);
-        table.getFilters().addAll(new IntegerFilter<>("ID", Person::getId), new StringFilter<>("Name", Person::getName), new StringFilter<>("Surname", Person::getSurname), new StringFilter<>("Date of birth", Person::getBirthdate), new StringFilter<>("Email", Person::getEmail), new StringFilter<>("Phone", Person::getPhone),new StringFilter<>("Tag", Person::getTagsAsString));
+        table.getTableColumns().addAll(idColumn, nameColumn, surnameColumn, dateOfBirthColumn, emailColumn, phoneColumn, tagsColumn);
+        table.getFilters().addAll(new IntegerFilter<>("ID", Person::getId), new StringFilter<>("Name", Person::getName), new StringFilter<>("Surname", Person::getSurname), new StringFilter<>("Date of birth", Person::getBirthdate), new StringFilter<>("Email", Person::getEmail), new StringFilter<>("Phone", Person::getPhone), new StringFilter<>("Tag", Person::getTagsAsString));
 
         personList = FXCollections.observableArrayList(DataManager.getInstance().PullPersons());
 
@@ -338,7 +337,7 @@ public class Controller implements Initializable {
         FXMLLoader loader;
         AbstractMFXTreeItem<String> treeItem = treeView.getSelectionModel().getSelectedItem();
         try {
-            if(treeItem == null || treeItem.getData().equals(rootPerson.getName() + " " + rootPerson.getSurname())) {
+            if (treeItem == null || treeItem.getData().equals(rootPerson.getName() + " " + rootPerson.getSurname())) {
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.addDialogPath)));
                 root = loader.load();
 
@@ -548,7 +547,7 @@ public class Controller implements Initializable {
                 for (int i = 0; i < rootPerson.getEducation().size(); i++) {
                     if (rootPerson.getEducation().get(i).getName().equals(treeItem.getData())) {
                         rootPerson.getEducation().remove(i);
-                        DataManager.getInstance().DeleteEducation(rootPerson.getId(),treeItem.getData());
+                        DataManager.getInstance().DeleteEducation(rootPerson.getId(), treeItem.getData());
                         //createAlert("Education deleted successfully", "");
                     }
                 }
@@ -556,7 +555,7 @@ public class Controller implements Initializable {
                 for (int i = 0; i < rootPerson.getExperiences().size(); i++) {
                     if (rootPerson.getExperiences().get(i).getTitle().equals(treeItem.getData())) {
                         rootPerson.getExperiences().remove(i);
-                        DataManager.getInstance().DeleteExperience(rootPerson.getId(),treeItem.getData());
+                        DataManager.getInstance().DeleteExperience(rootPerson.getId(), treeItem.getData());
                         System.out.println("Remove Experience");
                         //createAlert("Experience deleted successfully", "");
                     }
@@ -565,7 +564,7 @@ public class Controller implements Initializable {
                 for (int i = 0; i < rootPerson.getPublications().size(); i++) {
                     if (rootPerson.getPublications().get(i).getTitle().equals(treeItem.getData())) {
                         rootPerson.getPublications().remove(i);
-                        DataManager.getInstance().DeletePublication(rootPerson.getId(),treeItem.getData());
+                        DataManager.getInstance().DeletePublication(rootPerson.getId(), treeItem.getData());
                     }
                 }
             } else if (parent != null && parent.getData().equals("Interests")) {
@@ -574,23 +573,23 @@ public class Controller implements Initializable {
                         rootPerson.getInterests().remove(i);
 
                         String interestString = rootPerson.getInterests().toString();
-                        interestString = interestString.replace('[',' ');
-                        interestString = interestString.replace(']',' ');
+                        interestString = interestString.replace('[', ' ');
+                        interestString = interestString.replace(']', ' ');
                         interestString = interestString.trim();
                         System.out.println(interestString);
 
-                        String[] c  = interestString.split(",");
+                        String[] c = interestString.split(",");
 
                         String res = "";
 
-                        for (String a:c){
+                        for (String a : c) {
 
                             res += "," + a.trim();
 
                         }
                         System.out.println(res);
 
-                        DataManager.getInstance().UpdateInterest(rootPerson.getId(),res);
+                        DataManager.getInstance().UpdateInterest(rootPerson.getId(), res);
                         //createAlert("Interest deleted successfully", "");
                     }
                 }
@@ -600,23 +599,23 @@ public class Controller implements Initializable {
                         rootPerson.getSkills().remove(i);
 
                         String skillString = rootPerson.getSkills().toString();
-                        skillString = skillString.replace('[',' ');
-                        skillString = skillString.replace(']',' ');
+                        skillString = skillString.replace('[', ' ');
+                        skillString = skillString.replace(']', ' ');
                         skillString = skillString.trim();
                         System.out.println(skillString);
 
-                        String[] c  = skillString.split(",");
+                        String[] c = skillString.split(",");
 
                         String res = "";
 
-                        for (String a:c){
+                        for (String a : c) {
 
                             res += "," + a.trim();
 
                         }
                         System.out.println(res);
 
-                        DataManager.getInstance().UpdateSkills(rootPerson.getId(),res);
+                        DataManager.getInstance().UpdateSkills(rootPerson.getId(), res);
 
                         //createAlert("Skill deleted successfully", "");
                     }
@@ -625,7 +624,7 @@ public class Controller implements Initializable {
                 for (int i = 0; i < rootPerson.getTags().size(); i++) {
                     if (rootPerson.getTags().get(i).getName().equals(treeItem.getData())) {
                         Tag tag = rootPerson.getTags().get(i);
-                        DataManager.getInstance().DeleteTag(rootPerson.getId(),DataManager.getInstance().PullTagByName(tag.getName()).getId());
+                        DataManager.getInstance().DeleteTag(rootPerson.getId(), DataManager.getInstance().PullTagByName(tag.getName()).getId());
                         rootPerson.getTags().remove(i);
                         //createAlert("Tag deleted successfully", "");
                     }

@@ -63,12 +63,12 @@ public class AddExperienceController implements Initializable {
         String q = "insert into Experience(person_id,title,start_date,end_date) values(?,?,?,?)";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,Controller.rootPerson.getId());
+            ps.setInt(1, Controller.rootPerson.getId());
             ps.setString(2, newExperience.getTitle());
             ps.setString(3, newExperience.getStartDate());
             ps.setString(4, newExperience.getEndDate());
 
-            if(ps.executeUpdate() > 0){
+            if (ps.executeUpdate() > 0) {
 
                 Controller.createAlert("Experience created successfully.", "");
 
@@ -83,9 +83,9 @@ public class AddExperienceController implements Initializable {
                 addConfirmButton.getScene().getWindow().hide();
                 a.handleRowSelection();
 
-            }else{
+            } else {
 
-                Controller.createAlert("An error occurred.","Error");
+                Controller.createAlert("An error occurred.", "Error");
 
             }
 

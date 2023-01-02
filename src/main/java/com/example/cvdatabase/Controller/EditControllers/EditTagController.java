@@ -65,7 +65,7 @@ public class EditTagController implements Initializable {
 
         Controller.rootPerson.getTags().get(index).setName(tagNameField.getText());
 
-        DataManager.getInstance().UpdateTag(tagNameField.getText(),DataManager.getInstance().PullTagByName(exTag).getId());
+        DataManager.getInstance().UpdateTag(tagNameField.getText(), DataManager.getInstance().PullTagByName(exTag).getId());
 
         FXMLLoader loader;
         loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.mainPath)));

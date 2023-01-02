@@ -4,7 +4,6 @@ import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
-import com.example.cvdatabase.Model.Experience;
 import com.example.cvdatabase.Model.Publication;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -62,11 +61,11 @@ public class AddPublicationController implements Initializable {
         String q = "insert into Publication(person_id,title,publisher,publication_date) values(?,?,?,?)";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,Controller.rootPerson.getId());
-            ps.setString(2,newPublication.getTitle());
+            ps.setInt(1, Controller.rootPerson.getId());
+            ps.setString(2, newPublication.getTitle());
             ps.setString(3, newPublication.getPublisher());
             ps.setString(4, newPublication.getPublicationDate());
-            if(ps.executeUpdate() > 0){
+            if (ps.executeUpdate() > 0) {
 
                 FXMLLoader loader;
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.mainPath)));
@@ -81,7 +80,7 @@ public class AddPublicationController implements Initializable {
 
                 Controller.createAlert("Publication created successfully.", "");
 
-            }else{
+            } else {
 
                 Controller.createAlert("Error occurred.", "Error");
 

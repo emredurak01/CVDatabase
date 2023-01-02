@@ -17,7 +17,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -138,14 +137,14 @@ public class EditDialogController implements Initializable {
         person.setSkills(skillsList);
 
         StringBuilder interestString = new StringBuilder();
-        for(int i = 0; i < interestsList.size(); i++) {
+        for (int i = 0; i < interestsList.size(); i++) {
             interestString.append(interestsList.get(i)).append(",");
         }
         interestString.setLength(interestString.length() - 1);
 
 
         StringBuilder skillString = new StringBuilder();
-        for(int i = 0; i < skillsList.size(); i++) {
+        for (int i = 0; i < skillsList.size(); i++) {
             skillString.append(skillsList.get(i)).append(",");
         }
         skillString.setLength(skillString.length() - 1);

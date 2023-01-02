@@ -2,7 +2,6 @@ package com.example.cvdatabase.Helpers;
 
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Model.*;
-import org.sqlite.SQLiteUpdateListener;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,17 +20,17 @@ public class DataManager {
         return INSTANCE;
     }
 
-    public Tag PullTagByName(String name){
+    public Tag PullTagByName(String name) {
 
         String q = "select * from Tag where name = ?";
         Tag tag = null;
 
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setString(1,name);
+            ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
 
-            if(rs.next()){
+            if (rs.next()) {
 
                 tag = new Tag(rs.getString("name"));
                 tag.setId(rs.getInt("id"));
@@ -46,23 +45,23 @@ public class DataManager {
 
     }
 
-    public void UpdateTag(String name,int tagID){
+    public void UpdateTag(String name, int tagID) {
 
         String q = "update Tag set name = ? where id = ?";
 
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setString(1,name);
-            ps.setInt(2,tagID);
+            ps.setString(1, name);
+            ps.setInt(2, tagID);
 
-            if(ps.executeUpdate()>0){
+            if (ps.executeUpdate() > 0) {
 
-                Controller.createAlert("Tag is updated","Confirmation");
+                Controller.createAlert("Tag is updated", "Confirmation");
 
 
-            }else{
+            } else {
 
-                Controller.createAlert("An error occurred.","Error");
+                Controller.createAlert("An error occurred.", "Error");
 
 
             }
@@ -73,7 +72,7 @@ public class DataManager {
 
     }
 
-    public void AddTag(int personID,Tag tag){
+    public void AddTag(int personID, Tag tag) {
 
         String q1 = "insert into Tag(name) values(?)";
         String q2 = "insert into TagMap(person_id,tag_id) values(?,?)";
@@ -83,47 +82,46 @@ public class DataManager {
         try {
             ps1 = DatabaseConnector.getInstance().prepareStatement(q1);
             ps2 = DatabaseConnector.getInstance().prepareStatement(q2);
-            ps1.setString(1,tag.getName());
+            ps1.setString(1, tag.getName());
 
             Tag pulledTag = PullTagByName(tag.getName());
 
-            if(pulledTag == null){
+            if (pulledTag == null) {
 
-                if(ps1.executeUpdate() > 0){
+                if (ps1.executeUpdate() > 0) {
 
-                    ps2.setInt(1,personID);
-                    ps2.setInt(2,PullTagByName(tag.getName()).getId());
+                    ps2.setInt(1, personID);
+                    ps2.setInt(2, PullTagByName(tag.getName()).getId());
 
 
-                    if(ps2.executeUpdate() > 0){
+                    if (ps2.executeUpdate() > 0) {
 
-                        Controller.createAlert("Tag is created for the selected CV","Confirmation");
+                        Controller.createAlert("Tag is created for the selected CV", "Confirmation");
 
-                    }else{
+                    } else {
 
-                        Controller.createAlert("Tag is not created.An error occurred.","Error");
+                        Controller.createAlert("Tag is not created.An error occurred.", "Error");
 
                     }
 
                 }
 
-            }else{
+            } else {
 
-                ps2.setInt(1,personID);
-                ps2.setInt(2,PullTagByName(tag.getName()).getId());
+                ps2.setInt(1, personID);
+                ps2.setInt(2, PullTagByName(tag.getName()).getId());
 
-                if(ps2.executeUpdate() > 0){
+                if (ps2.executeUpdate() > 0) {
 
-                    Controller.createAlert("Tag is created for the selected CV","Confirmation");
+                    Controller.createAlert("Tag is created for the selected CV", "Confirmation");
 
-                }else{
+                } else {
 
-                    Controller.createAlert("Tag is not created.An error occurred.","Error");
+                    Controller.createAlert("Tag is not created.An error occurred.", "Error");
 
                 }
 
             }
-
 
 
         } catch (SQLException e) {
@@ -132,7 +130,7 @@ public class DataManager {
 
     }
 
-    public ArrayList<Tag> PullTags(int personID){
+    public ArrayList<Tag> PullTags(int personID) {
 
         ArrayList<Tag> tags = new ArrayList<>();
 
@@ -144,15 +142,15 @@ public class DataManager {
         try {
             ps1 = DatabaseConnector.getInstance().prepareStatement(q1);
             ps2 = DatabaseConnector.getInstance().prepareStatement(q2);
-            ps1.setInt(1,personID);
+            ps1.setInt(1, personID);
             ResultSet rs = ps1.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
 
-                ps2.setInt(1,rs.getInt("tag_id"));
+                ps2.setInt(1, rs.getInt("tag_id"));
                 ResultSet rs2 = ps2.executeQuery();
 
-                while (rs2.next()){
+                while (rs2.next()) {
 
                     Tag tag = new Tag(rs2.getString("name"));
                     tag.setId(rs2.getInt("id"));
@@ -190,7 +188,7 @@ public class DataManager {
                 d.setPhone(rs.getString("phone"));
 
                 ArrayList<String> interestsList;
-                interestsList  = new ArrayList<String>(Arrays.asList(rs.getString("interests").split(",")));
+                interestsList = new ArrayList<String>(Arrays.asList(rs.getString("interests").split(",")));
                 d.setInterests(interestsList);
 
                 ArrayList<String> skillsList;
@@ -215,17 +213,17 @@ public class DataManager {
 
     }
 
-    public ArrayList<Education> PullEducations(int personID){
+    public ArrayList<Education> PullEducations(int personID) {
 
         ArrayList<Education> educations = new ArrayList<>();
 
         String q = "select * from Education where person_id = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,personID);
+            ps.setInt(1, personID);
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
 
                 Education education = new Education();
                 education.setId(rs.getInt("id"));
@@ -246,17 +244,17 @@ public class DataManager {
         return educations;
     }
 
-    public ArrayList<Experience> PullExperiences(int personID){
+    public ArrayList<Experience> PullExperiences(int personID) {
 
         ArrayList<Experience> experiences = new ArrayList<>();
 
         String q = "select * from Experience where person_id = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,personID);
+            ps.setInt(1, personID);
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
 
                 Experience experience = new Experience();
                 experience.setId(rs.getInt("id"));
@@ -278,17 +276,17 @@ public class DataManager {
 
     }
 
-    public ArrayList<Publication> PullPublications(int personID){
+    public ArrayList<Publication> PullPublications(int personID) {
 
         ArrayList<Publication> publications = new ArrayList<>();
 
         String q = "select * from Publication where person_id = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,personID);
+            ps.setInt(1, personID);
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
 
                 Publication publication = new Publication();
                 publication.setId(rs.getInt("id"));
@@ -310,17 +308,17 @@ public class DataManager {
 
     }
 
-    public String PullSkills(int personID){
+    public String PullSkills(int personID) {
 
         String skills = "";
 
         String q = "select * from Person where id = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,personID);
+            ps.setInt(1, personID);
             ResultSet rs = ps.executeQuery();
 
-            if(rs.next()){
+            if (rs.next()) {
 
                 skills = rs.getString("skills");
 
@@ -337,17 +335,17 @@ public class DataManager {
 
     }
 
-    public String PullInterests(int personID){
+    public String PullInterests(int personID) {
 
         String interests = "";
 
         String q = "select * from Person where id = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,personID);
+            ps.setInt(1, personID);
             ResultSet rs = ps.executeQuery();
 
-            if(rs.next()){
+            if (rs.next()) {
 
                 interests = rs.getString("interests");
 
@@ -364,20 +362,20 @@ public class DataManager {
     }
 
 
-    public void DeletePublication(int personID,String title){
+    public void DeletePublication(int personID, String title) {
 
         String q = "delete from Publication where person_id = ? and title = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,personID);
-            ps.setString(2,title);
-            if (ps.executeUpdate()>0){
+            ps.setInt(1, personID);
+            ps.setString(2, title);
+            if (ps.executeUpdate() > 0) {
 
-                Controller.createAlert("Deleted successfully.","Remove Publication");
+                Controller.createAlert("Deleted successfully.", "Remove Publication");
 
-            }else{
+            } else {
 
-                Controller.createAlert("An error occurred.","Error");
+                Controller.createAlert("An error occurred.", "Error");
 
             }
 
@@ -387,20 +385,20 @@ public class DataManager {
 
     }
 
-    public void DeleteTag(int personID,int tagID){
+    public void DeleteTag(int personID, int tagID) {
 
         String q = "delete from TagMap where person_id = ? and tag_id = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,personID);
-            ps.setInt(2,tagID);
-            if (ps.executeUpdate()>0){
+            ps.setInt(1, personID);
+            ps.setInt(2, tagID);
+            if (ps.executeUpdate() > 0) {
 
-                Controller.createAlert("Deleted successfully.","Remove Tag");
+                Controller.createAlert("Deleted successfully.", "Remove Tag");
 
-            }else{
+            } else {
 
-                Controller.createAlert("An error occurred.","Error");
+                Controller.createAlert("An error occurred.", "Error");
 
             }
 
@@ -410,20 +408,20 @@ public class DataManager {
 
     }
 
-    public void DeleteExperience(int personID,String title){
+    public void DeleteExperience(int personID, String title) {
 
         String q = "delete from Experience where person_id = ? and title = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,personID);
-            ps.setString(2,title);
-            if (ps.executeUpdate()>0){
+            ps.setInt(1, personID);
+            ps.setString(2, title);
+            if (ps.executeUpdate() > 0) {
 
-                Controller.createAlert("Deleted successfully.","Remove Experience");
+                Controller.createAlert("Deleted successfully.", "Remove Experience");
 
-            }else{
+            } else {
 
-                Controller.createAlert("An error occurred.","Error");
+                Controller.createAlert("An error occurred.", "Error");
 
             }
 
@@ -433,20 +431,20 @@ public class DataManager {
 
     }
 
-    public void DeleteEducation(int personID,String name){
+    public void DeleteEducation(int personID, String name) {
 
         String q = "delete from Education where person_id = ? and school_name = ?";
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setInt(1,personID);
-            ps.setString(2,name);
-            if (ps.executeUpdate()>0){
+            ps.setInt(1, personID);
+            ps.setString(2, name);
+            if (ps.executeUpdate() > 0) {
 
-                Controller.createAlert("Deleted successfully.","Remove Education");
+                Controller.createAlert("Deleted successfully.", "Remove Education");
 
-            }else{
+            } else {
 
-                Controller.createAlert("An error occurred.","Error");
+                Controller.createAlert("An error occurred.", "Error");
 
             }
 
@@ -456,7 +454,7 @@ public class DataManager {
 
     }
 
-    public void UpdateInterest(int personID,String interests){
+    public void UpdateInterest(int personID, String interests) {
 
         String q = "update Person set interests = ? where id = ?";
 
@@ -465,16 +463,16 @@ public class DataManager {
 
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setString(1,interests);
-            ps.setInt(2,personID);
+            ps.setString(1, interests);
+            ps.setInt(2, personID);
 
-            if (ps.executeUpdate()>0){
+            if (ps.executeUpdate() > 0) {
 
-                Controller.createAlert("Deleted successfully.","Remove Interests");
+                Controller.createAlert("Deleted successfully.", "Remove Interests");
 
-            }else{
+            } else {
 
-                Controller.createAlert("An error occurred.","Error");
+                Controller.createAlert("An error occurred.", "Error");
 
             }
 
@@ -483,7 +481,7 @@ public class DataManager {
         }
     }
 
-    public void UpdateSkills(int personID,String skills){
+    public void UpdateSkills(int personID, String skills) {
 
         String q = "update Person set skills = ? where id = ?";
 
@@ -492,16 +490,16 @@ public class DataManager {
 
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setString(1,skills);
-            ps.setInt(2,personID);
+            ps.setString(1, skills);
+            ps.setInt(2, personID);
 
-            if (ps.executeUpdate()>0){
+            if (ps.executeUpdate() > 0) {
 
-                Controller.createAlert("Deleted successfully.","Remove Skill");
+                Controller.createAlert("Deleted successfully.", "Remove Skill");
 
-            }else{
+            } else {
 
-                Controller.createAlert("An error occurred.","Error");
+                Controller.createAlert("An error occurred.", "Error");
 
             }
 
@@ -510,7 +508,6 @@ public class DataManager {
         }
 
     }
-
 
 
 }

@@ -33,15 +33,15 @@ public class Person {
     }
 
 
-    public String getTagsAsString(){
+    public String getTagsAsString() {
 
         String tagsString = "No Tags";
 
-        if(this.tags.size() > 0){
+        if (this.tags.size() > 0) {
 
             tagsString = "";
 
-            for (Tag tag:this.tags){
+            for (Tag tag : this.tags) {
 
                 tagsString = tagsString.concat("#" + tag.getName() + "    ");
 
