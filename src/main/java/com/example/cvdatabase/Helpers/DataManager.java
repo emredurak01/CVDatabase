@@ -453,6 +453,34 @@ public class DataManager {
         }
     }
 
+    public void UpdateSkills(int personID,String skills){
+
+        String q = "update Person set skills = ? where id = ?";
+
+        //interests = interests.replace(',',' ');
+        //interests = interests.trim();
+
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setString(1,skills);
+            ps.setInt(2,personID);
+
+            if (ps.executeUpdate()>0){
+
+                Controller.createAlert("Deleted successfully.","Remove Skill");
+
+            }else{
+
+                Controller.createAlert("An error occurred.","Error");
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 
 }

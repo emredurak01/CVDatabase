@@ -589,7 +589,27 @@ public class Controller implements Initializable {
                 for (int i = 0; i < rootPerson.getSkills().size(); i++) {
                     if (rootPerson.getSkills().get(i).equals(treeItem.getData())) {
                         rootPerson.getSkills().remove(i);
-                        createAlert("Skill deleted successfully", "");
+
+                        String skillString = rootPerson.getSkills().toString();
+                        skillString = skillString.replace('[',' ');
+                        skillString = skillString.replace(']',' ');
+                        skillString = skillString.trim();
+                        System.out.println(skillString);
+
+                        String[] c  = skillString.split(",");
+
+                        String res = "";
+
+                        for (String a:c){
+
+                            res += "," + a.trim();
+
+                        }
+                        System.out.println(res);
+
+                        DataManager.getInstance().UpdateSkills(rootPerson.getId(),res);
+
+                        //createAlert("Skill deleted successfully", "");
                     }
                 }
             } else if (parent != null && parent.getData().equals("Tags")) {
