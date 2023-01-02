@@ -382,6 +382,77 @@ public class DataManager {
 
     }
 
+    public void DeleteExperience(int personID){
+
+        String q = "delete from Experience where person_id = ?";
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setInt(1,personID);
+            if (ps.executeUpdate()>0){
+
+                Controller.createAlert("Deleted successfully.","Remove Experience");
+
+            }else{
+
+                Controller.createAlert("An error occurred.","Error");
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void DeleteEducation(int personID){
+
+        String q = "delete from Education where person_id = ?";
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setInt(1,personID);
+            if (ps.executeUpdate()>0){
+
+                Controller.createAlert("Deleted successfully.","Remove Education");
+
+            }else{
+
+                Controller.createAlert("An error occurred.","Error");
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void UpdateInterest(int personID,String interests){
+
+        String q = "update Person set interests = ? where id = ?";
+
+        //interests = interests.replace(',',' ');
+        //interests = interests.trim();
+
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
+            ps.setString(1,interests);
+            ps.setInt(2,personID);
+
+            if (ps.executeUpdate()>0){
+
+                Controller.createAlert("Deleted successfully.","Remove Interests");
+
+            }else{
+
+                Controller.createAlert("An error occurred.","Error");
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

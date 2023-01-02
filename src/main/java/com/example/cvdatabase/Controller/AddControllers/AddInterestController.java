@@ -75,7 +75,7 @@ public class AddInterestController implements Initializable {
             interestString = interestString.replace('[',' ');
             interestString = interestString.replace(']',' ');
             interestString = interestString.trim();
-
+            s = s.trim();
 
             ps.setString(1, s + ',' + interestString);
             ps.setInt(2,Controller.rootPerson.getId());

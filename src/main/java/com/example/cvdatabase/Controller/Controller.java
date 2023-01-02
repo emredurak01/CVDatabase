@@ -242,7 +242,7 @@ public class Controller implements Initializable {
         for (int i = 0; i < personList.listIterator().next().getInterests().size(); i++) {
             if (personList.listIterator().next().getInterests() != null) {
 
-                String interestName = personList.listIterator().next().getInterests().get(i);
+                String interestName = personList.listIterator().next().getInterests().get(i).trim();
                 if(!interestName.isEmpty()){
 
                     MFXTreeItem<String> interestsItem = new MFXTreeItem<>(interestName);
@@ -540,14 +540,16 @@ public class Controller implements Initializable {
                 for (int i = 0; i < rootPerson.getEducation().size(); i++) {
                     if (rootPerson.getEducation().get(i).getName().equals(treeItem.getData())) {
                         rootPerson.getEducation().remove(i);
-                        createAlert("Education deleted successfully", "");
+                        DataManager.getInstance().DeleteEducation(rootPerson.getId());
+                        //createAlert("Education deleted successfully", "");
                     }
                 }
             } else if (parent != null && parent.getData().equals("Experiences")) {
                 for (int i = 0; i < rootPerson.getExperiences().size(); i++) {
                     if (rootPerson.getExperiences().get(i).getTitle().equals(treeItem.getData())) {
                         rootPerson.getExperiences().remove(i);
-                        createAlert("Experience deleted successfully", "");
+                        DataManager.getInstance().DeleteExperience(rootPerson.getId());
+                        //createAlert("Experience deleted successfully", "");
                     }
                 }
             } else if (parent != null && parent.getData().equals("Publications")) {
@@ -555,14 +557,32 @@ public class Controller implements Initializable {
                     if (rootPerson.getPublications().get(i).getTitle().equals(treeItem.getData())) {
                         rootPerson.getPublications().remove(i);
                         DataManager.getInstance().DeletePublication(rootPerson.getId());
-                        //createAlert("Publication deleted successfully", "");
                     }
                 }
             } else if (parent != null && parent.getData().equals("Interests")) {
                 for (int i = 0; i < rootPerson.getInterests().size(); i++) {
                     if (rootPerson.getInterests().get(i).equals(treeItem.getData())) {
                         rootPerson.getInterests().remove(i);
-                        createAlert("Interest deleted successfully", "");
+
+                        String interestString = rootPerson.getInterests().toString();
+                        interestString = interestString.replace('[',' ');
+                        interestString = interestString.replace(']',' ');
+                        interestString = interestString.trim();
+                        System.out.println(interestString);
+
+                        String[] c  = interestString.split(",");
+
+                        String res = "";
+
+                        for (String a:c){
+
+                            res += "," + a.trim();
+
+                        }
+                        System.out.println(res);
+
+                        DataManager.getInstance().UpdateInterest(rootPerson.getId(),res);
+                        //createAlert("Interest deleted successfully", "");
                     }
                 }
             } else if (parent != null && parent.getData().equals("Skills")) {
