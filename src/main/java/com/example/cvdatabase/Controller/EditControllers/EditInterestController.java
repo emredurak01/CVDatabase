@@ -3,6 +3,7 @@ package com.example.cvdatabase.Controller.EditControllers;
 import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
+import com.example.cvdatabase.Helpers.DataManager;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Person;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -79,8 +80,13 @@ public class EditInterestController implements Initializable {
             Person person = Controller.rootPerson;
             person.getInterests().set(index, interestsField.getText());
 
+            String interestString = person.getInterests().toString();
+            interestString = interestString.replace('[',' ');
+            interestString = interestString.replace(']',' ');
+            interestString = interestString.trim();
+
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setString(1, person.getInterests().get(index));
+            ps.setString(1, interestString);
             ps.setInt(2, person.getId());
 
             if (ps.executeUpdate() > 0) {

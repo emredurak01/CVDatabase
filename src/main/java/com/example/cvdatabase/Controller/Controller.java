@@ -475,7 +475,7 @@ public class Controller implements Initializable {
                     a.setStage(stage);
                     pub_stage.show();
 
-                }/* else if (parent != null && parent.getData().equals("Interests")) {
+                } else if (parent != null && parent.getData().equals("Interests")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editInterestDialogPath)));
                     root = loader.load();
 
@@ -495,7 +495,7 @@ public class Controller implements Initializable {
                     skill_stage.initStyle(StageStyle.TRANSPARENT);
                     a.setStage(stage);
                     skill_stage.show();
-                } */else if (parent != null && parent.getData().equals("Tags")) {
+                } else if (parent != null && parent.getData().equals("Tags")) {
                     loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.editTagDialogPath)));
                     root = loader.load();
 
