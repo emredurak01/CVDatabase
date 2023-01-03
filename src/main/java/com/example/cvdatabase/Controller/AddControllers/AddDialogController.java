@@ -125,7 +125,7 @@ public class AddDialogController implements Initializable {
                 stage.setScene(scene);
                 stage.show();
                 addConfirmButton.getScene().getWindow().hide();
-                a.handleRowSelection();
+                //a.handleRowSelection();
 
                 Controller.createAlert("CV created successfully.", "");
 
