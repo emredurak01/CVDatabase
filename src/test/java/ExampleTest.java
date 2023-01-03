@@ -1,9 +1,9 @@
+import com.example.cvdatabase.Model.Person;
 import org.junit.jupiter.api.Test;
 
 public class ExampleTest {
 
     @Test
-    public void exampletest() {
-
+    public void ExampleTest() {
     }
 }
