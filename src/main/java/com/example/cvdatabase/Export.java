@@ -293,7 +293,8 @@ public class Export {
 
             try {
 
-                File cvfile = new File("cv.html");
+                File cvfile = new File(personList.listIterator().next().getName() +
+                        personList.listIterator().next().getSurname()+".html");
 
                 BufferedWriter bw = new BufferedWriter(new FileWriter(cvfile));
                 bw.write(String.valueOf(s));

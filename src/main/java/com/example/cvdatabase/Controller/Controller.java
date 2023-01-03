@@ -556,7 +556,6 @@ public class Controller implements Initializable {
                     if (rootPerson.getExperiences().get(i).getTitle().equals(treeItem.getData())) {
                         rootPerson.getExperiences().remove(i);
                         DataManager.getInstance().DeleteExperience(rootPerson.getId(), treeItem.getData());
-                        System.out.println("Remove Experience");
                         //createAlert("Experience deleted successfully", "");
                     }
                 }
@@ -576,7 +575,6 @@ public class Controller implements Initializable {
                         interestString = interestString.replace('[', ' ');
                         interestString = interestString.replace(']', ' ');
                         interestString = interestString.trim();
-                        System.out.println(interestString);
 
                         String[] c = interestString.split(",");
 
@@ -587,7 +585,6 @@ public class Controller implements Initializable {
                             res += "," + a.trim();
 
                         }
-                        System.out.println(res);
 
                         DataManager.getInstance().UpdateInterest(rootPerson.getId(), res);
                         //createAlert("Interest deleted successfully", "");
@@ -602,7 +599,6 @@ public class Controller implements Initializable {
                         skillString = skillString.replace('[', ' ');
                         skillString = skillString.replace(']', ' ');
                         skillString = skillString.trim();
-                        System.out.println(skillString);
 
                         String[] c = skillString.split(",");
 
@@ -613,7 +609,6 @@ public class Controller implements Initializable {
                             res += "," + a.trim();
 
                         }
-                        System.out.println(res);
 
                         DataManager.getInstance().UpdateSkills(rootPerson.getId(), res);
 
