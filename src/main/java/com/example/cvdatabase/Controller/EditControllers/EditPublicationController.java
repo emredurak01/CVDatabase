@@ -108,7 +108,7 @@ public class EditPublicationController implements Initializable {
 
             } else {
 
-                Controller.createAlert("Publication could not be edited.", "");
+                Controller.createAlert("You must select a person first", "");
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();

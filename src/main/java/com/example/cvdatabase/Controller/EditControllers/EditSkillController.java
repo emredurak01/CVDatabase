@@ -111,7 +111,7 @@ public class EditSkillController implements Initializable {
                 a.handleRowSelection();
             } else {
 
-                Controller.createAlert("Skills could not be edited.", "");
+                Controller.createAlert("You must select a person first", "");
             }
 
         } catch (SQLException | IOException e) {

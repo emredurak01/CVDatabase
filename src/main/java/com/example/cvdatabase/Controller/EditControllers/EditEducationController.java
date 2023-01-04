@@ -108,7 +108,7 @@ public class EditEducationController implements Initializable {
 
             } else {
 
-                Controller.createAlert("Education could not be edited.", "");
+                Controller.createAlert("You must select a person first.", "");
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();

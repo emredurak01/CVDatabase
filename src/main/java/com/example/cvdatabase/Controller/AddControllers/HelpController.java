@@ -55,6 +55,6 @@ public class HelpController implements Initializable {
     }
 
     private void onExportHelp() {
-        Controller.createAlert("", "Exporting a CV");
+        Controller.createAlert("You need select the CV that you want to export, then you can export to directory that the program installed via Export button on the left side.", "Exporting a CV");
     }
 }

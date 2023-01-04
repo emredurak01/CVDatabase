@@ -112,7 +112,7 @@ public class EditInterestController implements Initializable {
                 a.handleRowSelection();
             } else {
 
-                Controller.createAlert("Interest could not be edited.", "");
+                Controller.createAlert("You must select a person first", "");
             }
 
         } catch (SQLException | IOException e) {
