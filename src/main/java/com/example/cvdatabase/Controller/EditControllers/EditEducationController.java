@@ -3,6 +3,7 @@ package com.example.cvdatabase.Controller.EditControllers;
 import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
+import com.example.cvdatabase.Helpers.DataManager;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Education;
 import com.example.cvdatabase.Model.Person;
@@ -62,7 +63,7 @@ public class EditEducationController implements Initializable {
 
         for (int i = 0; i < Controller.rootPerson.getEducation().size(); i++) {
             if (Controller.rootPerson.getEducation().get(i).getName().equals(Controller.rootPersonEdit)) {
-                education = Controller.rootPerson.getEducation().get(i);
+                education = DataManager.getInstance().PullEducations(Controller.rootPerson.getId()).get(i);
                 index = i;
             }
         }
@@ -85,11 +86,11 @@ public class EditEducationController implements Initializable {
             person.getEducation().get(index).setEndDate(endDateField.getText());
 
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setString(1, person.getEducation().get(index).getName());
-            ps.setString(2, person.getEducation().get(index).getStartDate());
-            ps.setString(3, person.getEducation().get(index).getEndDate());
+            ps.setString(1, education.getName());
+            ps.setString(2, education.getStartDate());
+            ps.setString(3, education.getEndDate());
             ps.setInt(4, person.getId());
-            ps.setInt(5, person.getEducation().get(index).getId());
+            ps.setInt(5, education.getId());
 
             if (ps.executeUpdate() > 0) {
 

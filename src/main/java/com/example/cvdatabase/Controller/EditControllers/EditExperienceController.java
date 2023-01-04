@@ -3,6 +3,7 @@ package com.example.cvdatabase.Controller.EditControllers;
 import com.example.cvdatabase.Application;
 import com.example.cvdatabase.Controller.Controller;
 import com.example.cvdatabase.Helpers.Config;
+import com.example.cvdatabase.Helpers.DataManager;
 import com.example.cvdatabase.Helpers.DatabaseConnector;
 import com.example.cvdatabase.Model.Experience;
 import com.example.cvdatabase.Model.Person;
@@ -60,8 +61,8 @@ public class EditExperienceController implements Initializable {
         minimizeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Stage) rootPane.getScene().getWindow()).setIconified(true));
 
         for (int i = 0; i < Controller.rootPerson.getExperiences().size(); i++) {
-            if (Controller.rootPerson.getExperiences().get(i).getTitle().equals(Controller.rootPersonEdit)) {
-                experience = Controller.rootPerson.getExperiences().get(i);
+            if (Controller.rootPerson.getExperiences().get(i).getTitle().equals(Controller.rootPersonEdit.toString())) {
+                experience = DataManager.getInstance().PullExperiences(Controller.rootPerson.getId()).get(i);
                 index = i;
             }
         }
@@ -75,7 +76,7 @@ public class EditExperienceController implements Initializable {
 
     private void onEditConfirm(int index) {
 
-        String q = "update experience set title=?,start_date=?,end_date=? where person_id = ? and id=?";
+        String q = "update Experience set title=?,start_date=?,end_date=? where person_id = ? and id=?";
 
 
         try {
@@ -87,15 +88,15 @@ public class EditExperienceController implements Initializable {
             person.getExperiences().get(index).setEndDate(endDateField.getText());
 
             PreparedStatement ps = DatabaseConnector.getInstance().prepareStatement(q);
-            ps.setString(1, person.getExperiences().get(index).getTitle());
-            ps.setString(2, person.getExperiences().get(index).getStartDate());
-            ps.setString(3, person.getExperiences().get(index).getEndDate());
+            ps.setString(1, experience.getTitle());
+            ps.setString(2, experience.getStartDate());
+            ps.setString(3, experience.getEndDate());
             ps.setInt(4, person.getId());
-            ps.setInt(5, person.getExperiences().get(index).getId());
+            ps.setInt(5, experience.getId());
+
 
             if (ps.executeUpdate() > 0) {
 
-                Controller.createAlert("Experience edited successfully.", "");
                 FXMLLoader loader;
                 loader = new FXMLLoader(Objects.requireNonNull(Application.class.getResource(Config.mainPath)));
                 Parent root = loader.load();
@@ -106,6 +107,8 @@ public class EditExperienceController implements Initializable {
                 stage.show();
                 editConfirmButton.getScene().getWindow().hide();
                 a.handleRowSelection();
+                Controller.createAlert("Experience edited successfully.", "");
+
 
             } else {
 

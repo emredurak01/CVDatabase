@@ -326,9 +326,8 @@ public class Controller implements Initializable {
         personList = FXCollections.observableArrayList(DataManager.getInstance().PullPersons());
 
         table.setItems(personList);
-        //table.update();
-
         table.getSelectionModel().selectItem(rootPerson);
+        table.update();
 
     }
 
