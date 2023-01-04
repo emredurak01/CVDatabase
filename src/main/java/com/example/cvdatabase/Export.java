@@ -312,6 +312,16 @@ public class Export {
         }
 
 
+      /*  try {
+            Process p = new ProcessBuilder("myCommand", "myArg").start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+            If you want to convert html to pdf throguh bash script uncomment this part
+            NOTE : bash script is : pandoc cv.html -t latex -o cv.pdf
+            Install pandoc and latex
+        }*/
+
+
     }
 
     public void setStage(Stage stage) {

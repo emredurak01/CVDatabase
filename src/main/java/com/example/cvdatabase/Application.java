@@ -20,7 +20,6 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
         DatabaseConnector.getInstance();
-
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(Config.mainPath));
         fxmlLoader.setControllerFactory(c -> new Controller(stage));
         Parent root = fxmlLoader.load();
@@ -30,7 +29,5 @@ public class Application extends javafx.application.Application {
         stage.setTitle("CV DATABASE");
         stage.setScene(scene);
         stage.show();
-
-
     }
 }
