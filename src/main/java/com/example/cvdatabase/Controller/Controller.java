@@ -627,6 +627,8 @@ public class Controller implements Initializable {
         }
         handleRowSelection();
         createTable();
+        System.out.println(rootPerson.getExperiences().toString());
+        System.out.println(rootPerson.getEducation().toString());
 
     }
 
